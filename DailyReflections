@@ -333,6 +333,7 @@
     var randomSeed = week+day;
     console.log(randomSeed);
     console.log(seededRandom(randomSeed));
+    console.log(seededRandom(randomSeed));
     randomizeQuestions(randomSeed);
 
 </script>
