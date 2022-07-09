@@ -15,6 +15,24 @@
         h4 = Math.imul(h2 ^ (h4 >>> 19), 2716044179);
         return [(h1^h2^h3^h4)>>>0, (h2^h1)>>>0, (h3^h1)>>>0, (h4^h1)>>>0];
     }
+    
+    function sfc32(a, b, c, d) {
+        return function() {
+            a >>>= 0; b >>>= 0; c >>>= 0; d >>>= 0;
+            var t = (a + b) | 0;
+            a = b ^ b >>> 9;
+            b = c + (c << 3) | 0;
+            c = (c << 21 | c >>> 11);
+            d = d + 1 | 0;
+            t = t + d | 0;
+            c = c + t | 0;
+            return (t >>> 0) / 4294967296;
+        }
+    }
+    
+    function seededRandom(seed) {
+        return sfc32(cyrb128(seed));
+    }
 
     function populateWeightedQuestions(questions, weights) {
         var weightedQuestions = new Array();
@@ -29,7 +47,7 @@
 
     function getRandomQuestion(questions, weights, randomSeed) {
         var weightedQuestions = populateWeightedQuestions(questions, weights)
-        return weightedQuestions[Math.floor(cyrb128(randomSeed) * weightedQuestions.length)];
+        return weightedQuestions[Math.floor(seededRandom(randomSeed) * weightedQuestions.length)];
     }
 
     function setQuestion(question, selector) {
@@ -46,7 +64,7 @@
         var weightedQuestions = populateWeightedQuestions(questions, weights);
         var weightedQuestions2 = populateWeightedQuestions(questions2, weights);
 
-        var randomNumber = Math.floor(cyrb128(randomSeed) * weightedQuestions.length);
+        var randomNumber = Math.floor(seededRandom(randomSeed) * weightedQuestions.length);
         setQuestion(weightedQuestions[randomNumber], selector);
         setQuestion(weightedQuestions2[randomNumber], selector2);
     }
@@ -314,7 +332,7 @@
     var day = url.searchParams.get("day");
     var randomSeed = week+day;
     console.log(randomSeed);
-    console.log(cyrb128(randomSeed));
+    console.log(seededRandom(randomSeed));
     randomizeQuestions(randomSeed);
 
 </script>
