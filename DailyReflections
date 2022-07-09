@@ -1,4 +1,13 @@
 <script>
+    function mulberry32(a) {
+        return function() {
+            var t = a += 0x6D2B79F5;
+            t = Math.imul(t ^ t >>> 15, t | 1);
+            t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+            return ((t ^ t >>> 14) >>> 0) / 4294967296;
+        }
+    }
+
     function populateWeightedQuestions(questions, weights) {
         var weightedQuestions = new Array();
 
@@ -10,9 +19,9 @@
         return weightedQuestions;
     }
 
-    function getRandomQuestion(questions, weights) {
+    function getRandomQuestion(questions, weights, randomSeed) {
         var weightedQuestions = populateWeightedQuestions(questions, weights)
-        return weightedQuestions[Math.floor(Math.random() * weightedQuestions.length)];
+        return weightedQuestions[Math.floor(mulberry32(randomSeed) * weightedQuestions.length)];
     }
 
     function setQuestion(question, selector) {
@@ -25,16 +34,16 @@
         setQuestion(question, selector);
     }
 
-    function setRandomQuestionPair(questions, questions2, weights, selector, selector2) {
+    function setRandomQuestionPair(questions, questions2, weights, selector, selector2, randomSeed) {
         var weightedQuestions = populateWeightedQuestions(questions, weights);
         var weightedQuestions2 = populateWeightedQuestions(questions2, weights);
 
-        var randomNumber = Math.floor(Math.random() * weightedQuestions.length);
+        var randomNumber = Math.floor(mulberry32(randomSeed) * weightedQuestions.length);
         setQuestion(weightedQuestions[randomNumber], selector);
         setQuestion(weightedQuestions2[randomNumber], selector2);
     }
 
-    function randomizeQuestions() {
+    function randomizeQuestions(randomSeed) {
 
         var questions = new Array();
         var weights = new Array();
@@ -63,7 +72,7 @@
         questions.push("A habit of mine that is very valuable is:");
         weights.push(1);
 
-        setRandomQuestion(questions, weights, "outlook");
+        setRandomQuestion(questions, weights, "outlook", randomSeed);
 
         questions = new Array();
         weights = new Array();
@@ -92,7 +101,7 @@
         questions.push("A strength of mine that will be of great use today is:");
         weights.push(1);
 
-        setRandomQuestion(questions, weights, "visualization");
+        setRandomQuestion(questions, weights, "visualization", randomSeed);
 
         questions = new Array();
         weights = new Array();
@@ -146,7 +155,7 @@
         weights.push(1);
         questions2.push("… and how I will grow from it is:")
 
-        setRandomQuestionPair(questions, questions2, weights, "prevention1", "prevention2");
+        setRandomQuestionPair(questions, questions2, weights, "prevention1", "prevention2", randomSeed);
 
         questions = new Array();
         weights = new Array();
@@ -181,7 +190,7 @@
         questions.push("Something my most authentic self would do today is:");
         weights.push(1);
 
-        setRandomQuestion(questions, weights, "boldness");
+        setRandomQuestion(questions, weights, "boldness", randomSeed);
 
         questions = new Array();
         weights = new Array();
@@ -212,7 +221,7 @@
         questions.push("Someone I wish would reach out to me today is:");
         weights.push(1);
 
-        setRandomQuestion(questions, weights, "social");
+        setRandomQuestion(questions, weights, "social", randomSeed);
 
         questions = new Array();
         weights = new Array();
@@ -227,7 +236,7 @@
         questions.push("Today's primary emotion was:");
         weights.push(1);
 
-        setRandomQuestion(questions, weights, "summary");
+        setRandomQuestion(questions, weights, "summary", randomSeed);
 
         questions = new Array();
         weights = new Array();
@@ -252,7 +261,7 @@
         questions.push("My favourite memory from todqay is:");
         weights.push(1);
 
-        setRandomQuestion(questions, weights, "good");
+        setRandomQuestion(questions, weights, "good", randomSeed);
 
 
         questions = new Array();
@@ -288,9 +297,10 @@
         questions.push("The hardest thing about today was:");
         weights.push(1);
 
-        setRandomQuestion(questions, weights, "bad");
+        setRandomQuestion(questions, weights, "bad", randomSeed);
     }
 
-    randomizeQuestions();
+    var randomSeed = "2022-04-10monday";
+    randomizeQuestions(randomSeed);
 
 </script>
