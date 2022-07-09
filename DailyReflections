@@ -15,9 +15,8 @@
         h4 = Math.imul(h2 ^ (h4 >>> 19), 2716044179);
         return [(h1^h2^h3^h4)>>>0, (h2^h1)>>>0, (h3^h1)>>>0, (h4^h1)>>>0];
     }
-    
+
     function sfc32(a, b, c, d) {
-        return function() {
             a >>>= 0; b >>>= 0; c >>>= 0; d >>>= 0;
             var t = (a + b) | 0;
             a = b ^ b >>> 9;
@@ -27,9 +26,8 @@
             t = t + d | 0;
             c = c + t | 0;
             return (t >>> 0) / 4294967296;
-        }
     }
-    
+
     function seededRandom(seed) {
         return sfc32(cyrb128(seed));
     }
