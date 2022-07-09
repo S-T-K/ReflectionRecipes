@@ -302,6 +302,8 @@
     }
 
     var randomSeed = "2022-04-10monday";
+    console.log(randomSeed);
+    console.log(mulberry32(randomSeed));
     randomizeQuestions(randomSeed);
 
 </script>
