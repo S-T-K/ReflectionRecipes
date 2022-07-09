@@ -298,7 +298,7 @@
         setRandomQuestion(questions, weights, "bad", randomSeed);
     }
 
-    var url_string = window.location.href
+    var url_string = window.location.href;
     var url = new URL(url_string);
     var week = url.searchParams.get("week");
     var day = url.searchParams.get("day");
