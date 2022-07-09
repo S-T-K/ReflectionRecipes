@@ -1,6 +1,5 @@
 <script>
     function mulberry32(a) {
-            console.log(a);
             var t = a += 0x6D2B79F5;
             t = Math.imul(t ^ t >>> 15, t | 1);
             t ^= t + Math.imul(t ^ t >>> 7, t | 61);
@@ -299,7 +298,11 @@
         setRandomQuestion(questions, weights, "bad", randomSeed);
     }
 
-    var randomSeed = "2022-04-10monday";
+    var url_string = window.location.href
+    var url = new URL(url_string);
+    var week = url.searchParams.get("week");
+    var day = url.searchParams.get("day");
+    var randomSeed = week+day;
     console.log(randomSeed);
     console.log(mulberry32(randomSeed));
     randomizeQuestions(randomSeed);
