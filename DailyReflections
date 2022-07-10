@@ -1,4 +1,6 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js">
+</script>
+<script>
     function populateWeightedQuestions(questions, weights) {
         var weightedQuestions = new Array();
 
