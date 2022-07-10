@@ -1,39 +1,4 @@
 <script>
-    function cyrb128(str) {
-        console.log(str);
-        let h1 = 1779033703, h2 = 3144134277,
-            h3 = 1013904242, h4 = 2773480762;
-        for (let i = 0, k; i < str.length; i++) {
-            k = str.charCodeAt(i);
-            h1 = h2 ^ Math.imul(h1 ^ k, 597399067);
-            h2 = h3 ^ Math.imul(h2 ^ k, 2869860233);
-            h3 = h4 ^ Math.imul(h3 ^ k, 951274213);
-            h4 = h1 ^ Math.imul(h4 ^ k, 2716044179);
-        }
-        h1 = Math.imul(h3 ^ (h1 >>> 18), 597399067);
-        h2 = Math.imul(h4 ^ (h2 >>> 22), 2869860233);
-        h3 = Math.imul(h1 ^ (h3 >>> 17), 951274213);
-        h4 = Math.imul(h2 ^ (h4 >>> 19), 2716044179);
-        return [(h1^h2^h3^h4)>>>0, (h2^h1)>>>0, (h3^h1)>>>0, (h4^h1)>>>0];
-    }
-
-    function sfc32(a, b, c, d) {
-        console.log(a, b, c, d);
-            a >>>= 0; b >>>= 0; c >>>= 0; d >>>= 0;
-            var t = (a + b) | 0;
-            a = b ^ b >>> 9;
-            b = c + (c << 3) | 0;
-            c = (c << 21 | c >>> 11);
-            d = d + 1 | 0;
-            t = t + d | 0;
-            c = c + t | 0;
-            return (t >>> 0) / 4294967296;
-    }
-
-    function seededRandom(seed) {
-        return sfc32(cyrb128(seed));
-    }
-
     function populateWeightedQuestions(questions, weights) {
         var weightedQuestions = new Array();
 
@@ -45,9 +10,9 @@
         return weightedQuestions;
     }
 
-    function getRandomQuestion(questions, weights, randomSeed) {
+    function getRandomQuestion(questions, weights) {
         var weightedQuestions = populateWeightedQuestions(questions, weights)
-        return weightedQuestions[Math.floor(seededRandom(randomSeed) * weightedQuestions.length)];
+        return weightedQuestions[Math.floor(Math.random() * weightedQuestions.length)];
     }
 
     function setQuestion(question, selector) {
@@ -60,16 +25,16 @@
         setQuestion(question, selector);
     }
 
-    function setRandomQuestionPair(questions, questions2, weights, selector, selector2, randomSeed) {
+    function setRandomQuestionPair(questions, questions2, weights, selector, selector2) {
         var weightedQuestions = populateWeightedQuestions(questions, weights);
         var weightedQuestions2 = populateWeightedQuestions(questions2, weights);
 
-        var randomNumber = Math.floor(seededRandom(randomSeed) * weightedQuestions.length);
+        var randomNumber = Math.floor(Math.random() * weightedQuestions.length);
         setQuestion(weightedQuestions[randomNumber], selector);
         setQuestion(weightedQuestions2[randomNumber], selector2);
     }
 
-    function randomizeQuestions(randomSeed) {
+    function randomizeQuestions() {
 
         var questions = new Array();
         var weights = new Array();
@@ -98,7 +63,7 @@
         questions.push("A habit of mine that is very valuable is:");
         weights.push(1);
 
-        setRandomQuestion(questions, weights, "outlook", randomSeed);
+        setRandomQuestion(questions, weights, "outlook");
 
         questions = new Array();
         weights = new Array();
@@ -127,7 +92,7 @@
         questions.push("A strength of mine that will be of great use today is:");
         weights.push(1);
 
-        setRandomQuestion(questions, weights, "visualization", randomSeed);
+        setRandomQuestion(questions, weights, "visualization");
 
         questions = new Array();
         weights = new Array();
@@ -181,7 +146,7 @@
         weights.push(1);
         questions2.push("… and how I will grow from it is:")
 
-        setRandomQuestionPair(questions, questions2, weights, "prevention1", "prevention2", randomSeed);
+        setRandomQuestionPair(questions, questions2, weights, "prevention1", "prevention2");
 
         questions = new Array();
         weights = new Array();
@@ -216,7 +181,7 @@
         questions.push("Something my most authentic self would do today is:");
         weights.push(1);
 
-        setRandomQuestion(questions, weights, "boldness", randomSeed);
+        setRandomQuestion(questions, weights, "boldness");
 
         questions = new Array();
         weights = new Array();
@@ -247,7 +212,7 @@
         questions.push("Someone I wish would reach out to me today is:");
         weights.push(1);
 
-        setRandomQuestion(questions, weights, "social", randomSeed);
+        setRandomQuestion(questions, weights, "social");
 
         questions = new Array();
         weights = new Array();
@@ -262,7 +227,7 @@
         questions.push("Today's primary emotion was:");
         weights.push(1);
 
-        setRandomQuestion(questions, weights, "summary", randomSeed);
+        setRandomQuestion(questions, weights, "summary");
 
         questions = new Array();
         weights = new Array();
@@ -287,7 +252,7 @@
         questions.push("My favourite memory from todqay is:");
         weights.push(1);
 
-        setRandomQuestion(questions, weights, "good", randomSeed);
+        setRandomQuestion(questions, weights, "good");
 
 
         questions = new Array();
@@ -323,7 +288,7 @@
         questions.push("The hardest thing about today was:");
         weights.push(1);
 
-        setRandomQuestion(questions, weights, "bad", randomSeed);
+        setRandomQuestion(questions, weights, "bad");
     }
 
     var url_string = window.location.href;
@@ -332,8 +297,7 @@
     var day = url.searchParams.get("day");
     var randomSeed = week+day;
     console.log(randomSeed);
-    console.log(seededRandom(randomSeed));
-    console.log(seededRandom(randomSeed));
-    randomizeQuestions(randomSeed);
+    Math.seedrandom(randomSeed);
+    randomizeQuestions();
 
 </script>
