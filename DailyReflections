@@ -328,15 +328,27 @@
         var seed = cyrb128(randomSeed);
 // Four 32-bit component hashes provide the seed for sfc32.
         var rand = sfc32(seed[0], seed[1], seed[2], seed[3]);
-
         Math.random = rand;
+    }
+
+    function encodeAuth(date) {
+        var daysSince1970 = Number(Date.parse(date)/(100*60*60*24));
+        return daysSince1970*daysSince1970*(daysSince1970%2+daysSince1970%3+daysSince1970%4+daysSince1970%5+daysSince1970%6+daysSince1970%7+daysSince1970%8+daysSince1970%9+daysSince1970%10);
+    }
+
+    function checkAuth(week, auth) {
+        return Number(encodeAuth(week)) === Number(auth);
     }
 
     var url_string = window.location.href;
     var url = new URL(url_string);
     var week = url.searchParams.get("week");
     var day = url.searchParams.get("day");
-    var randomSeed = Date.parse(week)+day;
+    var auth = url.searchParams.get("auth");
+    console.log(encodeAuth(week));
+    console.log(auth);
+    console.log(checkAuth(week, auth));
+    var randomSeed = week+day;
     console.log(randomSeed);
     initRandom(randomSeed);
     console.log(Math.random());
