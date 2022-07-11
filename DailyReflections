@@ -332,7 +332,7 @@
     }
 
     function encodeAuth(date) {
-        var daysSince1970 = Number(Date.parse(date)/(100*60*60*24));
+        var daysSince1970 = Number(Date.parse(String.toString(date))/(1000*60*60*24));
         return daysSince1970*daysSince1970*(daysSince1970%2+daysSince1970%3+daysSince1970%4+daysSince1970%5+daysSince1970%6+daysSince1970%7+daysSince1970%8+daysSince1970%9+daysSince1970%10);
     }
 
