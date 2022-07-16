@@ -343,18 +343,44 @@
         return Number(encodeAuth(week)) === Number(auth);
     }
 
+    function setNavigationLink(url, day) {
+        const element = document.querySelector('[day="' + day + '"]');
+        element.href = url;
+    }
+
+    function styleCurrentDay(day) {
+        const element = document.querySelector('[day="' + day + '"]');
+        element.classList.add("link-block-active");
+    }
+
+    function initNavigationLinks(week, day, auth) {
+        var days = new Array();
+        array.push("monday");
+        array.push("tuesday");
+        array.push("wednesday");
+        array.push("thursday");
+        array.push("friday");
+        array.push("saturday");
+        array.push("sunday");
+
+        for (var i = 0; i<days.length; i++) {
+            var url = "https://www.reflectionrecipes.com/daily-reflection?week=" + week + "&day=" + days[i] + "&auth=" + auth;
+            setNavigationLink(url, days[i]);
+        }
+        styleCurrentDay(day);
+    }
+
     var url_string = window.location.href;
     var url = new URL(url_string);
     var week = url.searchParams.get("week");
     var day = url.searchParams.get("day");
     var auth = url.searchParams.get("auth");
-    console.log(encodeAuth(week));
-    console.log(auth);
+    console.log("result of auth check:")
     console.log(checkAuth(week, auth));
     var randomSeed = week+day;
-    console.log(randomSeed);
     initRandom(randomSeed);
-    console.log(Math.random());
     randomizeQuestions();
+    initNavigationLinks(week, day, auth);
+
 
 </script>
