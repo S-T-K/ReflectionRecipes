@@ -355,13 +355,13 @@
 
     function initNavigationLinks(week, day, auth) {
         var days = new Array();
-        array.push("monday");
-        array.push("tuesday");
-        array.push("wednesday");
-        array.push("thursday");
-        array.push("friday");
-        array.push("saturday");
-        array.push("sunday");
+        days.push("monday");
+        days.push("tuesday");
+        days.push("wednesday");
+        days.push("thursday");
+        days.push("friday");
+        days.push("saturday");
+        days.push("sunday");
 
         for (var i = 0; i<days.length; i++) {
             var url = "https://www.reflectionrecipes.com/daily-reflection?week=" + week + "&day=" + days[i] + "&auth=" + auth;
