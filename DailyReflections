@@ -351,6 +351,7 @@
     function styleCurrentDay(day) {
         const element = document.querySelector('[day="' + day + '"]');
         element.classList.add("link-block-active");
+        element.href = "#";
     }
 
     function setLinkDate(day, date) {
@@ -389,5 +390,5 @@
     initRandom(randomSeed);
     randomizeQuestions();
     initNavigationLinks(week, day, auth);
-    
+
 </script>
