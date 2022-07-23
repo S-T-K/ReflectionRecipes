@@ -373,11 +373,11 @@
 
         var headerDate = new Date(week);
         headerDate.setDate(headerDate.getDate() + indexCurrent);
-        const element = document.querySelector('[header="date"]');
+        var element = document.querySelector('[header="date"]');
         element.innerHTML = headerDate.toLocaleString('en-us', { month: 'short', day: 'numeric' });
         element = document.querySelector('[header="day"]');
         element.innerHTML = headerDays[indexCurrent];
-        
+
         const indexNext = indexCurrent+1;
         const indexPrevious = indexCurrent-1;
         if (indexNext === 7) {
