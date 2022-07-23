@@ -384,13 +384,13 @@
             indexNext = 0;
             week = new Date(week);
             week.setDate(week.getDate() + 7);
-            week = week.getFullYear()+"-"+week.getMonth()+"-"+(week.getDate()+1);
+            week = week.getFullYear()+"-"+(week.getMonth()+1)+"-"+(week.getDate());
         }
         if (indexPrevious === -1) {
             indexPrevious = 6;
             week = new Date(week);
             week.setDate(week.getDate() - 7);
-            week = week.getFullYear()+"-"+week.getMonth()+"-"+(week.getDate()+1);
+            week = week.getFullYear()+"-"+(week.getMonth()+1)+"-"+(week.getDate());
         }
 
         const linkNext = "https://www.reflectionrecipes.com/daily-reflection?week=" + week + "&day=" + days[indexNext] + "&auth=" + auth;
