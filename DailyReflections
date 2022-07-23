@@ -378,8 +378,8 @@
         element = document.querySelector('[header="day"]');
         element.innerHTML = headerDays[indexCurrent];
 
-        const indexNext = indexCurrent+1;
-        const indexPrevious = indexCurrent-1;
+        var indexNext = indexCurrent+1;
+        var indexPrevious = indexCurrent-1;
         if (indexNext === 7) {
             indexNext = 0;
             week = new Date(week);
