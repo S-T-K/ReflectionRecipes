@@ -281,7 +281,7 @@
         weights.push(1);
         questions.push("A challenge I handled well was:");
         weights.push(1);
-        questions.push("My favourite memory from todqay is:");
+        questions.push("My favourite memory from today is:");
         weights.push(1);
 
         setRandomQuestion(questions, weights, "good");
@@ -344,22 +344,11 @@
     }
 
     function setNavigationLink(url, day) {
-        const element = document.querySelector('[day="' + day + '"]');
+        const element = document.querySelector('[link="' + day + '"]');
         element.href = url;
     }
 
-    function styleCurrentDay(day) {
-        const element = document.querySelector('[day="' + day + '"]');
-        element.classList.add("link-block-active");
-        element.href = "#";
-    }
-
-    function setLinkDate(day, date) {
-        const element = document.querySelector('[date="' + day + '"]');
-        element.innerHTML = date.toLocaleString('en-us', { month: 'short', day: 'numeric' });
-    }
-
-    function initNavigationLinks(week, day, auth) {
+    function initHeaderLinks(week, day, auth) {
         var days = new Array();
         days.push("monday");
         days.push("tuesday");
@@ -369,14 +358,43 @@
         days.push("saturday");
         days.push("sunday");
 
-        for (var i = 0; i<days.length; i++) {
-            var url = "https://www.reflectionrecipes.com/daily-reflection?week=" + week + "&day=" + days[i] + "&auth=" + auth;
-            setNavigationLink(url, days[i]);
-            var linkDate = new Date(week);
-            linkDate.setDate(linkDate.getDate() + i);
-            setLinkDate(days[i], linkDate);
+        var headerDays = new Array();
+        headerDays.push("Monday");
+        headerDays.push("Tuesday");
+        headerDays.push("Wednesday");
+        headerDays.push("Thursday");
+        headerDays.push("Friday");
+        headerDays.push("Saturday");
+        headerDays.push("Sunday");
+
+        const indexCurrent = days.findIndex(element => {
+            return element === day;
+        });
+
+        var headerDate = new Date(week);
+        headerDate.setDate(headerDate.getDate() + indexCurrent);
+        const element = document.querySelector('[header="date"]');
+        element.innerHTML = headerDate.toLocaleString('en-us', { month: 'short', day: 'numeric' });
+        element = document.querySelector('[header="day"]');
+        element.innerHTML = headerDays[indexCurrent];
+        
+        const indexNext = indexCurrent+1;
+        const indexPrevious = indexCurrent-1;
+        if (indexNext === 7) {
+            indexNext = 0;
+            week = new Date(week);
+            week.setDate(week.getDate() + 7);
         }
-        styleCurrentDay(day);
+        if (indexPrevious === -1) {
+            indexPrevious = 6;
+            week = new Date(week);
+            week.setDate(week.getDate() - 7);
+        }
+
+        const linkNext = "https://www.reflectionrecipes.com/daily-reflection?week=" + week + "&day=" + days[indexNext] + "&auth=" + auth;
+        const linkPrevious = "https://www.reflectionrecipes.com/daily-reflection?week=" + week + "&day=" + days[indexPrevious] + "&auth=" + auth;
+        setNavigationLink(linkNext, days[indexNext]);
+        setNavigationLink(linkPrevious, days[indexPrevious]);
     }
 
     var url_string = window.location.href;
@@ -389,6 +407,6 @@
     var randomSeed = week+day;
     initRandom(randomSeed);
     randomizeQuestions();
-    initNavigationLinks(week, day, auth);
+    initHeaderLinks(week, day, auth);
 
 </script>
