@@ -393,8 +393,8 @@
 
         const linkNext = "https://www.reflectionrecipes.com/daily-reflection?week=" + week + "&day=" + days[indexNext] + "&auth=" + auth;
         const linkPrevious = "https://www.reflectionrecipes.com/daily-reflection?week=" + week + "&day=" + days[indexPrevious] + "&auth=" + auth;
-        setNavigationLink(linkNext, days[indexNext]);
-        setNavigationLink(linkPrevious, days[indexPrevious]);
+        setNavigationLink(linkNext, 'next');
+        setNavigationLink(linkPrevious, 'previous');
     }
 
     var url_string = window.location.href;
