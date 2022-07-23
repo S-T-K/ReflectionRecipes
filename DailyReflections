@@ -380,21 +380,23 @@
 
         var indexNext = indexCurrent+1;
         var indexPrevious = indexCurrent-1;
+        var nextWeek = week;
+        var previousWeek = week;
         if (indexNext === 7) {
             indexNext = 0;
-            week = new Date(week);
-            week.setDate(week.getDate() + 7);
-            week = week.getFullYear()+"-"+(week.getMonth()+1)+"-"+(week.getDate());
+            nextWeek = new Date(week);
+            nextWeek.setDate(nextWeek.getDate() + 7);
+            nextWeek = nextWeek.getFullYear()+"-"+(nextWeek.getMonth()+1)+"-"+(nextWeek.getDate());
         }
         if (indexPrevious === -1) {
             indexPrevious = 6;
-            week = new Date(week);
-            week.setDate(week.getDate() - 7);
-            week = week.getFullYear()+"-"+(week.getMonth()+1)+"-"+(week.getDate());
+            previousWeek = new Date(week);
+            previousWeek.setDate(previousWeek.getDate() - 7);
+            previousWeek = previousWeek.getFullYear()+"-"+(previousWeek.getMonth()+1)+"-"+(previousWeek.getDate());
         }
 
-        const linkNext = "https://www.reflectionrecipes.com/daily-reflection?week=" + week + "&day=" + days[indexNext] + "&auth=" + auth;
-        const linkPrevious = "https://www.reflectionrecipes.com/daily-reflection?week=" + week + "&day=" + days[indexPrevious] + "&auth=" + auth;
+        const linkNext = "https://www.reflectionrecipes.com/daily-reflection?week=" + nextWeek + "&day=" + days[indexNext] + "&auth=" + auth;
+        const linkPrevious = "https://www.reflectionrecipes.com/daily-reflection?week=" + previousWeek + "&day=" + days[indexPrevious] + "&auth=" + auth;
         setNavigationLink(linkNext, 'next');
         setNavigationLink(linkPrevious, 'previous');
     }
