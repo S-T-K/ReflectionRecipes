@@ -1,4 +1,27 @@
 <script>
+    function setCookie(cname, cvalue, exdays) {
+        const d = new Date();
+        d.setTime(d.getTime() + (exdays*24*60*60*1000));
+        let expires = "expires="+ d.toUTCString();
+        document.cookie = cname + "=" + encodeURIComponent(cvalue) + ";" + expires + ";path=/";
+    }
+
+    function getCookie(cname) {
+        let name = cname + "=";
+        let decodedCookie = decodeURIComponent(document.cookie);
+        let ca = decodedCookie.split(';');
+        for(let i = 0; i <ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+
     function cyrb128(str) {
         let h1 = 1779033703, h2 = 3144134277,
             h3 = 1013904242, h4 = 2773480762;
@@ -47,26 +70,33 @@
         return weightedQuestions[Math.floor(Math.random() * weightedQuestions.length)];
     }
 
-    function setQuestion(question, selector) {
+    function setQuestion(week, day, question, selector) {
+        // check for stored questions
+        var storedQuestion = getCookie(selector+week+day);
+        if (storedQuestion.length > 0) {
+            question = storedQuestion
+        } else {
+            setCookie(selector+week+day, question, 999);
+        }
         const element = document.querySelector('[question="' + selector + '"]');
         element.innerHTML = question;
     }
 
-    function setRandomQuestion(questions, weights, selector) {
+    function setRandomQuestion(week, day, questions, weights, selector) {
         const question = getRandomQuestion(questions, weights);
-        setQuestion(question, selector);
+        setQuestion(week, day, question, selector);
     }
 
-    function setRandomQuestionPair(questions, questions2, weights, selector, selector2) {
+    function setRandomQuestionPair(week, day, questions, questions2, weights, selector, selector2) {
         var weightedQuestions = populateWeightedQuestions(questions, weights);
         var weightedQuestions2 = populateWeightedQuestions(questions2, weights);
 
         var randomNumber = Math.floor(Math.random() * weightedQuestions.length);
-        setQuestion(weightedQuestions[randomNumber], selector);
-        setQuestion(weightedQuestions2[randomNumber], selector2);
+        setQuestion(week, day, weightedQuestions[randomNumber], selector);
+        setQuestion(week, day, weightedQuestions2[randomNumber], selector2);
     }
 
-    function randomizeQuestions() {
+    function randomizeQuestions(week, day) {
 
         var questions = new Array();
         var weights = new Array();
@@ -95,7 +125,7 @@
         questions.push("A habit of mine that is very valuable is:");
         weights.push(1);
 
-        setRandomQuestion(questions, weights, "outlook");
+        setRandomQuestion(week, day, questions, weights, "outlook");
 
         questions = new Array();
         weights = new Array();
@@ -124,7 +154,7 @@
         questions.push("A strength of mine that will be of great use today is:");
         weights.push(1);
 
-        setRandomQuestion(questions, weights, "visualization");
+        setRandomQuestion(week, day, questions, weights, "visualization");
 
         questions = new Array();
         weights = new Array();
@@ -178,7 +208,7 @@
         weights.push(1);
         questions2.push("… and how I will grow from it is:")
 
-        setRandomQuestionPair(questions, questions2, weights, "prevention1", "prevention2");
+        setRandomQuestionPair(week, day, questions, questions2, weights, "prevention1", "prevention2");
 
         questions = new Array();
         weights = new Array();
@@ -213,7 +243,7 @@
         questions.push("Something my most authentic self would do today is:");
         weights.push(1);
 
-        setRandomQuestion(questions, weights, "boldness");
+        setRandomQuestion(week, day, questions, weights, "boldness");
 
         questions = new Array();
         weights = new Array();
@@ -244,7 +274,7 @@
         questions.push("Someone I wish would reach out to me today is:");
         weights.push(1);
 
-        setRandomQuestion(questions, weights, "social");
+        setRandomQuestion(week, day, questions, weights, "social");
 
         questions = new Array();
         weights = new Array();
@@ -259,7 +289,7 @@
         questions.push("Today's primary emotion was:");
         weights.push(1);
 
-        setRandomQuestion(questions, weights, "summary");
+        setRandomQuestion(week, day, questions, weights, "summary");
 
         questions = new Array();
         weights = new Array();
@@ -284,7 +314,7 @@
         questions.push("My favourite memory from today is:");
         weights.push(1);
 
-        setRandomQuestion(questions, weights, "good");
+        setRandomQuestion(week, day, questions, weights, "good");
 
 
         questions = new Array();
@@ -320,7 +350,7 @@
         questions.push("The hardest thing about today was:");
         weights.push(1);
 
-        setRandomQuestion(questions, weights, "bad");
+        setRandomQuestion(week, day, questions, weights, "bad");
     }
 
     function initRandom(randomSeed) {
@@ -410,7 +440,7 @@
     console.log(checkAuth(week, auth));
     var randomSeed = week+day;
     initRandom(randomSeed);
-    randomizeQuestions();
+    randomizeQuestions(week, day);
     initHeaderLinks(week, day, auth);
 
 </script>
