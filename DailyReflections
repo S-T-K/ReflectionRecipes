@@ -429,6 +429,9 @@
         const linkPrevious = "https://www.reflectionrecipes.com/daily-reflection?week=" + previousWeek + "&day=" + days[indexPrevious] + "&auth=" + auth;
         setNavigationLink(linkNext, 'next');
         setNavigationLink(linkPrevious, 'previous');
+
+        var yesterdaysGoals = getCookie("tasksDay" + previousWeek + days[indexPrevious]);
+        if (yesterdaysGoals) document.querySelector('[text="yesterdaysGoals"]').innerHTML = yesterdaysGoals;
     }
 
     var url_string = window.location.href;
