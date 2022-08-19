@@ -430,8 +430,20 @@
         setNavigationLink(linkNext, 'next');
         setNavigationLink(linkPrevious, 'previous');
 
+        //set link actions
+        function copyTasks() {
+            document.querySelector('[textarea="tasksDay"]').value= document.querySelector('[text="yesterdaysGoals"]').innerHTML;
+            document.querySelector('[textarea="tasksDay"]').dispatchEvent(new Event('input', {bubbles:true}));
+        }
+
         var yesterdaysGoals = getCookie("tasksDay" + previousWeek + days[indexPrevious]);
-        if (yesterdaysGoals) document.querySelector('[text="yesterdaysGoals"]').innerHTML = yesterdaysGoals;
+        if (yesterdaysGoals) {
+            document.querySelector('[text="yesterdaysGoals"]').innerHTML = yesterdaysGoals;
+            document.querySelector('[link="copyTasks"]').onclick = copyTasks;
+        } else {
+            document.querySelector('[text="copyTasks"]').innerHTML = '';
+        }
+
     }
 
     var url_string = window.location.href;
