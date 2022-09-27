@@ -278,40 +278,40 @@
 
         questions = new Array();
         weights = new Array();
-        questions.push("On a scale from 1-10, this day was:");
+        questions.push("On a scale from 1-10, yesterday was:");
         weights.push(1);
-        questions.push("A word that would describe today is:");
+        questions.push("A word that would describe yesterday is:");
         weights.push(1);
-        questions.push("Compared to an average day lately, today was:");
+        questions.push("Compared to an average day lately, yesterday was:");
         weights.push(1);
-        questions.push("Today summarized in a simple drawing:");
+        questions.push("yesterday summarized in a simple drawing/emoji:");
         weights.push(1);
-        questions.push("Today's primary emotion was:");
+        questions.push("Yesterday's primary emotion was:");
         weights.push(1);
 
         setRandomQuestion(week, day, questions, weights, "summary");
 
         questions = new Array();
         weights = new Array();
-        questions.push("A positive moment I remember is:");
+        questions.push("A positive moment I remember was:");
         weights.push(1);
         questions.push("Something I handled well was:");
         weights.push(1);
         questions.push("A situation I would'nt change anything about was:");
         weights.push(1);
-        questions.push("Something I learned today was:");
+        questions.push("Something I learned yesterday was:");
         weights.push(1);
         questions.push("I was proud of myself when:");
         weights.push(1);
-        questions.push("Today's highlight was:");
+        questions.push("Yesterday's highlight was:");
         weights.push(1);
-        questions.push("What were my wins today?");
+        questions.push("What were my wins yesterday?");
         weights.push(1);
         questions.push("What moments am I grateful for?");
         weights.push(1);
         questions.push("A challenge I handled well was:");
         weights.push(1);
-        questions.push("My favourite memory from today is:");
+        questions.push("My favourite memory from yesterday was:");
         weights.push(1);
 
         setRandomQuestion(week, day, questions, weights, "good");
@@ -319,15 +319,15 @@
 
         questions = new Array();
         weights = new Array();
-        questions.push("A negative situation I remember is:");
+        questions.push("A negative situation I remember was:");
         weights.push(1);
         questions.push("Something I could have done better was:");
         weights.push(1);
-        questions.push("A simple thing that would have made today better is:");
+        questions.push("A simple thing that would have made yesterday better was:");
         weights.push(1);
-        questions.push("A missed opportunity today was:");
+        questions.push("A missed opportunity yesterday was:");
         weights.push(1);
-        questions.push("Something that would have helped me today was:");
+        questions.push("Something that would have helped me yesterday was:");
         weights.push(1);
         questions.push("I was wasting time/energy when:");
         weights.push(1);
@@ -339,7 +339,7 @@
         weights.push(1);
         questions.push("I got stuck when:");
         weights.push(1);
-        questions.push("Regrets I have about today:");
+        questions.push("Regrets I have about yesterday:");
         weights.push(1);
         questions.push("Could I have been more productive?");
         weights.push(1);
@@ -347,7 +347,7 @@
         weights.push(1);
         questions.push("Could I have been more loving toward the people around me?");
         weights.push(1);
-        questions.push("The hardest thing about today was:");
+        questions.push("The hardest thing about yesterday was:");
         weights.push(1);
 
         setRandomQuestion(week, day, questions, weights, "bad");
