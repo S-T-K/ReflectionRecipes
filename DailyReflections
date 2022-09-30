@@ -284,7 +284,7 @@
         weights.push(1);
         questions.push("Compared to an average day lately, yesterday was:");
         weights.push(1);
-        questions.push("yesterday summarized in a simple drawing/emoji:");
+        questions.push("Yesterday summarized in a simple drawing/emoji:");
         weights.push(1);
         questions.push("Yesterday's primary emotion was:");
         weights.push(1);
