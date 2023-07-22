@@ -80,6 +80,11 @@
         }
         const element = document.querySelector('[question="' + selector + '"]');
         element.innerHTML = question;
+        setQuestionData(question, selector);
+    }
+
+    function setQuestionData(question, selector) {
+        dayData.questions[selector] = question;
     }
 
     function setRandomQuestion(week, day, questions, weights, selector) {
@@ -380,11 +385,13 @@
     randomizeQuestions(week, day);
 
 
+
     //test section
     var obj = JSON.parse('{"name":"John", "age":30, "city":"New York"}');
     var text=JSON.stringify(obj);
 
     class DayReflectionData  {
+        questions;
         constructor() {
             this.date = getCurrentDate();
         }
