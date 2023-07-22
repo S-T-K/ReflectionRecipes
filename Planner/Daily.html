@@ -1,4 +1,10 @@
 <script>
+    class DayReflectionData  {
+        questions;
+        constructor() {
+            this.date = getCurrentDate();
+        }
+    }
     function setCookie(cname, cvalue, exdays) {
         const d = new Date();
         d.setTime(d.getTime() + (exdays*24*60*60*1000));
@@ -392,13 +398,6 @@
     //test section
     var obj = JSON.parse('{"name":"John", "age":30, "city":"New York"}');
     var text=JSON.stringify(obj);
-
-    class DayReflectionData  {
-        questions;
-        constructor() {
-            this.date = getCurrentDate();
-        }
-    }
 
 
 
