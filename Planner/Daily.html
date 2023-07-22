@@ -375,6 +375,9 @@
         return dd + '-' + mm + '-' + yyyy;
     }
 
+
+
+    var dayData = new DayReflectionData();
     var url_string = window.location.href;
     var url = new URL(url_string);
     var week = url.searchParams.get("week");
@@ -397,7 +400,7 @@
         }
     }
 
-    var dayData = new DayReflectionData();
+
 
     const button = document.querySelector("#test-button");
     console.log(button);
