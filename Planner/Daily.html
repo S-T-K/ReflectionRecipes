@@ -1,8 +1,10 @@
 <script>
     class DayReflectionData  {
+        date
         questions;
         constructor() {
             this.date = getCurrentDate();
+            this.questions = [];
         }
     }
     function setCookie(cname, cvalue, exdays) {
