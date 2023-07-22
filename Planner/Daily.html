@@ -1,0 +1,462 @@
+<script>
+    function setCookie(cname, cvalue, exdays) {
+        const d = new Date();
+        d.setTime(d.getTime() + (exdays*24*60*60*1000));
+        let expires = "expires="+ d.toUTCString();
+        document.cookie = cname + "=" + encodeURIComponent(cvalue) + ";" + expires + ";path=/";
+    }
+
+    function getCookie(cname) {
+        let name = cname + "=";
+        let decodedCookie = decodeURIComponent(document.cookie);
+        let ca = decodedCookie.split(';');
+        for(let i = 0; i <ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+
+    function cyrb128(str) {
+        let h1 = 1779033703, h2 = 3144134277,
+            h3 = 1013904242, h4 = 2773480762;
+        for (let i = 0, k; i < str.length; i++) {
+            k = str.charCodeAt(i);
+            h1 = h2 ^ Math.imul(h1 ^ k, 597399067);
+            h2 = h3 ^ Math.imul(h2 ^ k, 2869860233);
+            h3 = h4 ^ Math.imul(h3 ^ k, 951274213);
+            h4 = h1 ^ Math.imul(h4 ^ k, 2716044179);
+        }
+        h1 = Math.imul(h3 ^ (h1 >>> 18), 597399067);
+        h2 = Math.imul(h4 ^ (h2 >>> 22), 2869860233);
+        h3 = Math.imul(h1 ^ (h3 >>> 17), 951274213);
+        h4 = Math.imul(h2 ^ (h4 >>> 19), 2716044179);
+        return [(h1^h2^h3^h4)>>>0, (h2^h1)>>>0, (h3^h1)>>>0, (h4^h1)>>>0];
+    }
+
+    function sfc32(a, b, c, d) {
+        return function() {
+            a >>>= 0; b >>>= 0; c >>>= 0; d >>>= 0;
+            var t = (a + b) | 0;
+            a = b ^ b >>> 9;
+            b = c + (c << 3) | 0;
+            c = (c << 21 | c >>> 11);
+            d = d + 1 | 0;
+            t = t + d | 0;
+            c = c + t | 0;
+            return (t >>> 0) / 4294967296;
+        }
+    }
+
+
+    function populateWeightedQuestions(questions, weights) {
+        var weightedQuestions = new Array();
+
+        for (var i = 0; i < questions.length; i++) {
+            for (var j = 0; j < weights[i]; j++) {
+                weightedQuestions.push(questions[i]);
+            }
+        }
+        return weightedQuestions;
+    }
+
+    function getRandomQuestion(questions, weights) {
+        var weightedQuestions = populateWeightedQuestions(questions, weights)
+        return weightedQuestions[Math.floor(Math.random() * weightedQuestions.length)];
+    }
+
+    function setQuestion(week, day, question, selector) {
+        // check for stored questions
+        var storedQuestion = getCookie(selector+week+day);
+        if (storedQuestion.length > 0) {
+            question = storedQuestion
+        } else {
+            setCookie(selector+week+day, question, 999);
+        }
+        const element = document.querySelector('[question="' + selector + '"]');
+        element.innerHTML = question;
+    }
+
+    function setRandomQuestion(week, day, questions, weights, selector) {
+        const question = getRandomQuestion(questions, weights);
+        setQuestion(week, day, question, selector);
+    }
+
+    function setRandomQuestionPair(week, day, questions, questions2, weights, selector, selector2) {
+        var weightedQuestions = populateWeightedQuestions(questions, weights);
+        var weightedQuestions2 = populateWeightedQuestions(questions2, weights);
+
+        var randomNumber = Math.floor(Math.random() * weightedQuestions.length);
+        setQuestion(week, day, weightedQuestions[randomNumber], selector);
+        setQuestion(week, day, weightedQuestions2[randomNumber], selector2);
+    }
+
+    function randomizeQuestions(week, day) {
+
+        var questions = new Array();
+        var weights = new Array();
+        questions.push("One thing I can get excited about today:");
+        weights.push(1);
+        questions.push("One thing I want to learn today is:");
+        weights.push(1);
+        questions.push("One thing that I want to do today because I enjoy it is:");
+        weights.push(1);
+        questions.push("One thing I'm proud of is:");
+        weights.push(1);
+        questions.push("What am I grateful for today?");
+        weights.push(1);
+        questions.push("How will I enjoy myself today?");
+        weights.push(1);
+        questions.push("What did I learn from yesterday?");
+        weights.push(1);
+        questions.push("How will I create value today?");
+        weights.push(1);
+        questions.push("What am I happy about in my life right now?");
+        weights.push(1);
+        questions.push("What am I excited about in my life in general?");
+        weights.push(1);
+        questions.push("Something that will make today special is:");
+        weights.push(1);
+        questions.push("A habit of mine that is very valuable is:");
+        weights.push(1);
+
+        setRandomQuestion(week, day, questions, weights, "outlook");
+
+        questions = new Array();
+        weights = new Array();
+        questions.push("The person I want to be today is:");
+        weights.push(1);
+        questions.push("How do I want to feel at the end of the day?");
+        weights.push(1);
+        questions.push("What would my ideal version do today?");
+        weights.push(1);
+        questions.push("Which question do I want to have answered by the end of the day?");
+        weights.push(1);
+        questions.push("What will be my main focus?");
+        weights.push(1);
+        questions.push("How do I want to feel today?");
+        weights.push(1);
+        questions.push("How will I grow today?");
+        weights.push(1);
+        questions.push("What will I do better today?");
+        weights.push(1);
+        questions.push("Something I want to be proud of at the end of the day is:");
+        weights.push(1);
+        questions.push("What does my soul need today?");
+        weights.push(1);
+        questions.push("What would make today a great day?");
+        weights.push(1);
+        questions.push("A strength of mine that will be of great use today is:");
+        weights.push(1);
+
+        setRandomQuestion(week, day, questions, weights, "visualization");
+
+        questions = new Array();
+        weights = new Array();
+        var questions2 = new Array();
+        questions.push("A situation that could stress me out today is:");
+        weights.push(1);
+        questions2.push("… and how I will deal with it is:")
+        questions.push("A small, yet valuable task I could do today is:");
+        weights.push(1);
+        questions2.push("… and how I will reward myself for completing it is:")
+        questions.push("Something I'm not currently doing, even though I should:");
+        weights.push(1);
+        questions2.push("… and how I will make sure to do it today is:")
+        questions.push("How do I feel right now?");
+        weights.push(1);
+        questions2.push("… and what is this emotion trying to tell me?")
+        questions.push("What causes me to feel stressed lately?");
+        weights.push(1);
+        questions2.push("… and what can I do about it?")
+        questions.push("When do I waste time throughout the day?");
+        weights.push(1);
+        questions2.push("… and what can I do to change that?")
+        questions.push("One of my values I've been neglecting lately is:");
+        weights.push(1);
+        questions2.push("… and how I will live in alignment with it today is:")
+        questions.push("What am I avoiding?");
+        weights.push(1);
+        questions2.push("… and how will I face this fear today?")
+        questions.push("What would I do with an extra hour of time today?");
+        weights.push(1);
+        questions2.push("… and how can I do it anyway?")
+        questions.push("One thing I'd rather not do today is:");
+        weights.push(1);
+        questions2.push("… and would my best self do it?")
+        questions.push("A weakness of mine that could be harmful today is:");
+        weights.push(1);
+        questions2.push("… and what I will do to limit the harm done is:")
+        questions.push("A bad habit of mine is:");
+        weights.push(1);
+        questions2.push("… and what I will replace it with today is:")
+        questions.push("Something I think will be a waste of time today is:");
+        weights.push(1);
+        questions2.push("… and how I can gain something from it, or prevent it:")
+        questions.push("The three most valuable tasks of today are:");
+        weights.push(1);
+        questions2.push("… and how I can make sure to focus on them is:")
+        questions.push("Someone I look up to is:");
+        weights.push(1);
+        questions2.push("… and what they would do today is:")
+        questions.push("What's the biggest obstacle I'm facing at the moment?");
+        weights.push(1);
+        questions2.push("… and how I will grow from it is:")
+
+        setRandomQuestionPair(week, day, questions, questions2, weights, "prevention1", "prevention2");
+
+        questions = new Array();
+        weights = new Array();
+        questions.push("A bold/important action I could do today is: ");
+        weights.push(1);
+        questions.push("The single most important task today is:");
+        weights.push(1);
+        questions.push("How could I inspire myself to do something bold today?");
+        weights.push(1);
+        questions.push("A long-term goal I will work on today is:");
+        weights.push(1);
+        questions.push("What would I do if I knew I would succeed? ");
+        weights.push(1);
+        questions.push("In what way do I want to excel today?");
+        weights.push(1);
+        questions.push("What did I wake up for today?");
+        weights.push(1);
+        questions.push("How will I step outside of my comfort zone today?");
+        weights.push(1);
+        questions.push("What important task am I committed to completing today?");
+        weights.push(1);
+        questions.push("What can I prepare today?");
+        weights.push(1);
+        questions.push("If I were my own coach, which advice would I give myself today?");
+        weights.push(1);
+        questions.push("Which action would have a positive impact even in a year?");
+        weights.push(1);
+        questions.push("A bold idea I could start working on today is:");
+        weights.push(1);
+        questions.push("Something I neet to stop or say no to is:");
+        weights.push(1);
+        questions.push("Something my most authentic self would do today is:");
+        weights.push(1);
+
+        setRandomQuestion(week, day, questions, weights, "boldness");
+
+        questions = new Array();
+        weights = new Array();
+        questions.push("Someone I could surprise/lead/connect with today is:");
+        weights.push(1);
+        questions.push("How can I be loving today?");
+        weights.push(1);
+        questions.push("Someone I will tell how much I appreciate them is:");
+        weights.push(1);
+        questions.push("Which positive people could I surround myself with today?");
+        weights.push(1);
+        questions.push("How will I be of service today?");
+        weights.push(1);
+        questions.push("Which people in my life am I taking for granted?");
+        weights.push(1);
+        questions.push("Who can I forgive today?");
+        weights.push(1);
+        questions.push("Who can I appreciate today?");
+        weights.push(1);
+        questions.push("Who can I help today?");
+        weights.push(1);
+        questions.push("Who do I love? Who loves me?");
+        weights.push(1);
+        questions.push("Who is going to help me today?");
+        weights.push(1);
+        questions.push("What could I teach someone today?");
+        weights.push(1);
+        questions.push("Someone I wish would reach out to me today is:");
+        weights.push(1);
+
+        setRandomQuestion(week, day, questions, weights, "social");
+
+        questions = new Array();
+        weights = new Array();
+        questions.push("On a scale from 1-10, yesterday was:");
+        weights.push(1);
+        questions.push("A word that would describe yesterday is:");
+        weights.push(1);
+        questions.push("Compared to an average day lately, yesterday was:");
+        weights.push(1);
+        questions.push("Yesterday summarized in a simple drawing/emoji:");
+        weights.push(1);
+        questions.push("Yesterday's primary emotion was:");
+        weights.push(1);
+
+        setRandomQuestion(week, day, questions, weights, "summary");
+
+        questions = new Array();
+        weights = new Array();
+        questions.push("A positive moment I remember was:");
+        weights.push(1);
+        questions.push("Something I handled well was:");
+        weights.push(1);
+        questions.push("A situation I would'nt change anything about was:");
+        weights.push(1);
+        questions.push("Something I learned yesterday was:");
+        weights.push(1);
+        questions.push("I was proud of myself when:");
+        weights.push(1);
+        questions.push("Yesterday's highlight was:");
+        weights.push(1);
+        questions.push("What were my wins yesterday?");
+        weights.push(1);
+        questions.push("What moments am I grateful for?");
+        weights.push(1);
+        questions.push("A challenge I handled well was:");
+        weights.push(1);
+        questions.push("My favourite memory from yesterday was:");
+        weights.push(1);
+
+        setRandomQuestion(week, day, questions, weights, "good");
+
+
+        questions = new Array();
+        weights = new Array();
+        questions.push("A negative situation I remember was:");
+        weights.push(1);
+        questions.push("Something I could have done better was:");
+        weights.push(1);
+        questions.push("A simple thing that would have made yesterday better was:");
+        weights.push(1);
+        questions.push("A missed opportunity yesterday was:");
+        weights.push(1);
+        questions.push("Something that would have helped me yesterday was:");
+        weights.push(1);
+        questions.push("I was wasting time/energy when:");
+        weights.push(1);
+        questions.push("What didn't work as expected?");
+        weights.push(1);
+        questions.push("How did my emotions/feelings work against me?");
+        weights.push(1);
+        questions.push("When did I encounter resistance?");
+        weights.push(1);
+        questions.push("I got stuck when:");
+        weights.push(1);
+        questions.push("Regrets I have about yesterday:");
+        weights.push(1);
+        questions.push("Could I have been more productive?");
+        weights.push(1);
+        questions.push("Could I have been less stressed out?");
+        weights.push(1);
+        questions.push("Could I have been more loving toward the people around me?");
+        weights.push(1);
+        questions.push("The hardest thing about yesterday was:");
+        weights.push(1);
+
+        setRandomQuestion(week, day, questions, weights, "bad");
+    }
+
+    function initRandom(randomSeed) {
+// Create cyrb128 state:
+        var seed = cyrb128(randomSeed);
+// Four 32-bit component hashes provide the seed for sfc32.
+        var rand = sfc32(seed[0], seed[1], seed[2], seed[3]);
+        Math.random = rand;
+    }
+
+    function encodeAuth(date) {
+        var daysSince1970 = Number(Date.parse(date)/(1000*60*60*24));
+        console.log("daysSince1970");
+        console.log(daysSince1970);
+        console.log(daysSince1970*daysSince1970*(daysSince1970%2+daysSince1970%3+daysSince1970%4+daysSince1970%5+daysSince1970%6+daysSince1970%7+daysSince1970%8+daysSince1970%9+daysSince1970%10));
+        return daysSince1970*daysSince1970*(daysSince1970%2+daysSince1970%3+daysSince1970%4+daysSince1970%5+daysSince1970%6+daysSince1970%7+daysSince1970%8+daysSince1970%9+daysSince1970%10);
+    }
+
+    function checkAuth(week, auth) {
+        return Number(encodeAuth(week)) === Number(auth);
+    }
+
+    function setNavigationLink(url, day) {
+        const element = document.querySelector('[link="' + day + '"]');
+        element.href = url;
+    }
+
+    function initHeaderLinks(week, day, auth) {
+        var days = new Array();
+        days.push("monday");
+        days.push("tuesday");
+        days.push("wednesday");
+        days.push("thursday");
+        days.push("friday");
+        days.push("saturday");
+        days.push("sunday");
+
+        var headerDays = new Array();
+        headerDays.push("Monday");
+        headerDays.push("Tuesday");
+        headerDays.push("Wednesday");
+        headerDays.push("Thursday");
+        headerDays.push("Friday");
+        headerDays.push("Saturday");
+        headerDays.push("Sunday");
+
+        const indexCurrent = days.findIndex(element => {
+            return element === day;
+        });
+
+        var headerDate = new Date(week);
+        headerDate.setDate(headerDate.getDate() + indexCurrent);
+        var element = document.querySelector('[header="date"]');
+        element.innerHTML = headerDate.toLocaleString('en-us', { month: 'short', day: 'numeric' });
+        element = document.querySelector('[header="day"]');
+        element.innerHTML = headerDays[indexCurrent];
+
+        var indexNext = indexCurrent+1;
+        var indexPrevious = indexCurrent-1;
+        var nextWeek = week;
+        var previousWeek = week;
+        if (indexNext === 7) {
+            indexNext = 0;
+            nextWeek = new Date(week);
+            nextWeek.setDate(nextWeek.getDate() + 7);
+            nextWeek = nextWeek.getFullYear()+"-"+(nextWeek.getMonth()+1)+"-"+(nextWeek.getDate());
+        }
+        if (indexPrevious === -1) {
+            indexPrevious = 6;
+            previousWeek = new Date(week);
+            previousWeek.setDate(previousWeek.getDate() - 7);
+            previousWeek = previousWeek.getFullYear()+"-"+(previousWeek.getMonth()+1)+"-"+(previousWeek.getDate());
+        }
+
+        const linkNext = "https://www.reflectionrecipes.com/daily-reflection?week=" + nextWeek + "&day=" + days[indexNext] + "&auth=" + auth;
+        const linkPrevious = "https://www.reflectionrecipes.com/daily-reflection?week=" + previousWeek + "&day=" + days[indexPrevious] + "&auth=" + auth;
+        setNavigationLink(linkNext, 'next');
+        setNavigationLink(linkPrevious, 'previous');
+
+        //set link actions
+        function copyTasks() {
+            document.querySelector('[textarea="tasksDay"]').value= document.querySelector('[text="yesterdaysGoals"]').innerHTML;
+            document.querySelector('[textarea="tasksDay"]').dispatchEvent(new Event('input', {bubbles:true}));
+        }
+
+        var yesterdaysGoals = getCookie("tasksDay" + previousWeek + days[indexPrevious]);
+        if (yesterdaysGoals) {
+            document.querySelector('[text="yesterdaysGoals"]').innerHTML = yesterdaysGoals;
+            document.querySelector('[link="copyTasks"]').onclick = copyTasks;
+        } else {
+            document.querySelector('[text="copyTasks"]').innerHTML = '';
+        }
+
+    }
+
+    var url_string = window.location.href;
+    var url = new URL(url_string);
+    var week = url.searchParams.get("week");
+    var day = url.searchParams.get("day");
+    var auth = url.searchParams.get("auth");
+    console.log("result of auth check:");
+    console.log(checkAuth(week, auth));
+    console.log("New version");
+    var randomSeed = week+day;
+    initRandom(randomSeed);
+    randomizeQuestions(week, day);
+    initHeaderLinks(week, day, auth);
+
+</script>
