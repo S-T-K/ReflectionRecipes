@@ -361,79 +361,6 @@
         Math.random = rand;
     }
 
-    function setNavigationLink(url, day) {
-        const element = document.querySelector('[link="' + day + '"]');
-        element.href = url;
-    }
-
-    function initHeaderLinks(week, day, auth) {
-        var days = new Array();
-        days.push("monday");
-        days.push("tuesday");
-        days.push("wednesday");
-        days.push("thursday");
-        days.push("friday");
-        days.push("saturday");
-        days.push("sunday");
-
-        var headerDays = new Array();
-        headerDays.push("Monday");
-        headerDays.push("Tuesday");
-        headerDays.push("Wednesday");
-        headerDays.push("Thursday");
-        headerDays.push("Friday");
-        headerDays.push("Saturday");
-        headerDays.push("Sunday");
-
-        const indexCurrent = days.findIndex(element => {
-            return element === day;
-        });
-
-        var headerDate = new Date(week);
-        headerDate.setDate(headerDate.getDate() + indexCurrent);
-        var element = document.querySelector('[header="date"]');
-        element.innerHTML = headerDate.toLocaleString('en-us', { month: 'short', day: 'numeric' });
-        element = document.querySelector('[header="day"]');
-        element.innerHTML = headerDays[indexCurrent];
-
-        var indexNext = indexCurrent+1;
-        var indexPrevious = indexCurrent-1;
-        var nextWeek = week;
-        var previousWeek = week;
-        if (indexNext === 7) {
-            indexNext = 0;
-            nextWeek = new Date(week);
-            nextWeek.setDate(nextWeek.getDate() + 7);
-            nextWeek = nextWeek.getFullYear()+"-"+(nextWeek.getMonth()+1)+"-"+(nextWeek.getDate());
-        }
-        if (indexPrevious === -1) {
-            indexPrevious = 6;
-            previousWeek = new Date(week);
-            previousWeek.setDate(previousWeek.getDate() - 7);
-            previousWeek = previousWeek.getFullYear()+"-"+(previousWeek.getMonth()+1)+"-"+(previousWeek.getDate());
-        }
-
-        const linkNext = "https://www.reflectionrecipes.com/daily-reflection?week=" + nextWeek + "&day=" + days[indexNext] + "&auth=" + auth;
-        const linkPrevious = "https://www.reflectionrecipes.com/daily-reflection?week=" + previousWeek + "&day=" + days[indexPrevious] + "&auth=" + auth;
-        setNavigationLink(linkNext, 'next');
-        setNavigationLink(linkPrevious, 'previous');
-
-        //set link actions
-        function copyTasks() {
-            document.querySelector('[textarea="tasksDay"]').value= document.querySelector('[text="yesterdaysGoals"]').innerHTML;
-            document.querySelector('[textarea="tasksDay"]').dispatchEvent(new Event('input', {bubbles:true}));
-        }
-
-        var yesterdaysGoals = getCookie("tasksDay" + previousWeek + days[indexPrevious]);
-        if (yesterdaysGoals) {
-            document.querySelector('[text="yesterdaysGoals"]').innerHTML = yesterdaysGoals;
-            document.querySelector('[link="copyTasks"]').onclick = copyTasks;
-        } else {
-            document.querySelector('[text="copyTasks"]').innerHTML = '';
-        }
-
-    }
-
     var url_string = window.location.href;
     var url = new URL(url_string);
     var week = url.searchParams.get("week");
@@ -442,8 +369,6 @@
     var randomSeed = week+day;
     initRandom(randomSeed);
     randomizeQuestions(week, day);
-    var auth="";
-    initHeaderLinks(week, day, auth);
 
 
     //test section
