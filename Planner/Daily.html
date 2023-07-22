@@ -1,10 +1,12 @@
 <script>
     class DayReflectionData  {
-        date
+        date;
         questions;
+        inputs;
         constructor() {
             this.date = getCurrentDate();
             this.questions = {};
+            this.inputs = {};
         }
     }
     function setCookie(cname, cvalue, exdays) {
@@ -418,5 +420,14 @@
         iframe.getElementById('daytest').value=JSON.stringify(dayData);
         iframe.querySelector(".w-users-useraccountformsavebutton").click();
     });
+
+
+    textareas = document.querySelectorAll("[textarea]");
+    textareas.forEach(item => {item.addEventListener('input', saveToData, false)});
+
+    function saveToData() {
+        dayData.inputs[this.getAttribute("textarea")] = this.value;
+    }
+
 
 </script>
