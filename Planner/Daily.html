@@ -86,8 +86,6 @@
         } else {
             setCookie(selector+week+day, question, 999);
         }
-        const element = document.querySelector('[question="' + selector + '"]');
-        element.innerHTML = question;
         setQuestionData(question, selector);
     }
 
