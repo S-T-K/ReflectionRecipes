@@ -95,6 +95,13 @@
         dayData.questions[selector] = question;
     }
 
+    function setQuestionsInHTML() {
+        for (let [key, value] of Object.entries(dayData.questions)) {
+            const element = document.querySelector('[question="' + key + '"]');
+            element.innerHTML = value;
+        }
+    }
+
     function setRandomQuestion(week, day, questions, weights, selector) {
         const question = getRandomQuestion(questions, weights);
         setQuestion(week, day, question, selector);
@@ -394,6 +401,7 @@
     var randomSeed = week+day;
     initRandom(randomSeed);
     randomizeQuestions(week, day);
+    setQuestionsInHTML();
 
 
 
