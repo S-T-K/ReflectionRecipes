@@ -476,6 +476,7 @@ Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie co
     const button = document.querySelector("#test-button");
     button.addEventListener("click", (e) => {
         var iframe = document.getElementById('userdataiframe').contentDocument;
+        console.log(iframe);
         iframe.getElementById('testjson').value=text;
         iframe.querySelector(".w-users-useraccountformsavebutton").click();
     });
