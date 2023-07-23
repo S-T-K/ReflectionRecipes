@@ -390,8 +390,21 @@
         return dd + '-' + mm + '-' + yyyy;
     }
 
+
+
     const addInputGood = document.querySelector("#wf-form-Add-Form-good");
     const todoListGood = document.querySelector("#todo-middle-area-good");
+    const addInputGoodMore = document.querySelector("#wf-form-Add-Form-more-good");
+    const todoListGoodMore = document.querySelector("#todo-middle-area-more-good");
+    const addInputBadMore = document.querySelector("#wf-form-Add-Form-more-bad");
+    const todoListBadMore = document.querySelector("#todo-middle-area-more-bad");
+    const addInputBad = document.querySelector("#wf-form-Add-Form-bad");
+    const todoListBad = document.querySelector("#todo-middle-area-bad");
+    const addInputOld = document.querySelector("#wf-form-Add-Form-old");
+    const todoListOld = document.querySelector("#todo-middle-area-old");
+    const addInputToday = document.querySelector("#wf-form-Add-Form-today");
+    const todoListToday = document.querySelector("#todo-middle-area-today");
+
 
     const addTodoGood = (todo) => {
         const htmlContent = `
@@ -427,42 +440,6 @@
         todoListGood.innerHTML += htmlContent;
     };
 
-    addInputGood.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const input = addInputGood.AddTerm.value.trim();
-
-        if (input.length) {
-            addTodoGood(input);
-            addInputGood.reset();
-        }
-    });
-
-    addInputGood.AddTerm.onblur = function(){
-        const input = addInputGood.AddTerm.value.trim();
-
-        if (input.length) {
-            addTodoGood(input);
-            addInputGood.reset();
-        }
-    }
-
-
-
-    //Delete Items
-    todoListGood.addEventListener("click", (e) => {
-        if (e.target.parentElement.parentElement.classList.contains("trash-icon")) {
-            e.target.parentElement.parentElement.parentElement.remove();
-        } else if (e.target.parentElement.classList.contains("trash-icon")) {
-            e.target.parentElement.parentElement.remove();
-        } else if (e.target.classList.contains("trash-icon")) {
-            e.target.parentElement.remove();
-        }
-    });
-
-    //More good stuff
-    const addInputGoodMore = document.querySelector("#wf-form-Add-Form-more-good");
-    const todoListGoodMore = document.querySelector("#todo-middle-area-more-good");
-
     const addTodoGoodMore = (todo) => {
         const htmlContent = `
              <div class="todo_item">
@@ -497,6 +474,128 @@
         todoListGoodMore.innerHTML += htmlContent;
     };
 
+    const addTodoBadMore = (todo) => {
+        const htmlContent = `
+             <div class="todo_item">
+                <div class="pointer-none">${todo}</div>
+                <div class="svg-icon trash-icon w-embed">
+                  <svg
+                    class="pointer-none"
+                    width="24"
+                    height="25"
+                    viewbox="0 0 24 25"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M3 6.5H5H21"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    ></path>
+                    <path
+                      d="M8 6.5V4.5C8 3.96957 8.21071 3.46086 8.58579 3.08579C8.96086 2.71071 9.46957 2.5 10 2.5H14C14.5304 2.5 15.0391 2.71071 15.4142 3.08579C15.7893 3.46086 16 3.96957 16 4.5V6.5M19 6.5V20.5C19 21.0304 18.7893 21.5391 18.4142 21.9142C18.0391 22.2893 17.5304 22.5 17 22.5H7C6.46957 22.5 5.96086 22.2893 5.58579 21.9142C5.21071 21.5391 5 21.0304 5 20.5V6.5H19Z"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    ></path>
+                  </svg>
+                </div>
+              </div>
+`;
+        todoListBadMore.innerHTML += htmlContent;
+    };
+
+    const addTodoBad = (todo) => {
+        const htmlContent = `
+             <div class="todo_item">
+                <div class="pointer-none">${todo}</div>
+                <div class="svg-icon trash-icon w-embed">
+                  <svg
+                    class="pointer-none"
+                    width="24"
+                    height="25"
+                    viewbox="0 0 24 25"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M3 6.5H5H21"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    ></path>
+                    <path
+                      d="M8 6.5V4.5C8 3.96957 8.21071 3.46086 8.58579 3.08579C8.96086 2.71071 9.46957 2.5 10 2.5H14C14.5304 2.5 15.0391 2.71071 15.4142 3.08579C15.7893 3.46086 16 3.96957 16 4.5V6.5M19 6.5V20.5C19 21.0304 18.7893 21.5391 18.4142 21.9142C18.0391 22.2893 17.5304 22.5 17 22.5H7C6.46957 22.5 5.96086 22.2893 5.58579 21.9142C5.21071 21.5391 5 21.0304 5 20.5V6.5H19Z"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    ></path>
+                  </svg>
+                </div>
+              </div>
+`;
+        todoListBad.innerHTML += htmlContent;
+    };
+
+    const addTodoOld = (todo) => {
+        const htmlContent = `
+             <div class="todo_item">
+                <div class="pointer-none">${todo}</div>
+              </div>
+`;
+        todoListOld.innerHTML += htmlContent;
+    };
+
+    const addTodoToday = (todo) => {
+        const htmlContent = `
+             <div class="todo_item">
+                <div class="pointer-none">${todo}</div>
+                <div class="svg-icon trash-icon w-embed">
+                  <svg
+                    class="pointer-none"
+                    width="24"
+                    height="25"
+                    viewbox="0 0 24 25"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M3 6.5H5H21"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    ></path>
+                    <path
+                      d="M8 6.5V4.5C8 3.96957 8.21071 3.46086 8.58579 3.08579C8.96086 2.71071 9.46957 2.5 10 2.5H14C14.5304 2.5 15.0391 2.71071 15.4142 3.08579C15.7893 3.46086 16 3.96957 16 4.5V6.5M19 6.5V20.5C19 21.0304 18.7893 21.5391 18.4142 21.9142C18.0391 22.2893 17.5304 22.5 17 22.5H7C6.46957 22.5 5.96086 22.2893 5.58579 21.9142C5.21071 21.5391 5 21.0304 5 20.5V6.5H19Z"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    ></path>
+                  </svg>
+                </div>
+              </div>
+`;
+        todoListToday.innerHTML += htmlContent;
+    };
+
+
+    addInputGood.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const input = addInputGood.AddTerm.value.trim();
+
+        if (input.length) {
+            addTodoGood(input);
+            addInputGood.reset();
+        }
+    });
+
     addInputGoodMore.addEventListener("submit", (e) => {
         e.preventDefault();
         const input = addInputGoodMore.AddTerm.value.trim();
@@ -507,6 +606,55 @@
         }
     });
 
+    addInputBadMore.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const input = addInputBadMore.AddTerm.value.trim();
+
+        if (input.length) {
+            addTodoBadMore(input);
+            addInputBadMore.reset();
+        }
+    });
+
+    addInputBad.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const input = addInputBad.AddTerm.value.trim();
+
+        if (input.length) {
+            addTodoBad(input);
+            addInputBad.reset();
+        }
+    });
+
+    addInputOld.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const input = addInputOld.AddTerm.value.trim();
+
+        if (input.length) {
+            addTodoOld(input);
+            addInputOld.reset();
+        }
+    });
+
+    addInputToday.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const input = addInputToday.AddTerm.value.trim();
+
+        if (input.length) {
+            addTodoToday(input);
+            addInputToday.reset();
+        }
+    });
+
+    addInputGood.AddTerm.onblur = function(){
+        const input = addInputGood.AddTerm.value.trim();
+
+        if (input.length) {
+            addTodoGood(input);
+            addInputGood.reset();
+        }
+    }
+
     addInputGoodMore.AddTerm.onblur = function(){
         const input = addInputGoodMore.AddTerm.value.trim();
 
@@ -515,6 +663,54 @@
             addInputGoodMore.reset();
         }
     }
+
+    addInputBadMore.AddTerm.onblur = function(){
+        const input = addInputBadMore.AddTerm.value.trim();
+
+        if (input.length) {
+            addTodoBadMore(input);
+            addInputBadMore.reset();
+        }
+    }
+
+    addInputBad.AddTerm.onblur = function(){
+        const input = addInputBad.AddTerm.value.trim();
+
+        if (input.length) {
+            addTodoBad(input);
+            addInputBad.reset();
+        }
+    }
+
+    addInputOld.AddTerm.onblur = function(){
+        const input = addInputOld.AddTerm.value.trim();
+
+        if (input.length) {
+            addTodoOld(input);
+            addInputOld.reset();
+        }
+    }
+
+    addInputToday.AddTerm.onblur = function(){
+        const input = addInputToday.AddTerm.value.trim();
+
+        if (input.length) {
+            addTodoToday(input);
+            addInputToday.reset();
+        }
+    }
+
+
+    //Delete Items
+    todoListGood.addEventListener("click", (e) => {
+        if (e.target.parentElement.parentElement.classList.contains("trash-icon")) {
+            e.target.parentElement.parentElement.parentElement.remove();
+        } else if (e.target.parentElement.classList.contains("trash-icon")) {
+            e.target.parentElement.parentElement.remove();
+        } else if (e.target.classList.contains("trash-icon")) {
+            e.target.parentElement.remove();
+        }
+    });
 
     //Delete Items
     todoListGoodMore.addEventListener("click", (e) => {
@@ -526,6 +722,91 @@
             e.target.parentElement.remove();
         }
     });
+
+    //Delete Items
+    todoListBadMore.addEventListener("click", (e) => {
+        if (e.target.parentElement.parentElement.classList.contains("trash-icon")) {
+            e.target.parentElement.parentElement.parentElement.remove();
+        } else if (e.target.parentElement.classList.contains("trash-icon")) {
+            e.target.parentElement.parentElement.remove();
+        } else if (e.target.classList.contains("trash-icon")) {
+            e.target.parentElement.remove();
+        }
+    });
+
+    //Delete Items
+    todoListBad.addEventListener("click", (e) => {
+        if (e.target.parentElement.parentElement.classList.contains("trash-icon")) {
+            e.target.parentElement.parentElement.parentElement.remove();
+        } else if (e.target.parentElement.classList.contains("trash-icon")) {
+            e.target.parentElement.parentElement.remove();
+        } else if (e.target.classList.contains("trash-icon")) {
+            e.target.parentElement.remove();
+        }
+    });
+
+    //Delete Items
+    todoListBadMore.addEventListener("click", (e) => {
+        if (e.target.parentElement.parentElement.classList.contains("trash-icon")) {
+            e.target.parentElement.parentElement.parentElement.remove();
+        } else if (e.target.parentElement.classList.contains("trash-icon")) {
+            e.target.parentElement.parentElement.remove();
+        } else if (e.target.classList.contains("trash-icon")) {
+            e.target.parentElement.remove();
+        }
+    });
+
+    //Delete Items
+    todoListToday.addEventListener("click", (e) => {
+        if (e.target.parentElement.parentElement.classList.contains("trash-icon")) {
+            e.target.parentElement.parentElement.parentElement.remove();
+        } else if (e.target.parentElement.classList.contains("trash-icon")) {
+            e.target.parentElement.parentElement.remove();
+        } else if (e.target.classList.contains("trash-icon")) {
+            e.target.parentElement.remove();
+        }
+    });
+
+    //Cross out Items
+    todoListOld.addEventListener("click", (e) => {
+        if (e.target.classList.contains("todo_item")) {
+            e.target.classList.toggle("is-done");
+        } else if (e.target.parentElement.classList.contains("todo_item")) {
+            e.target.parentElement.classList.toggle("is-done");
+        }
+    });
+
+    //Cross out Items
+    todoListToday.addEventListener("click", (e) => {
+        if (e.target.classList.contains("todo_item")) {
+            e.target.classList.toggle("is-todays-task");
+        } else if (e.target.parentElement.classList.contains("todo_item")) {
+            e.target.parentElement.classList.toggle("is-todays-task");
+        }
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
