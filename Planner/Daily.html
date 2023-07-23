@@ -414,7 +414,10 @@
         let listSelector = list.id;
         console.log(listSelector);
         let items = list.querySelectorAll(".todo-label");
-        let values = items.map(item => item.innerText);
+        let values = [];
+        items.forEach(function (item) {
+            values.push(item.innerText);
+        });
         console.log(values);
         dayData.todoLists[listSelector] = values;
     }
