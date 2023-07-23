@@ -583,13 +583,15 @@
 
     //test section
 
-    const button = document.querySelector(".w-button");
-    console.log(button);
-    button.addEventListener("click", (e) => {
-        var iframe = document.getElementById('userdataiframe').contentDocument;
-        console.log(iframe);
-        iframe.getElementById('daytest').value=JSON.stringify(dayData);
-        iframe.querySelector(".w-users-useraccountformsavebutton").click();
+    const buttons = document.querySelectorAll(".w-button");
+    console.log(buttons);
+    buttons.forEach(function (element) {
+        element.addEventListener("click", (e) => {
+            var iframe = document.getElementById('userdataiframe').contentDocument;
+            console.log(iframe);
+            iframe.getElementById('daytest').value = JSON.stringify(dayData);
+            iframe.querySelector(".w-users-useraccountformsavebutton").click();
+        });
     });
 
 
