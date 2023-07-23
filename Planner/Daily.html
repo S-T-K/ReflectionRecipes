@@ -413,6 +413,10 @@
     function updateTodoListData(list) {
         let listSelector = list.id;
         console.log(listSelector);
+        let items = list.querySelectorAll(".todo-label");
+        let values = items.map(item => item.innerText);
+        console.log(values);
+        dayData.todoLists[listSelector] = values;
     }
 
     const addTodoDeletable = (list, todo) => {
