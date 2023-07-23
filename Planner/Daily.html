@@ -573,12 +573,12 @@
     var url = new URL(url_string);
     var week = url.searchParams.get("week");
     var day = url.searchParams.get("day");
-    console.log("New version 1433");
     var randomSeed = week+day;
     initRandom(randomSeed);
     randomizeQuestions(week, day);
     setQuestionsInHTML();
-
+    const userDataIframe = document.getElementById('userdataiframe').contentDocument;
+    console.log(userDataIframe.getElementById('daytest').value);
 
 
     //test section
