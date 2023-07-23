@@ -567,6 +567,14 @@
         }
     });
 
+    function waitFor(conditionFunction) {
+        const poll = resolve => {
+            if(conditionFunction()) resolve();
+            else setTimeout(_ => poll(resolve), 500);
+        }
+        return new Promise(poll);
+    }
+
 
     var dayData = new DayReflectionData();
     var url_string = window.location.href;
@@ -577,6 +585,9 @@
     initRandom(randomSeed);
     randomizeQuestions(week, day);
     setQuestionsInHTML();
+
+    waitFor(_ => document.getElementById('userdataiframe').contentDocument).then(_ => console.log('the wait is over!')
+    );
     const userDataIframe = document.getElementById('userdataiframe').contentDocument;
     console.log(userDataIframe.getElementById('daytest').value);
 
