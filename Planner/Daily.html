@@ -441,13 +441,13 @@
 `;
         list.innerHTML += htmlContent;
     };
-    const addTodoOld = (todo) => {
+    const addTodoNonDeletable = (list, todo) => {
         const htmlContent = `
              <div class="todo_item">
                 <div class="pointer-none">${todo}</div>
               </div>
 `;
-        todoListOld.innerHTML += htmlContent;
+        list.innerHTML += htmlContent;
     };
 
     //add item on submit deletable
@@ -463,6 +463,19 @@
         });
     });
 
+    //add item on submit non deletable
+    todoInputsNonDeletable.forEach(function (element, index) {
+        element.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const input = element.AddTerm.value.trim();
+
+            if (input.length) {
+                addTodoNonDeletable(todoListsNonDeletable[index], input);
+                element.reset();
+            }
+        });
+    });
+
     //add item on blur deletable
     todoInputsDeletable.forEach(function (element, index) {
         element.AddTerm.onblur = function(){
@@ -470,6 +483,18 @@
 
             if (input.length) {
                 addTodoDeletable(todoListsDeletable[index], input);
+                element.reset();
+            }
+        }
+    });
+
+    //add item on blur non deletable
+    todoInputsNonDeletable.forEach(function (element, index) {
+        element.AddTerm.onblur = function(){
+            const input = element.AddTerm.value.trim();
+
+            if (input.length) {
+                addTodoNonDeletable(todoListsNonDeletable[index], input);
                 element.reset();
             }
         }
