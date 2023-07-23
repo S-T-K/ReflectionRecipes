@@ -390,8 +390,6 @@
         return dd + '-' + mm + '-' + yyyy;
     }
 
-
-
     const addInputGood = document.querySelector("#wf-form-Add-Form-good");
     const todoListGood = document.querySelector("#todo-middle-area-good");
     const addInputGoodMore = document.querySelector("#wf-form-Add-Form-more-good");
@@ -404,6 +402,10 @@
     const todoListOld = document.querySelector("#todo-middle-area-old");
     const addInputToday = document.querySelector("#wf-form-Add-Form-today");
     const todoListToday = document.querySelector("#todo-middle-area-today");
+    const todoInputsDeletable = [addInputGood, addInputGoodMore, addInputBadMore, addInputBad, addInputToday];
+    const todoListsDeletable = [todoListGood, todoListGoodMore, todoListBadMore, todoListBad, todoListToday]
+    const todoInputsNonDeletable = [addInputOld];
+    const todoListsNonDeletable = [todoListOld];
 
 
     const addTodoDeletable = (list, todo) => {
@@ -448,185 +450,42 @@
         todoListOld.innerHTML += htmlContent;
     };
 
-    addInputGood.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const input = addInputGood.AddTerm.value.trim();
+    //add item on submit deletable
+    todoInputsDeletable.forEach(function (element, index) {
+        element.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const input = element.AddTerm.value.trim();
 
-        if (input.length) {
-            addTodoDeletable(todoListGood, input);
-            addInputGood.reset();
+            if (input.length) {
+                addTodoDeletable(todoListsDeletable[index], input);
+                element.reset();
+            }
+        });
+    });
+
+    //add item on blur deletable
+    todoInputsDeletable.forEach(function (element, index) {
+        element.AddTerm.onblur = function(){
+            const input = element.AddTerm.value.trim();
+
+            if (input.length) {
+                addTodoDeletable(todoListsDeletable[index], input);
+                element.reset();
+            }
         }
     });
 
-    addInputGoodMore.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const input = addInputGoodMore.AddTerm.value.trim();
-
-        if (input.length) {
-            addTodoDeletable(todoListGoodMore, input);
-            addInputGoodMore.reset();
-        }
-    });
-
-    addInputBadMore.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const input = addInputBadMore.AddTerm.value.trim();
-
-        if (input.length) {
-            addTodoDeletable(todoListBadMore, input);
-            addInputBadMore.reset();
-        }
-    });
-
-    addInputBad.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const input = addInputBad.AddTerm.value.trim();
-
-        if (input.length) {
-            addTodoDeletable(todoListBad, input);
-            addInputBad.reset();
-        }
-    });
-
-    addInputOld.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const input = addInputOld.AddTerm.value.trim();
-
-        if (input.length) {
-            addTodoOld(input);
-            addInputOld.reset();
-        }
-    });
-
-    addInputToday.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const input = addInputToday.AddTerm.value.trim();
-
-        if (input.length) {
-            addTodoDeletable(todoListToday, input);
-            addInputToday.reset();
-        }
-    });
-
-    addInputGood.AddTerm.onblur = function(){
-        const input = addInputGood.AddTerm.value.trim();
-
-        if (input.length) {
-            addTodoDeletable(todoListGood, input);
-            addInputGood.reset();
-        }
-    }
-
-    addInputGoodMore.AddTerm.onblur = function(){
-        const input = addInputGoodMore.AddTerm.value.trim();
-
-        if (input.length) {
-            addTodoDeletable(todoListGoodMore, input);
-            addInputGoodMore.reset();
-        }
-    }
-
-    addInputBadMore.AddTerm.onblur = function(){
-        const input = addInputBadMore.AddTerm.value.trim();
-
-        if (input.length) {
-            addTodoDeletable(todoListBadMore, input);
-            addInputBadMore.reset();
-        }
-    }
-
-    addInputBad.AddTerm.onblur = function(){
-        const input = addInputBad.AddTerm.value.trim();
-
-        if (input.length) {
-            addTodoDeletable(todoListBad, input);
-            addInputBad.reset();
-        }
-    }
-
-    addInputOld.AddTerm.onblur = function(){
-        const input = addInputOld.AddTerm.value.trim();
-
-        if (input.length) {
-            addTodoOld(input);
-            addInputOld.reset();
-        }
-    }
-
-    addInputToday.AddTerm.onblur = function(){
-        const input = addInputToday.AddTerm.value.trim();
-
-        if (input.length) {
-            addTodoDeletable(todoListToday, input);
-            addInputToday.reset();
-        }
-    }
-
-
-    //Delete Items
-    todoListGood.addEventListener("click", (e) => {
-        if (e.target.parentElement.parentElement.classList.contains("trash-icon")) {
-            e.target.parentElement.parentElement.parentElement.remove();
-        } else if (e.target.parentElement.classList.contains("trash-icon")) {
-            e.target.parentElement.parentElement.remove();
-        } else if (e.target.classList.contains("trash-icon")) {
-            e.target.parentElement.remove();
-        }
-    });
-
-    //Delete Items
-    todoListGoodMore.addEventListener("click", (e) => {
-        if (e.target.parentElement.parentElement.classList.contains("trash-icon")) {
-            e.target.parentElement.parentElement.parentElement.remove();
-        } else if (e.target.parentElement.classList.contains("trash-icon")) {
-            e.target.parentElement.parentElement.remove();
-        } else if (e.target.classList.contains("trash-icon")) {
-            e.target.parentElement.remove();
-        }
-    });
-
-    //Delete Items
-    todoListBadMore.addEventListener("click", (e) => {
-        if (e.target.parentElement.parentElement.classList.contains("trash-icon")) {
-            e.target.parentElement.parentElement.parentElement.remove();
-        } else if (e.target.parentElement.classList.contains("trash-icon")) {
-            e.target.parentElement.parentElement.remove();
-        } else if (e.target.classList.contains("trash-icon")) {
-            e.target.parentElement.remove();
-        }
-    });
-
-    //Delete Items
-    todoListBad.addEventListener("click", (e) => {
-        if (e.target.parentElement.parentElement.classList.contains("trash-icon")) {
-            e.target.parentElement.parentElement.parentElement.remove();
-        } else if (e.target.parentElement.classList.contains("trash-icon")) {
-            e.target.parentElement.parentElement.remove();
-        } else if (e.target.classList.contains("trash-icon")) {
-            e.target.parentElement.remove();
-        }
-    });
-
-    //Delete Items
-    todoListBadMore.addEventListener("click", (e) => {
-        if (e.target.parentElement.parentElement.classList.contains("trash-icon")) {
-            e.target.parentElement.parentElement.parentElement.remove();
-        } else if (e.target.parentElement.classList.contains("trash-icon")) {
-            e.target.parentElement.parentElement.remove();
-        } else if (e.target.classList.contains("trash-icon")) {
-            e.target.parentElement.remove();
-        }
-    });
-
-    //Delete Items
-    todoListToday.addEventListener("click", (e) => {
-        if (e.target.parentElement.parentElement.classList.contains("trash-icon")) {
-            e.target.parentElement.parentElement.parentElement.remove();
-        } else if (e.target.parentElement.classList.contains("trash-icon")) {
-            e.target.parentElement.parentElement.remove();
-        } else if (e.target.classList.contains("trash-icon")) {
-            e.target.parentElement.remove();
-        }
+    //delete items
+    todoListsDeletable.forEach(function (element, index) {
+        element.addEventListener("click", (e) => {
+            if (e.target.parentElement.parentElement.classList.contains("trash-icon")) {
+                e.target.parentElement.parentElement.parentElement.remove();
+            } else if (e.target.parentElement.classList.contains("trash-icon")) {
+                e.target.parentElement.parentElement.remove();
+            } else if (e.target.classList.contains("trash-icon")) {
+                e.target.parentElement.remove();
+            }
+        });
     });
 
     //Cross out Items
@@ -646,30 +505,6 @@
             e.target.parentElement.classList.toggle("is-todays-task");
         }
     });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     var dayData = new DayReflectionData();
