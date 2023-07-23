@@ -575,6 +575,12 @@
         return new Promise(poll);
     }
 
+    function loadData() {
+        console.log("Data loaded!");
+        const userDataIframe = document.getElementById('userdataiframe').contentDocument;
+        console.log(userDataIframe.getElementById('daytest').value);
+    }
+
 
     var dayData = new DayReflectionData();
     var url_string = window.location.href;
@@ -586,10 +592,7 @@
     randomizeQuestions(week, day);
     setQuestionsInHTML();
 
-    waitFor(_ => document.getElementById('userdataiframe').contentDocument).then(_ => console.log('the wait is over!')
-    );
-    const userDataIframe = document.getElementById('userdataiframe').contentDocument;
-    console.log(userDataIframe.getElementById('daytest').value);
+    waitFor(_ => document.getElementById('userdataiframe').contentDocument).then(_ => loadData());
 
 
     //test section
