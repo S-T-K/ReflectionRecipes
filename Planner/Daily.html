@@ -582,17 +582,12 @@
 
 
     //test section
-    var obj = JSON.parse('{"name":"John", "age":30, "city":"New York"}');
-    var text=JSON.stringify(obj);
 
-
-
-    const button = document.querySelector("#test-button");
+    const button = document.querySelector(".w-button");
     console.log(button);
     button.addEventListener("click", (e) => {
         var iframe = document.getElementById('userdataiframe').contentDocument;
         console.log(iframe);
-        iframe.getElementById('testjson').value=text;
         iframe.getElementById('daytest').value=JSON.stringify(dayData);
         iframe.querySelector(".w-users-useraccountformsavebutton").click();
     });
