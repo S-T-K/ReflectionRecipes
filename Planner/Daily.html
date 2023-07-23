@@ -11,6 +11,15 @@
             this.todoLists = {};
         }
     }
+
+    class todoListItem {
+        text;
+        class;
+        constructor(textValue, classValue) {
+            this.text = textValue;
+            this.class = classValue;
+        }
+    }
     function setCookie(cname, cvalue, exdays) {
         const d = new Date();
         d.setTime(d.getTime() + (exdays*24*60*60*1000));
@@ -416,7 +425,10 @@
         let items = list.querySelectorAll(".todo-label");
         let values = [];
         items.forEach(function (item) {
-            values.push(item.innerText);
+            let classList = item.parentElement.classList.filter(function(e) {
+                return e !== "todo-item";
+            })
+            values.push(new todoListItem(item.innerText, classList));
         });
         console.log(values);
         dayData.todoLists[listSelector] = values;
