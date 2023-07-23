@@ -425,9 +425,7 @@
         let items = list.querySelectorAll(".todo-label");
         let values = [];
         items.forEach(function (item) {
-            let classList = item.parentElement.classList.filter(function(e) {
-                return e !== "todo-item";
-            })
+            let classList = item.parentElement.classList;
             values.push(new todoListItem(item.innerText, classList));
         });
         console.log(values);
