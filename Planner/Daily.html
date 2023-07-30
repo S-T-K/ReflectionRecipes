@@ -11,7 +11,7 @@
             this.todoLists = {};
         }
 
-        parse(string) {
+        loadSavedData(string) {
             let parsed = JSON.parse(string);
             this.date = parsed.date;
             this.questions = parsed.questions;
@@ -587,8 +587,9 @@
         console.log("Data loaded!");
         const userDataIframe = document.getElementById('userdataiframe').contentDocument;
         console.log(userDataIframe.getElementById('daytest').value);
-        if (JSON.parse(userDataIframe.getElementById('daytest').value).date) {
-            dayData.parse(userDataIframe.getElementById('daytest').value);
+        if (JSON.parse(userDataIframe.getElementById('daytest').value).date === dayData.date) {
+            dayData.loadSavedData(userDataIframe.getElementById('daytest').value);
+            console.log("Data overwritten from saved data!");
         }
     }
 
