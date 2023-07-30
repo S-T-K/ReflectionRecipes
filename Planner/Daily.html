@@ -10,6 +10,14 @@
             this.inputs = {};
             this.todoLists = {};
         }
+
+        parse(string) {
+            let parsed = JSON.parse(string);
+            this.date = parsed.date;
+            this.questions = parsed.questions;
+            this.inputs = parsed.inputs;
+            this.todoLists = parsed.todoLists;
+        }
     }
 
     class todoListItem {
@@ -579,6 +587,9 @@
         console.log("Data loaded!");
         const userDataIframe = document.getElementById('userdataiframe').contentDocument;
         console.log(userDataIframe.getElementById('daytest').value);
+        if (JSON.parse(userDataIframe.getElementById('daytest').value).date) {
+            dayData.parse(userDataIframe.getElementById('daytest').value);
+        }
     }
 
 
@@ -590,13 +601,13 @@
     var randomSeed = week+day;
     initRandom(randomSeed);
     randomizeQuestions(week, day);
-    setQuestionsInHTML();
+
 
     waitFor(_ => document.getElementById('userdataiframe').contentDocument).then(
         _ => waitFor(_ => document.getElementById('userdataiframe').contentDocument.getElementById('wf-user-account-email')).then(
             _ => waitFor(_ => document.getElementById('userdataiframe').contentDocument.getElementById('wf-user-account-email').value).then(
                 _ => loadData())));
-
+    setQuestionsInHTML();
 
     //test section
 
