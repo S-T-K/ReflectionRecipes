@@ -583,13 +583,39 @@
         return new Promise(poll);
     }
 
+    function setTodoItems() {
+// dayData has a list of todoLists based on selectors. create a method that
+        // adds a new item to a todolist without writing it to data. also consider the state of the todo
+    }
+
+    function setTextareas() {
+// each textarea has its id, so go through all of them in de dayData, select the textarea and set the value. this includes the calendar entries
+        // maybe add the height of calendar entries to their data (in the resize method that is missing) and then also set
+        //it when loading them
+        document.querySelectorAll("textarea[textarea]").forEach(function (textarea)  {
+            textarea.value = dayData.inputs[textarea.getAttribute("textarea")];
+            }
+        );
+    }
+
+    function clearTodoItems() {
+        //clear all todolists so I can keep them filled to test the styling
+    }
+
     function fillPage() {
         console.log("Data loaded!");
         const userDataIframe = document.getElementById('userdataiframe').contentDocument;
         console.log(userDataIframe.getElementById('daytest').value);
+        clearTodoItems();
         if (JSON.parse(userDataIframe.getElementById('daytest').value).date === dayData.date) {
             dayData.loadSavedData(userDataIframe.getElementById('daytest').value);
             console.log("Data overwritten from saved data!");
+            setTodoItems();
+            setTextareas();
+        } else {
+            initRandom(randomSeed);
+            randomizeQuestions(week, day);
+            console.log("New data created because dates didn't match");
         }
         setQuestionsInHTML();
     }
@@ -601,8 +627,7 @@
     var week = url.searchParams.get("week");
     var day = url.searchParams.get("day");
     var randomSeed = week+day;
-    initRandom(randomSeed);
-    randomizeQuestions(week, day);
+
 
 
     waitFor(_ => document.getElementById('userdataiframe').contentDocument).then(
