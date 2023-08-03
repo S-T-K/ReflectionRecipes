@@ -586,6 +586,8 @@
     function setTodoItems() {
 // dayData has a list of todoLists based on selectors. create a method that
         // adds a new item to a todolist without writing it to data. also consider the state of the todo
+
+
     }
 
     function setTextareas() {
@@ -602,8 +604,12 @@
 
     function clearTodoItems() {
         //clear all todolists so I can keep them filled to test the styling
-        dayData.todoLists.forEach(function (todoList) {
+       todoListsDeletable.forEach(function (todoList) {
             todoList.innerHTML = "";
+            }
+        );
+        todoListsNonDeletable.forEach(function (todoList) {
+                todoList.innerHTML = "";
             }
         );
     }
