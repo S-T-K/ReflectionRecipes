@@ -586,8 +586,10 @@
     function setTodoItems() {
 // dayData has a list of todoLists based on selectors. create a method that
         // adds a new item to a todolist without writing it to data. also consider the state of the todo
+    dayData.todoLists.forEach(function (todoList) {
 
-
+        }
+    );
     }
 
     function setTextareas() {
@@ -619,7 +621,8 @@
         const userDataIframe = document.getElementById('userdataiframe').contentDocument;
         console.log(userDataIframe.getElementById('daytest').value);
         clearTodoItems();
-        if (JSON.parse(userDataIframe.getElementById('daytest').value).date === dayData.date) {
+        let loadedJSON = userDataIframe.getElementById('daytest').value;
+        if (loadedJSON && JSON.parse(loadedJSON).date === dayData.date) {
             dayData.loadSavedData(userDataIframe.getElementById('daytest').value);
             console.log("Data overwritten from saved data!");
             setTodoItems();
