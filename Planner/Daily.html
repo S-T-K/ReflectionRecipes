@@ -592,14 +592,20 @@
 // each textarea has its id, so go through all of them in de dayData, select the textarea and set the value. this includes the calendar entries
         // maybe add the height of calendar entries to their data (in the resize method that is missing) and then also set
         //it when loading them
-        document.querySelectorAll("textarea[textarea]").forEach(function (textarea)  {
-            textarea.value = dayData.inputs[textarea.getAttribute("textarea")];
+        document.querySelectorAll("textarea[textarea]").forEach(function (textarea) {
+            if (dayData.inputs[textarea.getAttribute("textarea")]) {
+                textarea.value = dayData.inputs[textarea.getAttribute("textarea")];
+                }
             }
         );
     }
 
     function clearTodoItems() {
         //clear all todolists so I can keep them filled to test the styling
+        dayData.todoLists.forEach(function (todoList) {
+            todoList.innerHTML = "";
+            }
+        );
     }
 
     function fillPage() {
