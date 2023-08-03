@@ -441,9 +441,10 @@
         dayData.todoLists[listSelector] = values;
     }
 
-    const addTodoDeletable = (list, todo) => {
+    const addTodoDeletable = (list, todo, classString) => {
+        let classStringTotal = "todo_item" + " " + classString;
         const htmlContent = `
-             <div class="todo_item">
+             <div class="${classStringTotal}">
                 <div class="pointer-none todo-label">${todo}</div>
                 <div class="svg-icon trash-icon w-embed">
                   <svg
@@ -476,9 +477,10 @@
         console.log(htmlContent.classList);
         list.innerHTML += htmlContent;
     };
-    const addTodoNonDeletable = (list, todo) => {
+    const addTodoNonDeletable = (list, todo, classString) => {
+        let classStringTotal = "todo_item" + " " + classString;
         const htmlContent = `
-             <div class="todo_item">
+             <div class="${classStringTotal}">
                 <div class="pointer-none todo-label">${todo}</div>
               </div>
 `;
@@ -594,9 +596,9 @@
             console.log(element);
             value.forEach( function (item) {
 if (todoListsDeletable.includes(element)) {
-    addTodoDeletable(element, item.text);
+    addTodoDeletable(element, item.text, item.class[0]);
 } else if (todoListsNonDeletable.includes(element)) {
-    addTodoNonDeletable(element, item.text);
+    addTodoNonDeletable(element, item.text, item.class[0]);
 }
             });
         }
@@ -608,6 +610,7 @@ if (todoListsDeletable.includes(element)) {
         document.querySelectorAll("textarea[textarea]").forEach(function (textarea) {
             if (dayData.inputs[textarea.getAttribute("textarea")]) {
                 textarea.value = dayData.inputs[textarea.getAttribute("textarea")];
+                // to resize them properly
                 textarea.dispatchEvent(new Event('input', { bubbles: true }));
                 }
             }
