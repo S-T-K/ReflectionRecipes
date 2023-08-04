@@ -483,7 +483,10 @@
         list.innerHTML += htmlContent;
     };
     const addTodoNonDeletable = (list, todo, classString) => {
-        let classStringTotal = "todo_item" + " " + classString;
+        let classStringTotal = "todo_item";
+        if (classString) {
+            classStringTotal += " " + classString;
+        }
         const htmlContent = `
              <div class="${classStringTotal}">
                 <div class="pointer-none todo-label">${todo}</div>
