@@ -616,7 +616,8 @@ if (todoListsDeletable.includes(element)) {
             if (dayData.inputs[textarea.getAttribute("textarea")]) {
                 textarea.value = dayData.inputs[textarea.getAttribute("textarea")];
                 // to resize them properly
-                textarea.dispatchEvent(new Event('input', { bubbles: true }));
+                textarea.style.height = 'auto';
+                textarea.style.height = this.scrollHeight + 'px';
                 }
             }
         );
@@ -653,6 +654,20 @@ if (todoListsDeletable.includes(element)) {
         setQuestionsInHTML();
     }
 
+    function styleCalendarEntry() {
+        if (this.value.length > 0) {
+            this.classList.add("calendarevent");
+        } else {
+            this.classList.remove("calendarevent");
+        }
+    }
+
+    function autoResize() {
+        this.style.height = 'auto';
+        this.style.height = this.scrollHeight + 'px';
+    }
+
+
 
     var dayData = new DayReflectionData();
     var url_string = window.location.href;
@@ -685,6 +700,10 @@ if (todoListsDeletable.includes(element)) {
 
     textareas = document.querySelectorAll("[textarea]");
     textareas.forEach(item => {item.addEventListener('input', saveToData, false)});
+    textareas.forEach(item => {item.addEventListener('input', autoResize, false)});
+    calendarTextareas = document.querySelectorAll(".textareaquarter");
+    calendarTextareas.forEach(item => {item.addEventListener('input', styleCalendarEntry, false)});
+
 
     function saveToData() {
         dayData.inputs[this.getAttribute("textarea")] = this.value;
