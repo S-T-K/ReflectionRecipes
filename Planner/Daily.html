@@ -604,9 +604,9 @@
             console.log(element);
             value.forEach( function (item) {
 if (todoListsDeletable.includes(element)) {
-    addTodoDeletable(element, item.text, item.class[1]);
+    addTodoDeletable(element, item.text, item.class[0]);
 } else if (todoListsNonDeletable.includes(element)) {
-    addTodoNonDeletable(element, item.text, item.class[1]);
+    addTodoNonDeletable(element, item.text, item.class[0]);
 }
             });
         }
