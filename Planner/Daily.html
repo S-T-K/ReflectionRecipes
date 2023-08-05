@@ -619,7 +619,9 @@ if (todoListsDeletable.includes(element)) {
             if (dayData.inputs[textarea.getAttribute("textarea")]) {
                 textarea.value = dayData.inputs[textarea.getAttribute("textarea")];
                 // to resize them properly
+                console.log("height of textarea was " + textarea.style.height);
                 textarea.dispatchEvent(new Event('input'));
+                console.log("height of textarea after input " + textarea.style.height);
                 }
             }
         );
