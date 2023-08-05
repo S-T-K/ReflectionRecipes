@@ -638,7 +638,7 @@ if (todoListsDeletable.includes(element)) {
             // isIntersecting is true when element and viewport are overlapping
             // isIntersecting is false when element and viewport don't overlap
             if(entries[0].isIntersecting === true)
-                console.log('Element has just become visible in screen');
+                console.log('Element has just become visible in screen' + entries[0]);
             entries[0].style.height = 'auto';
             entries[0].dispatchEvent(new Event('input', { bubbles: true }));
             entries[0].style.height = entries[0].scrollHeight + 'px';
