@@ -634,18 +634,25 @@ if (todoListsDeletable.includes(element)) {
     function setTextareas() {
 //        // maybe add the height of calendar entries to their data (in the resize method that is missing) and then also set
         //it when loading them
+        var observer = new IntersectionObserver(function(entries) {
+            // isIntersecting is true when element and viewport are overlapping
+            // isIntersecting is false when element and viewport don't overlap
+            if(entries[0].isIntersecting === true)
+                console.log('Element has just become visible in screen');
+            entries[0].style.height = 'auto';
+            entries[0].dispatchEvent(new Event('input', { bubbles: true }));
+            entries[0].style.height = entries[0].scrollHeight + 'px';
+            console.log("height of textarea after input " + entries[0].style.height);
+        }, { threshold: [0] });
+
+
         document.querySelectorAll("textarea[textarea]").forEach(function (textarea) {
             if (dayData.inputs[textarea.getAttribute("textarea")]) {
                 textarea.value = dayData.inputs[textarea.getAttribute("textarea")];
                 // to resize them properly
                 console.log("height of textarea was " + textarea.style.height);
-                setTimeout(function(){
-                    textarea.style.height = 'auto';
-                    textarea.dispatchEvent(new Event('input', { bubbles: true }));
-                    textarea.style.height = textarea.scrollHeight + 'px';
-                    console.log("height of textarea after input " + textarea.style.height);
-                }, 1000);
-                }
+                observer.observe(textarea);
+            }
             }
         );
     }
