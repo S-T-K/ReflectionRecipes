@@ -669,6 +669,11 @@ if (todoListsDeletable.includes(element)) {
         this.style.height = this.scrollHeight + 'px';
     }
 
+    textareas = document.querySelectorAll("[textarea]");
+    textareas.forEach(item => {item.addEventListener('input', saveToData, false)});
+    textareas.forEach(item => {item.addEventListener('input', autoResize, false)});
+    calendarTextareas = document.querySelectorAll(".textareaquarter");
+    calendarTextareas.forEach(item => {item.addEventListener('input', styleCalendarEntry, false)});
 
 
     var dayData = new DayReflectionData();
@@ -698,13 +703,6 @@ if (todoListsDeletable.includes(element)) {
             iframe.querySelector(".w-users-useraccountformsavebutton").click();
         });
     });
-
-
-    textareas = document.querySelectorAll("[textarea]");
-    textareas.forEach(item => {item.addEventListener('input', saveToData, false)});
-    textareas.forEach(item => {item.addEventListener('input', autoResize, false)});
-    calendarTextareas = document.querySelectorAll(".textareaquarter");
-    calendarTextareas.forEach(item => {item.addEventListener('input', styleCalendarEntry, false)});
 
 
     function saveToData() {
