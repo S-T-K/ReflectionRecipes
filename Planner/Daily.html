@@ -619,8 +619,7 @@ if (todoListsDeletable.includes(element)) {
             if (dayData.inputs[textarea.getAttribute("textarea")]) {
                 textarea.value = dayData.inputs[textarea.getAttribute("textarea")];
                 // to resize them properly
-                textarea.style.height = 'auto';
-                textarea.style.height = this.scrollHeight + 'px';
+                textarea.dispatchEvent(new Event('input'));
                 }
             }
         );
