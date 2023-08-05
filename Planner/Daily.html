@@ -640,6 +640,7 @@ if (todoListsDeletable.includes(element)) {
                 // to resize them properly
                 console.log("height of textarea was " + textarea.style.height);
                 waitForElm(textarea).then((elm) => {
+                    wait(3000);
                     elm.style.height = 'auto';
                     elm.style.height = elm.scrollHeight + 'px';
                     console.log("height of textarea after input " + elm.style.height);
