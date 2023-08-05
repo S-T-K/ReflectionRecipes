@@ -639,12 +639,11 @@ if (todoListsDeletable.includes(element)) {
                 textarea.value = dayData.inputs[textarea.getAttribute("textarea")];
                 // to resize them properly
                 console.log("height of textarea was " + textarea.style.height);
-               waitFor(_ => textarea.style.height).then(
-                textarea.style.height = 'auto';
-                textarea.style.height = elm.scrollHeight + 'px';
+                setTimeout(function(){
+                    textarea.style.height = 'auto';
+                    textarea.style.height = textarea.scrollHeight + 'px';
                     console.log("height of textarea after input " + textarea.style.height);
-            )};
-
+                }, 3000);
                 }
             }
         );
