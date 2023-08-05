@@ -651,8 +651,8 @@ if (todoListsDeletable.includes(element)) {
                 // to resize them properly
                 onVisible(textarea, () => {
                         console.log("it's visible");
-                        this.style.height = 'auto';
-                        this.style.height = this.scrollHeight + 'px';
+                        textarea.style.height = 'auto';
+                        textarea.style.height = this.scrollHeight + 'px';
                     }
                     );
 
