@@ -708,7 +708,18 @@ if (todoListsDeletable.includes(element)) {
     textareas.forEach(item => {item.addEventListener('input', saveToData, false)});
     textareas.forEach(item => {item.addEventListener('input', autoResize, false)});
     calendarTextareas = document.querySelectorAll(".textareaquarter");
-    calendarTextareas.forEach(item => {item.addEventListener('input', styleCalendarEntry, false)});
+    calendarTextareas.forEach(item => {
+        item.addEventListener('input', styleCalendarEntry, false);
+        onVisible(item, (element) => {
+                console.log("calendars visible");
+            if (element.value.length > 0) {
+                element.classList.add("calendarevent");
+            } else {
+                element.classList.remove("calendarevent");
+            }
+            }
+        );
+    });
 
 
     var dayData = new DayReflectionData();
