@@ -644,7 +644,7 @@ if (todoListsDeletable.includes(element)) {
                     textarea.dispatchEvent(new Event('input', { bubbles: true }));
                     textarea.style.height = textarea.scrollHeight + 'px';
                     console.log("height of textarea after input " + textarea.style.height);
-                }, 3000);
+                }, 1000);
                 }
             }
         );
@@ -731,6 +731,7 @@ if (todoListsDeletable.includes(element)) {
 
 
     function saveToData() {
+        console.log("saving to data: " +  this.value);
         dayData.inputs[this.getAttribute("textarea")] = this.value;
     }
 
