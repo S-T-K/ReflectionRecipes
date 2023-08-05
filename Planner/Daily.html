@@ -594,6 +594,25 @@
         }
         return new Promise(poll);
     }
+    function waitForElm(element) {
+        return new Promise(resolve => {
+            if (element) {
+                return resolve(element);
+            }
+
+            const observer = new MutationObserver(mutations => {
+                if (element) {
+                    resolve(element);
+                    observer.disconnect();
+                }
+            });
+
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+        });
+    }
 
     function setTodoItems() {
 // dayData has a list of todoLists based on selectors. create a method that
@@ -620,8 +639,12 @@ if (todoListsDeletable.includes(element)) {
                 textarea.value = dayData.inputs[textarea.getAttribute("textarea")];
                 // to resize them properly
                 console.log("height of textarea was " + textarea.style.height);
-                textarea.dispatchEvent(new Event('input'));
-                console.log("height of textarea after input " + textarea.style.height);
+                waitForElm(textarea).then((elm) => {
+                    elm.style.height = 'auto';
+                    elm.style.height = elm.scrollHeight + 'px';
+                    console.log("height of textarea after input " + elm.style.height);
+                });
+
                 }
             }
         );
