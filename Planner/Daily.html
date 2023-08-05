@@ -641,6 +641,7 @@ if (todoListsDeletable.includes(element)) {
                 console.log("height of textarea was " + textarea.style.height);
                 setTimeout(function(){
                     textarea.style.height = 'auto';
+                    textarea.dispatchEvent(new Event('input', { bubbles: true }));
                     textarea.style.height = textarea.scrollHeight + 'px';
                     console.log("height of textarea after input " + textarea.style.height);
                 }, 3000);
