@@ -567,13 +567,25 @@
 
     //Cross out Items
     todoListOld.addEventListener("click", (e) => {
+        let todo = "";
         if (e.target.classList.contains("todo_item")) {
             e.target.classList.toggle("is-done");
             updateTodoListData(todoListOld);
+            todo = e.firstChild.textContent;
         } else if (e.target.parentElement.classList.contains("todo_item")) {
             e.target.parentElement.classList.toggle("is-done");
             updateTodoListData(todoListOld);
+            todo = e.textContent;
         }
+        // remove from today's tasks
+        if (e.target.classList.contains("is-done") || e.target.parentElement.classList.contains("is-done")) {
+
+        // add to today's tasks
+        } else {
+            addTodoNonDeletable(todoListToday, todo);
+        }
+        updateTodoListData(todoListToday);
+
     });
 
     //Mark as today's task
