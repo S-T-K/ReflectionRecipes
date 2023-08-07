@@ -571,7 +571,7 @@
         if (e.target.classList.contains("todo_item")) {
             e.target.classList.toggle("is-done");
             updateTodoListData(todoListOld);
-            todo = e.target.innerHTML;
+            todo = e.target.firstElementChild.innerHTML;
         } else if (e.target.parentElement.classList.contains("todo_item")) {
             e.target.parentElement.classList.toggle("is-done");
             updateTodoListData(todoListOld);
