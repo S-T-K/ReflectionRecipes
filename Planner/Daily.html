@@ -579,7 +579,12 @@
         }
         // remove from today's tasks
         if (e.target.classList.contains("is-done") || e.target.parentElement.classList.contains("is-done")) {
-
+            for (const a of todoListToday.querySelectorAll(".todo-item")) {
+                if (a.textContent.includes(todo)) {
+                    a.remove;
+                    updateTodoListData(todoListToday);
+                }
+                }
         // add to today's tasks
         } else {
             addTodoNonDeletable(todoListToday, todo);
