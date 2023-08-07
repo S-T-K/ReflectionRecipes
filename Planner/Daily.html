@@ -571,11 +571,11 @@
         if (e.target.classList.contains("todo_item")) {
             e.target.classList.toggle("is-done");
             updateTodoListData(todoListOld);
-            todo = e.firstChild.textContent;
+            todo = e.target.innerHTML;
         } else if (e.target.parentElement.classList.contains("todo_item")) {
             e.target.parentElement.classList.toggle("is-done");
             updateTodoListData(todoListOld);
-            todo = e.textContent;
+            todo = e.target.innerHTML;
         }
         // remove from today's tasks
         if (e.target.classList.contains("is-done") || e.target.parentElement.classList.contains("is-done")) {
