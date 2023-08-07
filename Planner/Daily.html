@@ -580,8 +580,8 @@
         // remove from today's tasks
         if (e.target.classList.contains("is-done") || e.target.parentElement.classList.contains("is-done")) {
             for (const a of todoListToday.querySelectorAll(".todo_item")) {
-                if (a.textContent.includes(todo)) {
-                    a.remove;
+                if (a.children[0].textContent === todo) {
+                    a.parentElement.removeChild(a);
                     updateTodoListData(todoListToday);
                 }
                 }
