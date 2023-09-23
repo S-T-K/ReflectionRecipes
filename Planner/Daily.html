@@ -7,7 +7,8 @@
         todoLists;
         constructor() {
             this.date = getCurrentDate();
-            this.weekday = new Date().getDay();
+            let days = ["sunday", "monday", "tuesday", "wednesday","thursday", "friday","saturday"];
+            this.weekday = days[this.date.getDay()];
             this.questions = {};
             this.inputs = {};
             this.todoLists = {};
@@ -721,11 +722,6 @@ if (todoListsDeletable.includes(element)) {
     function autoResize() {
         this.style.height = 'auto';
         this.style.height = this.scrollHeight + 'px';
-    }
-
-    function getWeekday(date) {
-        let days = ["sunday", "monday", "tuesday", "wednesday","thursday", "friday","saturday"];
-        return days[date.getDay()];
     }
 
     textareas = document.querySelectorAll("[textarea]");
