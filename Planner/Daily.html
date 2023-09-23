@@ -8,7 +8,7 @@
         constructor() {
             this.date = getCurrentDate();
             let days = ["sunday", "monday", "tuesday", "wednesday","thursday", "friday","saturday"];
-            this.weekday = days[this.date.getDay()];
+            this.weekday = days[new Date().getDay()];
             this.questions = {};
             this.inputs = {};
             this.todoLists = {};
