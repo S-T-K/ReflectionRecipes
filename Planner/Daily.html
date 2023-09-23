@@ -1,5 +1,4 @@
 <script>
-    var weekday = "";
 
     class DayReflectionData  {
         date;
@@ -8,6 +7,7 @@
         todoLists;
         constructor() {
             this.date = getCurrentDate();
+            this.weekday = new Date().getDay();
             this.questions = {};
             this.inputs = {};
             this.todoLists = {};
@@ -694,17 +694,17 @@ if (todoListsDeletable.includes(element)) {
     function fillPage() {
         console.log("Data loaded!");
         const userDataIframe = document.getElementById('userdataiframe').contentDocument;
-        console.log(userDataIframe.getElementById(weekday).value);
+        console.log(userDataIframe.getElementById(dayData.weekday).value);
         clearTodoItems();
-        let loadedJSON = userDataIframe.getElementById(weekday).value;
+        let loadedJSON = userDataIframe.getElementById(dayData.weekday).value;
         if (loadedJSON && JSON.parse(loadedJSON).date === dayData.date) {
-            dayData.loadSavedData(userDataIframe.getElementById(weekday).value);
+            dayData.loadSavedData(userDataIframe.getElementById(dayData.weekday).value);
             console.log("Data overwritten from saved data!");
             setTodoItems();
             setTextareas();
         } else {
             initRandom(randomSeed);
-            randomizeQuestions(week, weekday);
+            randomizeQuestions(dayData.date, dayData.weekday);
             console.log("New data created because dates didn't match");
         }
         setQuestionsInHTML();
@@ -748,8 +748,7 @@ if (todoListsDeletable.includes(element)) {
 // start
 
     var dayData = new DayReflectionData();
-    weekday = getWeekday(dayData.date);
-    var randomSeed = dayData.date+weekday;
+    var randomSeed = dayData.date+dayData.weekday;
 
 
 
@@ -767,7 +766,7 @@ if (todoListsDeletable.includes(element)) {
         element.addEventListener("click", (e) => {
             var iframe = document.getElementById('userdataiframe').contentDocument;
             console.log(iframe);
-            iframe.getElementById(weekday).value = JSON.stringify(dayData);
+            iframe.getElementById(dayData.weekday).value = JSON.stringify(dayData);
             iframe.querySelector(".w-users-useraccountformsavebutton").click();
         });
     });
