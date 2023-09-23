@@ -1,4 +1,6 @@
 <script>
+    var weekday = "";
+
     class DayReflectionData  {
         date;
         questions;
@@ -692,17 +694,17 @@ if (todoListsDeletable.includes(element)) {
     function fillPage() {
         console.log("Data loaded!");
         const userDataIframe = document.getElementById('userdataiframe').contentDocument;
-        console.log(userDataIframe.getElementById('daytest').value);
+        console.log(userDataIframe.getElementById(weekday).value);
         clearTodoItems();
-        let loadedJSON = userDataIframe.getElementById('daytest').value;
+        let loadedJSON = userDataIframe.getElementById(weekday).value;
         if (loadedJSON && JSON.parse(loadedJSON).date === dayData.date) {
-            dayData.loadSavedData(userDataIframe.getElementById('daytest').value);
+            dayData.loadSavedData(userDataIframe.getElementById(weekday).value);
             console.log("Data overwritten from saved data!");
             setTodoItems();
             setTextareas();
         } else {
             initRandom(randomSeed);
-            randomizeQuestions(week, day);
+            randomizeQuestions(week, weekday);
             console.log("New data created because dates didn't match");
         }
         setQuestionsInHTML();
@@ -719,6 +721,11 @@ if (todoListsDeletable.includes(element)) {
     function autoResize() {
         this.style.height = 'auto';
         this.style.height = this.scrollHeight + 'px';
+    }
+
+    function getWeekday(date) {
+        let days = ["sunday", "monday", "tuesday", "wednesday","thursday", "friday","saturday"];
+        return days[date.getDay()];
     }
 
     textareas = document.querySelectorAll("[textarea]");
@@ -738,13 +745,11 @@ if (todoListsDeletable.includes(element)) {
         );
     });
 
+// start
 
     var dayData = new DayReflectionData();
-    var url_string = window.location.href;
-    var url = new URL(url_string);
-    var week = url.searchParams.get("week");
-    var day = url.searchParams.get("day");
-    var randomSeed = week+day;
+    weekday = getWeekday(dayData.date);
+    var randomSeed = dayData.date+weekday;
 
 
 
@@ -762,7 +767,7 @@ if (todoListsDeletable.includes(element)) {
         element.addEventListener("click", (e) => {
             var iframe = document.getElementById('userdataiframe').contentDocument;
             console.log(iframe);
-            iframe.getElementById('daytest').value = JSON.stringify(dayData);
+            iframe.getElementById(weekday).value = JSON.stringify(dayData);
             iframe.querySelector(".w-users-useraccountformsavebutton").click();
         });
     });
