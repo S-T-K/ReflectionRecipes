@@ -729,7 +729,7 @@ if (todoListsDeletable.includes(element)) {
                 // take todos from that day and add them to yesterdays tasks
                 // clean the classes
                 for (const task of mostRecent.todoLists['todo-middle-area-today']) {
-                    task.class = null;
+                    task.class = [];
                 }
                 dayData.todoLists['todo-middle-area-old'] = mostRecent.todoLists['todo-middle-area-today'];
                 dayData.todoLists['todo-middle-area-today'] = mostRecent.todoLists['todo-middle-area-today'];
