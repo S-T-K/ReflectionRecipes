@@ -725,6 +725,11 @@ if (todoListsDeletable.includes(element)) {
                     }
                 }
             }
+            if (mostRecent) {
+                // take todos from that day and add them to yesterdays tasks
+                dayData.todoLists['todo-middle-area-old'] = mostRecent.todoLists['todo-middle-area-today'];
+            }
+
 
             initRandom(randomSeed);
             randomizeQuestions(dayData.date, dayData.weekday);
