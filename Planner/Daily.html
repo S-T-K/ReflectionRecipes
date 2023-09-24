@@ -2,6 +2,7 @@
 
     class DayReflectionData  {
         date;
+        weekday;
         questions;
         inputs;
         todoLists;
@@ -17,6 +18,7 @@
         loadSavedData(string) {
             let parsed = JSON.parse(string);
             this.date = parsed.date;
+            this.weekday = parsed.weekday;
             this.questions = parsed.questions;
             this.inputs = parsed.inputs;
             this.todoLists = parsed.todoLists;
@@ -692,22 +694,44 @@ if (todoListsDeletable.includes(element)) {
         );
     }
 
+    function parseDateString (dateString) {
+        var dateParts = dateString.split("-");
+// month is 0-based, that's why we need dataParts[1] - 1
+        var dateObject = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]);
+        return dateObject;
+    }
+
     function fillPage() {
         console.log("Data loaded!");
         const userDataIframe = document.getElementById('userdataiframe').contentDocument;
         console.log(userDataIframe.getElementById(dayData.weekday).value);
         clearTodoItems();
-        let loadedJSON = userDataIframe.getElementById(dayData.weekday).value;
-        if (loadedJSON && JSON.parse(loadedJSON).date === dayData.date) {
+        let loadedJSONToday = userDataIframe.getElementById(dayData.weekday).value;
+        if (loadedJSONToday && JSON.parse(loadedJSONToday).date === dayData.date) {
             dayData.loadSavedData(userDataIframe.getElementById(dayData.weekday).value);
             console.log("Data overwritten from saved data!");
-            setTodoItems();
-            setTextareas();
         } else {
+            // get todos from yesterday or any day before
+            let days = ["sunday", "monday", "tuesday", "wednesday","thursday", "friday","saturday"];
+            let mostRecent;
+            for (const day of days) {
+                let loadedJSON = userDataIframe.getElementById(day).value;
+                if (loadedJSON && JSON.parse(loadedJSON).date && dayData.date !== JSON.parse(loadedJSON).date) {
+                    if (!mostRecent) {
+                        mostRecent = new DayReflectionData();
+                        mostRecent.loadSavedData(loadedJSON);
+                    } else if (parseDateString(mostRecent.date) > parseDateString(JSON.parse(loadedJSON).date)) {
+                        mostRecent.loadSavedData(loadedJSON);
+                    }
+                }
+            }
+
             initRandom(randomSeed);
             randomizeQuestions(dayData.date, dayData.weekday);
             console.log("New data created because dates didn't match");
         }
+        setTodoItems();
+        setTextareas();
         setQuestionsInHTML();
     }
 
