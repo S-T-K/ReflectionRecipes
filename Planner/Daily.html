@@ -743,6 +743,8 @@ if (todoListsDeletable.includes(element)) {
         setTodoItems();
         setTextareas();
         setQuestionsInHTML();
+        //hide loading spinner
+        document.getElementsByClassName('loading-spinner')[0].remove();
     }
 
     function styleCalendarEntry() {
@@ -775,37 +777,41 @@ if (todoListsDeletable.includes(element)) {
         );
     });
 
-// start
-
-    var dayData = new DayReflectionData();
-    var randomSeed = dayData.date+dayData.weekday;
-
+    function loadPage() {
+        var dayData = new DayReflectionData();
+        var randomSeed = dayData.date + dayData.weekday;
 
 
-    waitFor(_ => document.getElementById('userdataiframe').contentDocument).then(
-        _ => waitFor(_ => document.getElementById('userdataiframe').contentDocument.getElementById('wf-user-account-email')).then(
-            _ => waitFor(_ => document.getElementById('userdataiframe').contentDocument.getElementById('wf-user-account-email').value).then(
-                _ => fillPage())));
+        waitFor(_ => document.getElementById('userdataiframe').contentDocument).then(
+            _ => waitFor(_ => document.getElementById('userdataiframe').contentDocument.getElementById('wf-user-account-email')).then(
+                _ => waitFor(_ => document.getElementById('userdataiframe').contentDocument.getElementById('wf-user-account-email').value).then(
+                    _ => fillPage())));
 
 
-    //test section
+        //test section
 
-    const buttons = document.querySelectorAll(".w-button");
-    console.log(buttons);
-    buttons.forEach(function (element) {
-        element.addEventListener("click", (e) => {
-            var iframe = document.getElementById('userdataiframe').contentDocument;
-            if (iframe.getElementById(dayData.weekday).value !== JSON.stringify(dayData)) {
-                console.log('user data updated');
-                iframe.getElementById(dayData.weekday).value = JSON.stringify(dayData);
-                iframe.querySelector(".w-users-useraccountformsavebutton").click();
-            }
+        const buttons = document.querySelectorAll(".w-button");
+        console.log(buttons);
+        buttons.forEach(function (element) {
+            element.addEventListener("click", (e) => {
+                var iframe = document.getElementById('userdataiframe').contentDocument;
+                if (iframe.getElementById(dayData.weekday).value !== JSON.stringify(dayData)) {
+                    console.log('user data updated');
+                    iframe.getElementById(dayData.weekday).value = JSON.stringify(dayData);
+                    iframe.querySelector(".w-users-useraccountformsavebutton").click();
+                }
+            });
         });
-    });
 
-    //hide loading spinner
-    document.getElementsByClassName('loading-spinner')[0].remove();
 
+    }
+
+    try {
+        loadPage();
+    } catch (error) {
+        console.log(error);
+
+    }
 
     function saveToData() {
         console.log("saving to data: " +  this.value);
