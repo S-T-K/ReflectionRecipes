@@ -701,7 +701,7 @@ if (todoListsDeletable.includes(element)) {
         return dateObject;
     }
 
-    function fillPage() {
+    function fillPage(dayData, randomSeed) {
         console.log("Data loaded!");
         const userDataIframe = document.getElementById('userdataiframe').contentDocument;
         console.log(userDataIframe.getElementById(dayData.weekday).value);
@@ -785,7 +785,7 @@ if (todoListsDeletable.includes(element)) {
         waitFor(_ => document.getElementById('userdataiframe').contentDocument).then(
             _ => waitFor(_ => document.getElementById('userdataiframe').contentDocument.getElementById('wf-user-account-email')).then(
                 _ => waitFor(_ => document.getElementById('userdataiframe').contentDocument.getElementById('wf-user-account-email').value).then(
-                    _ => fillPage())));
+                    _ => fillPage(dayData, randomSeed))));
 
 
         //test section
