@@ -701,7 +701,7 @@ if (todoListsDeletable.includes(element)) {
         return dateObject;
     }
 
-    function fillPage(dayData, randomSeed) {
+    function fillPage() {
         console.log("Data loaded!");
         const userDataIframe = document.getElementById('userdataiframe').contentDocument;
         console.log(userDataIframe.getElementById(dayData.weekday).value);
@@ -777,7 +777,7 @@ if (todoListsDeletable.includes(element)) {
         );
     });
 
-    function loadPage() {
+    try {
         var dayData = new DayReflectionData();
         var randomSeed = dayData.date + dayData.weekday;
 
@@ -802,12 +802,6 @@ if (todoListsDeletable.includes(element)) {
                 }
             });
         });
-
-
-    }
-
-    try {
-        loadPage();
     } catch (error) {
         console.log(error);
 
