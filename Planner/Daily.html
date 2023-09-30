@@ -795,9 +795,11 @@ if (todoListsDeletable.includes(element)) {
     buttons.forEach(function (element) {
         element.addEventListener("click", (e) => {
             var iframe = document.getElementById('userdataiframe').contentDocument;
-            console.log(iframe);
-            iframe.getElementById(dayData.weekday).value = JSON.stringify(dayData);
-            iframe.querySelector(".w-users-useraccountformsavebutton").click();
+            if (iframe.getElementById(dayData.weekday).value !== JSON.stringify(dayData)) {
+                console.log('user data updated');
+                iframe.getElementById(dayData.weekday).value = JSON.stringify(dayData);
+                iframe.querySelector(".w-users-useraccountformsavebutton").click();
+            }
         });
     });
 
