@@ -803,6 +803,9 @@ if (todoListsDeletable.includes(element)) {
         });
     });
 
+    //hide loading spinner
+    document.getElementsByClassName('loading-spinner')[0].remove();
+
 
     function saveToData() {
         console.log("saving to data: " +  this.value);
