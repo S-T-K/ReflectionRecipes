@@ -720,7 +720,7 @@ if (todoListsDeletable.includes(element)) {
                     if (!mostRecent) {
                         mostRecent = new DayReflectionData();
                         mostRecent.loadSavedData(loadedJSON);
-                    } else if (parseDateString(mostRecent.date) > parseDateString(JSON.parse(loadedJSON).date)) {
+                    } else if (parseDateString(mostRecent.date) < parseDateString(JSON.parse(loadedJSON).date)) {
                         mostRecent.loadSavedData(loadedJSON);
                     }
                 }
