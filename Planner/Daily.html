@@ -752,6 +752,7 @@ if (todoListsDeletable.includes(element)) {
     function styleCalendarEntry() {
         if (this.value.length > 0) {
             this.classList.add("calendarevent");
+            this.setAttribute("rows", "1");
         } else {
             this.classList.remove("calendarevent");
         }
