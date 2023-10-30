@@ -6,6 +6,7 @@
         questions;
         inputs;
         todoLists;
+        counter;
         constructor() {
             this.date = getCurrentDate();
             let days = ["sunday", "monday", "tuesday", "wednesday","thursday", "friday","saturday"];
@@ -13,6 +14,7 @@
             this.questions = {};
             this.inputs = {};
             this.todoLists = {};
+            this.counter = 1;
         }
 
         loadSavedData(string) {
@@ -22,6 +24,7 @@
             this.questions = parsed.questions;
             this.inputs = parsed.inputs;
             this.todoLists = parsed.todoLists;
+            this.counter = parsed.counter;
         }
     }
 
@@ -684,6 +687,10 @@ if (todoListsDeletable.includes(element)) {
         );
     }
 
+    function setCounter() {
+        document.querySelector("#counter-final").innerHTML = dayData.counter + " days in a row!";
+    }
+
     function clearTodoItems() {
         //clear all todolists so I can keep them filled to test the styling
        todoListsDeletable.forEach(function (todoList) {
@@ -735,6 +742,9 @@ if (todoListsDeletable.includes(element)) {
                 }
                 dayData.todoLists['todo-middle-area-old'] = mostRecent.todoLists['todo-middle-area-today'];
                 dayData.todoLists['todo-middle-area-today'] = mostRecent.todoLists['todo-middle-area-today'];
+
+                //increase counter
+                dayData.counter = mostRecent.counter ? mostRecent.counter++ : 1;
             }
 
 
@@ -745,6 +755,7 @@ if (todoListsDeletable.includes(element)) {
         setTodoItems();
         setTextareas();
         setQuestionsInHTML();
+        setCounter();
         //hide loading spinner
         document.getElementsByClassName('loading-spinner')[0].remove();
     }
