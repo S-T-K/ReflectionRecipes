@@ -780,6 +780,19 @@ if (todoListsDeletable.includes(element)) {
         );
     });
 
+    function onVisible(element, callback) {
+        new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if(entry.intersectionRatio > 0) {
+                    callback(element);
+                    observer.disconnect();
+                }
+            });
+        }).observe(element);
+        if(!callback) return new Promise(r => callback=r);
+    }
+
+    //start
     try {
         var dayData = new DayReflectionData();
         var randomSeed = dayData.date + dayData.weekday;
@@ -805,6 +818,9 @@ if (todoListsDeletable.includes(element)) {
                 }
             });
         });
+
+        onVisible(document.querySelector("#Outlook-2"), () => console.log("it's visible!!!!!!"));
+
     } catch (error) {
         console.log(error);
 
