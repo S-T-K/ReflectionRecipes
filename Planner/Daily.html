@@ -794,10 +794,10 @@ if (todoListsDeletable.includes(element)) {
     function setButtonLogic() {
         //step1 slide1
         if (!document.getElementById('Summary-2').value) {
-            document.getElementById('step1-slider1').add("step-incomplete");
+            document.getElementById('step1-slider1').classList.add("step-incomplete");
         }
-        document.getElementById('Summary-2').addEventListener('input', (element) => {
-            if(element.value) {
+        document.getElementById('Summary-2').addEventListener('input', () => {
+            if(this.value) {
                 document.getElementById('step1-slider1').classList.remove("step-incomplete");
             } else {
                 document.getElementById('step1-slider1').classList.add("step-incomplete");
