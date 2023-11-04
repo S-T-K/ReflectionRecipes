@@ -791,6 +791,19 @@ if (todoListsDeletable.includes(element)) {
         );
     });
 
+    function setButtonLogic() {
+        //step1 slide1
+        document.getElementById('Summary-2').addEventListener('input', (element) => {
+            if(element.value) {
+                document.getElementById('step1-slider1').classList.remove("step-incomplete");
+            } else {
+                document.getElementById('step1-slider1').classList.add("step-incomplete");
+            }
+        });
+
+        //step1 slide2
+    }
+
     function onVisible(element, callback) {
         new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
@@ -829,6 +842,7 @@ if (todoListsDeletable.includes(element)) {
                 }
             });
         });
+        setButtonLogic();
 
         console.log("Outlook 2 should be armed")
         onVisible(document.querySelector("#Outlook-2"), () => console.log("it's visible!!!!!!"));
