@@ -794,23 +794,39 @@ if (todoListsDeletable.includes(element)) {
 
     function setButtonLogic() {
         //step1 slide1
-        checkAndSetButtonLogic(['Summary-2'], "step1-slider1");
+        checkAndSetButtonLogic(["textarea[textarea='Summary-2']"], "#step1-slider1");
         //step1 slide2
 
+        //step1 slide 3
+
+        //step2
+
+        //step3
+
+        //step4
+
+        //step5 slide1
+
+        //step5 slide2
+        //step5 slide3
+        //step5 slide4
+        //step5 slide5
+        //step5 slide6
+        //step5 slide7
     }
 
     function checkAndSetButtonLogic(fields, button) {
         let hasValue = false;
         for (const entry of fields) {
-            if (document.getElementById(entry).value) {
+            if (document.querySelector(entry).value) {
                 hasValue = true;
             }
-            document.getElementById(entry).addEventListener('input', function (e) {
+            document.querySelector(entry).addEventListener('input', function (e) {
                 hideButton(e, fields, button);
             }, false);
         }
         if (!hasValue) {
-            document.getElementById(button).classList.add("step-incomplete");
+            document.querySelector(button).classList.add("step-incomplete");
         }
     }
 
