@@ -805,9 +805,7 @@ if (todoListsDeletable.includes(element)) {
     }
 
     function hideButton(event, fields, button) {
-        console.log(event.target);
-        return;
-        if (!this.value) {
+        if (!event.target.value) {
             document.getElementById('step1-slider1').classList.add("step-incomplete");
         } else {
             document.getElementById('step1-slider1').classList.remove("step-incomplete");
