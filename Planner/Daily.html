@@ -756,6 +756,7 @@ if (todoListsDeletable.includes(element)) {
         setTextareas();
         setQuestionsInHTML();
         setCounter();
+        setButtonLogic();
         //hide loading spinner
         document.getElementsByClassName('loading-spinner')[0].remove();
     }
@@ -796,15 +797,21 @@ if (todoListsDeletable.includes(element)) {
         if (!document.getElementById('Summary-2').value) {
             document.getElementById('step1-slider1').classList.add("step-incomplete");
         }
-        document.getElementById('Summary-2').addEventListener('input', (element) => {
-            if(element.value) {
-                document.getElementById('step1-slider1').classList.remove("step-incomplete");
-            } else {
-                document.getElementById('step1-slider1').classList.add("step-incomplete");
-            }
+        document.getElementById('Summary-2').addEventListener('input', function (e) {
+            hideButton(e, "", "");
         }, false);
 
         //step1 slide2
+    }
+
+    function hideButton(event, fields, button) {
+        console.log(event.target);
+        return;
+        if (!this.value) {
+            document.getElementById('step1-slider1').classList.add("step-incomplete");
+        } else {
+            document.getElementById('step1-slider1').classList.remove("step-incomplete");
+        }
     }
 
     function onVisible(element, callback) {
@@ -845,7 +852,6 @@ if (todoListsDeletable.includes(element)) {
                 }
             });
         });
-        setButtonLogic();
 
         console.log("Outlook 2 should be armed")
         onVisible(document.querySelector("#Outlook-2"), () => console.log("it's visible!!!!!!"));
