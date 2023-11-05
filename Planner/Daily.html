@@ -794,21 +794,37 @@ if (todoListsDeletable.includes(element)) {
 
     function setButtonLogic() {
         //step1 slide1
-        if (!document.getElementById('Summary-2').value) {
-            document.getElementById('step1-slider1').classList.add("step-incomplete");
-        }
-        document.getElementById('Summary-2').addEventListener('input', function (e) {
-            hideButton(e, "", "");
-        }, false);
-
+        checkAndSetButtonLogic(['Summary-2'], "step1-slider1");
         //step1 slide2
+
+    }
+
+    function checkAndSetButtonLogic(fields, button) {
+        let hasValue = false;
+        for (const entry of fields) {
+            if (document.getElementById(entry).value) {
+                hasValue = true;
+            }
+            document.getElementById(entry).addEventListener('input', function (e) {
+                hideButton(e, fields, button);
+            }, false);
+        }
+        if (!hasValue) {
+            document.getElementById(button).classList.add("step-incomplete");
+        }
     }
 
     function hideButton(event, fields, button) {
-        if (!event.target.value) {
-            document.getElementById('step1-slider1').classList.add("step-incomplete");
+        let hasValue = false;
+        for (const entry of fields) {
+            if (document.getElementById(entry).value) {
+                hasValue = true;
+            }
+        }
+        if (!hasValue) {
+            document.getElementById(button).classList.add("step-incomplete");
         } else {
-            document.getElementById('step1-slider1').classList.remove("step-incomplete");
+            document.getElementById(button).classList.remove("step-incomplete");
         }
     }
 
