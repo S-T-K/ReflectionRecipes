@@ -794,11 +794,11 @@ if (todoListsDeletable.includes(element)) {
 
     function setButtonLogic() {
         //step1 slide1
-        checkAndSetButtonLogic(["textarea[textarea='summaryDay']"], "#step1-slider1");
+        checkAndSetButtonLogicForTextarea(["textarea[textarea='summaryDay']"], "#step1-slider1");
         //step1 slide2
-
+        checkAndSetButtonLogicForTodo(["#todo-middle-area-good .todo-label", "#todo-middle-area-more-good .todo-label"], "#step1-slider2");
         //step1 slide 3
-
+        checkAndSetButtonLogicForTodo(["#todo-middle-area-bad .todo-label", "#todo-middle-area-more-bad .todo-label"], "#step1-slider3");
         //step2
 
         //step3
@@ -806,29 +806,29 @@ if (todoListsDeletable.includes(element)) {
         //step4
 
         //step5 slide1
-        checkAndSetButtonLogic(["textarea[textarea='outlookDay']"], "#step5-slider1");
+        checkAndSetButtonLogicForTextarea(["textarea[textarea='outlookDay']"], "#step5-slider1");
         //step5 slide2
-        checkAndSetButtonLogic(["textarea[textarea='visualizationDay']"], "#step5-slider2");
+        checkAndSetButtonLogicForTextarea(["textarea[textarea='visualizationDay']"], "#step5-slider2");
         //step5 slide3
-        checkAndSetButtonLogic(["textarea[textarea='prevention1Day']"], "#step5-slider3");
+        checkAndSetButtonLogicForTextarea(["textarea[textarea='prevention1Day']"], "#step5-slider3");
         //step5 slide4
-        checkAndSetButtonLogic(["textarea[textarea='prevention2Day']"], "#step5-slider4");
+        checkAndSetButtonLogicForTextarea(["textarea[textarea='prevention2Day']"], "#step5-slider4");
         //step5 slide5
-        checkAndSetButtonLogic(["textarea[textarea='boldnessDay']"], "#step5-slider5");
+        checkAndSetButtonLogicForTextarea(["textarea[textarea='boldnessDay']"], "#step5-slider5");
         //step5 slide6
-        checkAndSetButtonLogic(["textarea[textarea='socialDay']"], "#step5-slider6");
+        checkAndSetButtonLogicForTextarea(["textarea[textarea='socialDay']"], "#step5-slider6");
         //step5 slide7
-        checkAndSetButtonLogic(["textarea[textarea='customDay']"], "#step5-slider7");
+        checkAndSetButtonLogicForTextarea(["textarea[textarea='customDay']"], "#step5-slider7");
     }
 
-    function checkAndSetButtonLogic(fields, button) {
+    function checkAndSetButtonLogicForTextarea(fields, button) {
         let hasValue = false;
         for (const entry of fields) {
             if (document.querySelector(entry).value) {
                 hasValue = true;
             }
             document.querySelector(entry).addEventListener('input', function (e) {
-                hideButton(e, fields, button);
+                hideButtonForTextarea(e, fields, button);
             }, false);
         }
         if (!hasValue) {
@@ -836,10 +836,39 @@ if (todoListsDeletable.includes(element)) {
         }
     }
 
-    function hideButton(event, fields, button) {
+    function hideButtonForTextarea(event, fields, button) {
         let hasValue = false;
         for (const entry of fields) {
             if (document.querySelector(entry).value) {
+                hasValue = true;
+            }
+        }
+        if (!hasValue) {
+            document.querySelector(button).classList.add("step-incomplete");
+        } else {
+            document.querySelector(button).classList.remove("step-incomplete");
+        }
+    }
+
+    function checkAndSetButtonLogicForTodo(fields, button) {
+        let hasValue = false;
+        for (const entry of fields) {
+            if (document.querySelector(entry).innerHTML) {
+                hasValue = true;
+            }
+            document.querySelector(entry).addEventListener('input', function (e) {
+                hideButtonForTodo(e, fields, button);
+            }, false);
+        }
+        if (!hasValue) {
+            document.querySelector(button).classList.add("step-incomplete");
+        }
+    }
+
+    function hideButtonForTodo(event, fields, button) {
+        let hasValue = false;
+        for (const entry of fields) {
+            if (document.querySelector(entry).innerHTML) {
                 hasValue = true;
             }
         }
