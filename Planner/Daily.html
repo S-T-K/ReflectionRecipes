@@ -858,8 +858,8 @@ if (todoListsDeletable.includes(element)) {
             }
         }
         for (const input of inputs) {
-            document.querySelector(input).addEventListener('change', function (e) {
-                hideButtonForTodo(e, fields, button);
+            document.querySelector(input).addEventListener('input', function (e) {
+                hideButtonForTodo(e, fields, button, inputs);
             }, false);
         }
         if (!hasValue) {
@@ -867,10 +867,15 @@ if (todoListsDeletable.includes(element)) {
         }
     }
 
-    function hideButtonForTodo(event, fields, button) {
+    function hideButtonForTodo(event, fields, button, inputs) {
         let hasValue = false;
         for (const entry of fields) {
             if (document.querySelector(entry)?.innerHTML) {
+                hasValue = true;
+            }
+        }
+        for (const entry of inputs) {
+            if (document.querySelector(entry).value) {
                 hasValue = true;
             }
         }
