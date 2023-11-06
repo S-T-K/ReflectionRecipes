@@ -796,9 +796,9 @@ if (todoListsDeletable.includes(element)) {
         //step1 slide1
         checkAndSetButtonLogicForTextarea(["textarea[textarea='summaryDay']"], "#step1-slider1");
         //step1 slide2
-        checkAndSetButtonLogicForTodo(["#todo-middle-area-good .todo-label", "#todo-middle-area-more-good .todo-label"], "#step1-slider2");
+        checkAndSetButtonLogicForTodo(["#todo-middle-area-good .todo-label", "#todo-middle-area-more-good .todo-label"], "#step1-slider2", ["#addGood", "addMoreGood"]);
         //step1 slide 3
-        checkAndSetButtonLogicForTodo(["#todo-middle-area-bad .todo-label", "#todo-middle-area-more-bad .todo-label"], "#step1-slider3");
+        //checkAndSetButtonLogicForTodo(["#todo-middle-area-bad .todo-label", "#todo-middle-area-more-bad .todo-label"], "#step1-slider3");
         //step2
 
         //step3
@@ -850,13 +850,15 @@ if (todoListsDeletable.includes(element)) {
         }
     }
 
-    function checkAndSetButtonLogicForTodo(fields, button) {
+    function checkAndSetButtonLogicForTodo(fields, button, inputs) {
         let hasValue = false;
         for (const entry of fields) {
             if (document.querySelector(entry)?.innerHTML) {
                 hasValue = true;
             }
-            document.querySelector(entry).addEventListener('input', function (e) {
+        }
+        for (const input of inputs) {
+            document.querySelector(input).addEventListener('change', function (e) {
                 hideButtonForTodo(e, fields, button);
             }, false);
         }
