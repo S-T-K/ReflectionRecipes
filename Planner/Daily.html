@@ -853,7 +853,7 @@ if (todoListsDeletable.includes(element)) {
     function checkAndSetButtonLogicForTodo(fields, button) {
         let hasValue = false;
         for (const entry of fields) {
-            if (document.querySelector(entry).innerHTML) {
+            if (document.querySelector(entry)?.innerHTML) {
                 hasValue = true;
             }
             document.querySelector(entry).addEventListener('input', function (e) {
@@ -868,7 +868,7 @@ if (todoListsDeletable.includes(element)) {
     function hideButtonForTodo(event, fields, button) {
         let hasValue = false;
         for (const entry of fields) {
-            if (document.querySelector(entry).innerHTML) {
+            if (document.querySelector(entry)?.innerHTML) {
                 hasValue = true;
             }
         }
