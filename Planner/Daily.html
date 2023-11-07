@@ -793,7 +793,12 @@ if (todoListsDeletable.includes(element)) {
     });
 
     function checkAndSetButtonLogicForYesterdaysTasks() {
-        //clickhandler. onclick check if any of the tasks have the done flag
+        if (document.querySelector("#todo-middle-area-old .is-done")){
+            document.querySelector("#step2").classList.remove("step-incomplete");
+        } else {
+            document.querySelector("#step2").classList.add("step-incomplete");
+        }
+
         document.querySelectorAll("#todo-middle-area-old .todo_item").forEach(function (todoItem) {
             todoItem.addEventListener("click", (e) => {
                 if (document.querySelector("#todo-middle-area-old .is-done")){
