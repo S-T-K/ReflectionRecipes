@@ -813,16 +813,16 @@ if (todoListsDeletable.includes(element)) {
     }
 
     function checkAndSetButtonLogicForTodaysTasks() {
-        if (document.querySelector("#todo-middle-area-old .is-todays-task")){
+        if (document.querySelector("#todo-middle-area-today .is-todays-task")){
             showNextButton("#step3", "Continue");
         } else {
             hideNextButton("#step3", "Skip >");
         }
 
-        document.querySelectorAll("#todo-middle-area-old .todo_item").forEach(function (todoItem) {
+        document.querySelectorAll("#todo-middle-area-today .todo_item").forEach(function (todoItem) {
             todoItem.addEventListener("click", (e) => {
                 setTimeout( function () {
-                    if (document.querySelector("#todo-middle-area-old .is-todays-task")){
+                    if (document.querySelector("#todo-middle-area-today .is-todays-task")){
                         showNextButton("#step3", "Continue");
                     } else {
                         hideNextButton("#step3", "Skip >");
