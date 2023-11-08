@@ -794,18 +794,20 @@ if (todoListsDeletable.includes(element)) {
 
     function checkAndSetButtonLogicForYesterdaysTasks() {
         if (document.querySelector("#todo-middle-area-old .is-done")){
-            document.querySelector("#step2").classList.remove("step-incomplete");
+            showNextButton("#step2", "Continue");
         } else {
-            document.querySelector("#step2").classList.add("step-incomplete");
+            hideNextButton("#step2", "Skip >");
         }
 
         document.querySelectorAll("#todo-middle-area-old .todo_item").forEach(function (todoItem) {
             todoItem.addEventListener("click", (e) => {
+                setTimeout( function () {
                 if (document.querySelector("#todo-middle-area-old .is-done")){
-                    document.querySelector("#step2").classList.remove("step-incomplete");
+                    showNextButton("#step2", "Continue");
                 } else {
-                    document.querySelector("#step2").classList.add("step-incomplete");
+                    hideNextButton("#step2", "Skip >");
                 }
+                }, 100);
             });
         });
     }
@@ -835,6 +837,16 @@ if (todoListsDeletable.includes(element)) {
             "textarea[textarea='2200']", "textarea[textarea='2215']", "textarea[textarea='2230']", "textarea[textarea='2245']",
             "textarea[textarea='2300']", "textarea[textarea='2315']", "textarea[textarea='2330']", "textarea[textarea='2345']",
         ], "#step4");
+    }
+
+    function showNextButton(button, label) {
+        document.querySelector(button).classList.remove("step-incomplete");
+        document.querySelector(button).innerHTML = label;
+    }
+
+    function hideNextButton(button, label) {
+        document.querySelector(button).classList.add("step-incomplete");
+        document.querySelector(button).innerHTML = label;
     }
 
     function setButtonLogic() {
@@ -877,7 +889,7 @@ if (todoListsDeletable.includes(element)) {
             }, false);
         }
         if (!hasValue) {
-            document.querySelector(button).classList.add("step-incomplete");
+            hideNextButton(button, "Skip >");
         }
     }
 
@@ -889,9 +901,9 @@ if (todoListsDeletable.includes(element)) {
             }
         }
         if (!hasValue) {
-            document.querySelector(button).classList.add("step-incomplete");
+            hideNextButton(button, "Skip >");
         } else {
-            document.querySelector(button).classList.remove("step-incomplete");
+            showNextButton(button, "Continue");
         }
     }
 
@@ -908,7 +920,7 @@ if (todoListsDeletable.includes(element)) {
             }, false);
         }
         if (!hasValue) {
-            document.querySelector(button).classList.add("step-incomplete");
+            hideNextButton(button, "Skip >");
         }
     }
 
@@ -925,9 +937,9 @@ if (todoListsDeletable.includes(element)) {
             }
         }
         if (!hasValue) {
-            document.querySelector(button).classList.add("step-incomplete");
+            hideNextButton(button, "Skip >");
         } else {
-            document.querySelector(button).classList.remove("step-incomplete");
+            showNextButton(button, "Continue");
         }
     }
 
