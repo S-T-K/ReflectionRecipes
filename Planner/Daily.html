@@ -772,9 +772,7 @@ if (todoListsDeletable.includes(element)) {
 
     function autoResize() {
         this.style.height = 'auto';
-        setTimeout( function () {
-            this.style.height = this.scrollHeight + 16 + 'px';
-        }, 100);
+        this.style.height = this.scrollHeight + 16 + 'px';
     }
 
     textareas = document.querySelectorAll("[textarea]");
