@@ -903,6 +903,8 @@ if (todoListsDeletable.includes(element)) {
             document.querySelector(entry).addEventListener('input', function (e) {
                 hideButtonForTextarea(e, fields, button);
             }, false);
+            document.querySelector(entry).style.height = 'auto';
+            document.querySelector(entry).style.height = document.querySelector(entry).scrollHeight + 16 + 'px';
         }
         if (!hasValue) {
             hideNextButton(button, "Skip >");
