@@ -171,6 +171,10 @@
         weights.push(1);
         questions.push("A habit of mine that is very valuable is:");
         weights.push(1);
+        questions.push("What is a small achievement I can celebrate today?");
+        weights.push(1);
+        questions.push("What future plans or goals am I enthusiastic about?");
+        weights.push(1);
 
         setRandomQuestion(week, day, questions, weights, "outlook");
 
@@ -904,9 +908,8 @@ if (todoListsDeletable.includes(element)) {
                 hideButtonForTextarea(e, fields, button);
             }, false);
             setTimeout(function () {
-                document.querySelector(entry).style.height = 'auto';
-                document.querySelector(entry).style.height = document.querySelector(entry).scrollHeight + 16 + 'px';
-            }, 100);
+                document.querySelector(entry).dispatchEvent(new Event("input"));
+            }, 1000);
         }
         if (!hasValue) {
             hideNextButton(button, "Skip >");
