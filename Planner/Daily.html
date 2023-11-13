@@ -905,9 +905,9 @@ if (todoListsDeletable.includes(element)) {
             document.querySelector(entry).addEventListener('input', function (e) {
                 hideButtonForTextarea(e, fields, button);
             }, false);
-            var element = document.querySelector(entry);
-            setTimeout( function (element) {
-                element.style.height = element.scrollHeight + 16 + 'px';
+            setTimeout(function () {
+                document.querySelector(entry).style.height = 'auto';
+                document.querySelector(entry).style.height = document.querySelector(entry).scrollHeight + 16 + 'px';
             }, 100);
         }
         if (!hasValue) {
