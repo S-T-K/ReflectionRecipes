@@ -936,7 +936,7 @@ if (todoListsDeletable.includes(element)) {
     }
 
     function checkAndSetButtonLogicForCalendar() {
-        checkAndSetButtonLogicForTextarea([
+        var calendarTextareas = [
             "textarea[textarea='600']", "textarea[textarea='615']", "textarea[textarea='630']", "textarea[textarea='645']",
             "textarea[textarea='700']", "textarea[textarea='715']", "textarea[textarea='730']", "textarea[textarea='745']",
             "textarea[textarea='800']", "textarea[textarea='815']", "textarea[textarea='830']", "textarea[textarea='845']",
@@ -955,7 +955,14 @@ if (todoListsDeletable.includes(element)) {
             "textarea[textarea='2100']", "textarea[textarea='2115']", "textarea[textarea='2130']", "textarea[textarea='2145']",
             "textarea[textarea='2200']", "textarea[textarea='2215']", "textarea[textarea='2230']", "textarea[textarea='2245']",
             "textarea[textarea='2300']", "textarea[textarea='2315']", "textarea[textarea='2330']", "textarea[textarea='2345']",
-        ], "#step4");
+        ];
+        for (const entry of calendarTextareas) {
+            setTimeout(function () {
+                document.querySelector(entry).dispatchEvent(new Event("input"));
+            }, 1000);
+        }
+        }
+        checkAndSetButtonLogicForTextarea(calendarTextareas, "#step4");
     }
 
     function showNextButton(button, label) {
