@@ -1,0 +1,1270 @@
+<script>
+
+    class DayReflectionData  {
+        date;
+        weekday;
+        questions;
+        inputs;
+        todoLists;
+        counter;
+        constructor() {
+            this.date = getCurrentDate();
+            let days = ["sunday", "monday", "tuesday", "wednesday","thursday", "friday","saturday"];
+            this.weekday = days[new Date().getDay()];
+            this.questions = {};
+            this.inputs = {};
+            this.todoLists = {};
+            this.counter = 1;
+        }
+
+        loadSavedData(string) {
+            let parsed = JSON.parse(string);
+            this.date = parsed.date;
+            this.weekday = parsed.weekday;
+            this.questions = parsed.questions;
+            this.inputs = parsed.inputs;
+            this.todoLists = parsed.todoLists;
+            this.counter = parsed.counter;
+        }
+    }
+
+    class WeekReflectionData {
+        date;
+        userDataField;
+        previousVision;
+        vision;
+
+        constructor() {
+            this.date = getCurrentDate();
+            this.userDataField = "week1";
+            this.previousVision = "";
+            this.vision = "";
+        }
+        loadSavedData(string) {
+            let parsed = JSON.parse(string);
+            this.date = parsed.date;
+            this.userDataField = parsed.userDataField;
+            this.previousVision = parsed.previousVision;
+            this.vision = parsed.vision;
+        }
+
+    }
+
+    class GoodOrBadStuff {
+        text;
+        class;
+        prompt;
+        weekDay;
+
+        constructor(textValue, classValue, promptValue, weekDayValue) {
+            this.text = textValue;
+            this.class = classValue;
+            this.prompt = promptValue;
+            this.weekDay = weekDayValue;
+        }
+    }
+
+    class todoListItem {
+        text;
+        class;
+        constructor(textValue, classValue) {
+            this.text = textValue;
+            this.class = classValue;
+        }
+    }
+    function cyrb128(str) {
+        let h1 = 1779033703, h2 = 3144134277,
+            h3 = 1013904242, h4 = 2773480762;
+        for (let i = 0, k; i < str.length; i++) {
+            k = str.charCodeAt(i);
+            h1 = h2 ^ Math.imul(h1 ^ k, 597399067);
+            h2 = h3 ^ Math.imul(h2 ^ k, 2869860233);
+            h3 = h4 ^ Math.imul(h3 ^ k, 951274213);
+            h4 = h1 ^ Math.imul(h4 ^ k, 2716044179);
+        }
+        h1 = Math.imul(h3 ^ (h1 >>> 18), 597399067);
+        h2 = Math.imul(h4 ^ (h2 >>> 22), 2869860233);
+        h3 = Math.imul(h1 ^ (h3 >>> 17), 951274213);
+        h4 = Math.imul(h2 ^ (h4 >>> 19), 2716044179);
+        return [(h1^h2^h3^h4)>>>0, (h2^h1)>>>0, (h3^h1)>>>0, (h4^h1)>>>0];
+    }
+
+    function sfc32(a, b, c, d) {
+        return function() {
+            a >>>= 0; b >>>= 0; c >>>= 0; d >>>= 0;
+            var t = (a + b) | 0;
+            a = b ^ b >>> 9;
+            b = c + (c << 3) | 0;
+            c = (c << 21 | c >>> 11);
+            d = d + 1 | 0;
+            t = t + d | 0;
+            c = c + t | 0;
+            return (t >>> 0) / 4294967296;
+        }
+    }
+
+
+    function populateWeightedQuestions(questions, weights) {
+        var weightedQuestions = new Array();
+
+        for (var i = 0; i < questions.length; i++) {
+            for (var j = 0; j < weights[i]; j++) {
+                weightedQuestions.push(questions[i]);
+            }
+        }
+        return weightedQuestions;
+    }
+
+    function getRandomQuestion(questions, weights) {
+        var weightedQuestions = populateWeightedQuestions(questions, weights)
+        return weightedQuestions[Math.floor(Math.random() * weightedQuestions.length)];
+    }
+
+    function setQuestion(week, day, question, selector) {
+        // check for stored questions
+        var storedQuestion = getCookie(selector+week+day);
+        if (storedQuestion.length > 0) {
+            question = storedQuestion
+        } else {
+            setCookie(selector+week+day, question, 999);
+        }
+        setQuestionData(question, selector);
+    }
+
+    function setQuestionData(question, selector) {
+        dayData.questions[selector] = question;
+    }
+
+    function setQuestionsInHTML() {
+        for (let [key, value] of Object.entries(dayData.questions)) {
+            const element = document.querySelector('[question="' + key + '"]');
+            element.innerHTML = value;
+        }
+    }
+
+    function setRandomQuestion(week, day, questions, weights, selector) {
+        const question = getRandomQuestion(questions, weights);
+        setQuestion(week, day, question, selector);
+    }
+
+    function setRandomQuestionPair(week, day, questions, questions2, weights, selector, selector2) {
+        var weightedQuestions = populateWeightedQuestions(questions, weights);
+        var weightedQuestions2 = populateWeightedQuestions(questions2, weights);
+
+        var randomNumber = Math.floor(Math.random() * weightedQuestions.length);
+        setQuestion(week, day, weightedQuestions[randomNumber], selector);
+        setQuestion(week, day, weightedQuestions2[randomNumber], selector2);
+    }
+
+    function randomizeQuestions(week, day) {
+
+        var questions = new Array();
+        var weights = new Array();
+        questions.push("Something to look forward to today is:");
+        weights.push(1);
+        questions.push("What I'm keen on learning today is:");
+        weights.push(1);
+        questions.push("One enjoyable thing on my to-do list is:");
+        weights.push(1);
+        questions.push("I take pride in:");
+        weights.push(1);
+        questions.push("What I appreciate today is:");
+        weights.push(1);
+        questions.push("How can I have fun today?");
+        weights.push(1);
+        questions.push("Lessons I picked up from yesterday:");
+        weights.push(1);
+        questions.push("How can I make a difference today?");
+        weights.push(1);
+        questions.push("What's making me happy in life right now?");
+        weights.push(1);
+        questions.push("What's exciting in my life overall?");
+        weights.push(1);
+        questions.push("Today will be special because:");
+        weights.push(1);
+        questions.push("A habit I find valuable is:");
+        weights.push(1);
+        questions.push("What's a small win I can celebrate today?");
+        weights.push(1);
+        questions.push("Any exciting plans or goals coming up?");
+        weights.push(1);
+
+        setRandomQuestion(week, day, questions, weights, "outlook");
+
+        questions = new Array();
+        weights = new Array();
+        questions.push("The person I aim to be today is:");
+        weights.push(1);
+        questions.push("How I want to feel by the end of the day:");
+        weights.push(1);
+        questions.push("What would my best self do today?");
+        weights.push(1);
+        questions.push("What question do I want answered today?");
+        weights.push(1);
+        questions.push("My main focus for today:");
+        weights.push(1);
+        questions.push("How do I want today to feel?");
+        weights.push(1);
+        questions.push("In what ways can I grow today?");
+        weights.push(1);
+        questions.push("What can I do better today?");
+        weights.push(1);
+        questions.push("Something to be proud of by day's end:");
+        weights.push(1);
+        questions.push("What does my soul need today?");
+        weights.push(1);
+        questions.push("What would make today awesome?");
+        weights.push(1);
+        questions.push("A strength I can tap into today is:");
+        weights.push(1);
+
+        setRandomQuestion(week, day, questions, weights, "visualization");
+
+        questions = new Array();
+        weights = new Array();
+        var questions2 = new Array();
+        questions.push("A situation that might stress me out today is:");
+        weights.push(1);
+        questions2.push("... and how I'll deal with it is:");
+        questions.push("A small, yet valuable task I could do today is:");
+        weights.push(1);
+        questions2.push("... and how I'll reward myself for completing it is:");
+        questions.push("Something I'm not currently doing, even though I should:");
+        weights.push(1);
+        questions2.push("... and how I'll make sure to do it today is:");
+        questions.push("How am I feeling right now?");
+        weights.push(1);
+        questions2.push("... and what is this emotion trying to tell me?");
+        questions.push("What's been stressing me out lately?");
+        weights.push(1);
+        questions2.push("... and what can I do about it?");
+        questions.push("When do I waste time throughout the day?");
+        weights.push(1);
+        questions2.push("... and what can I do to change that?");
+        questions.push("One of my values I've been neglecting lately is:");
+        weights.push(1);
+        questions2.push("... and how I'll live in alignment with it today is:");
+        questions.push("What am I avoiding?");
+        weights.push(1);
+        questions2.push("... and how will I face this fear today?");
+        questions.push("What would I do with an extra hour of time today?");
+        weights.push(1);
+        questions2.push("... and how can I do it anyway?");
+        questions.push("One thing I'd rather not do today is:");
+        weights.push(1);
+        questions2.push("... and would my best self do it?");
+        questions.push("A weakness of mine that could be harmful today is:");
+        weights.push(1);
+        questions2.push("... and what I'll do to limit the harm done is:");
+        questions.push("A bad habit of mine is:");
+        weights.push(1);
+        questions2.push("... and what I'll replace it with today is:");
+        questions.push("Something I think will be a waste of time today is:");
+        weights.push(1);
+        questions2.push("... and how I can gain something from it or prevent it:");
+        questions.push("The three most valuable tasks of today are:");
+        weights.push(1);
+        questions2.push("... and how I can make sure to focus on them is:");
+        questions.push("Someone I look up to is:");
+        weights.push(1);
+        questions2.push("... and what they would do today is:");
+        questions.push("What's the biggest obstacle I'm facing at the moment?");
+        weights.push(1);
+        questions2.push("... and how I'll grow from it is:");
+        questions.push("A skill I want to improve today is:");
+        weights.push(1);
+        questions2.push("… and how I'll practice or learn it is:");
+        questions.push("One thing that brings me joy but I haven't done lately is:");
+        weights.push(1);
+        questions2.push("… and how I'll incorporate it into my day is:");
+        questions.push("A challenge I anticipate facing today is:");
+        weights.push(1);
+        questions2.push("… and how I'll approach it positively is:");
+        questions.push("What positive affirmation can I tell myself today?");
+        weights.push(1);
+        questions2.push("… and how I'll remind myself of it throughout the day is:");
+        questions.push("An opportunity I can seize today is:");
+        weights.push(1);
+        questions2.push("… and how I'll take advantage of it is:");
+        questions.push("An area where I can simplify or declutter today is:");
+        weights.push(1);
+        questions2.push("… and how I'll start the process is:");
+        questions.push("How I can inject creativity into my day is:");
+        weights.push(1);
+        questions2.push("… and how I'll make time for it is:");
+        questions.push("An aspect of my routine I can optimize for better productivity is:");
+        weights.push(1);
+        questions2.push("… and how I'll make this adjustment is:");
+
+        setRandomQuestionPair(week, day, questions, questions2, weights, "prevention1", "prevention2");
+
+        questions = new Array();
+        weights = new Array();
+        questions.push("A bold/important action I could do today is:");
+        weights.push(1);
+        questions.push("The single most important task today is:");
+        weights.push(1);
+        questions.push("How could I inspire myself to do something bold today?");
+        weights.push(1);
+        questions.push("A long-term goal I will work on today is:");
+        weights.push(1);
+        questions.push("What would I do if I knew I would succeed?");
+        weights.push(1);
+        questions.push("In what way do I want to excel today?");
+        weights.push(1);
+        questions.push("What did I wake up for today?");
+        weights.push(1);
+        questions.push("How will I step outside of my comfort zone today?");
+        weights.push(1);
+        questions.push("What important task am I committed to completing today?");
+        weights.push(1);
+        questions.push("What can I prepare today?");
+        weights.push(1);
+        questions.push("If I were my own coach, which advice would I give myself today?");
+        weights.push(1);
+        questions.push("Which action would have a positive impact even in a year?");
+        weights.push(1);
+        questions.push("A bold idea I could start working on today is:");
+        weights.push(1);
+        questions.push("Something I need to stop or say no to is:");
+        weights.push(1);
+        questions.push("Something my most authentic self would do today is:");
+        weights.push(1);
+        questions.push("What new opportunity am I open to exploring?");
+        weights.push(1);
+        questions.push("How can I foster a positive mindset throughout the day?");
+        weights.push(1);
+        questions.push("What is a challenge I'm ready to face head-on?");
+        weights.push(1);
+        questions.push("What positive habit am I focusing on building today?");
+        weights.push(1);
+        questions.push("What small step can I take today towards a big goal?");
+        weights.push(1);
+        questions.push("How can I turn a recent setback into an opportunity for growth?");
+        weights.push(1);
+        questions.push("What's a tangible way I can demonstrate leadership today?");
+        weights.push(1);
+        questions.push("In what aspect of my life can I aim for excellence today?");
+        weights.push(1);
+
+        setRandomQuestion(week, day, questions, weights, "boldness");
+
+        questions = new Array();
+        weights = new Array();
+        questions.push("Someone I could surprise, lead, or connect with today is:");
+        weights.push(1);
+        questions.push("How can I be loving today?");
+        weights.push(1);
+        questions.push("Someone I will tell how much I appreciate them is:");
+        weights.push(1);
+        questions.push("Which positive people could I surround myself with today?");
+        weights.push(1);
+        questions.push("How will I be of service today?");
+        weights.push(1);
+        questions.push("Which people in my life am I taking for granted?");
+        weights.push(1);
+        questions.push("Who can I forgive today?");
+        weights.push(1);
+        questions.push("Who can I appreciate today?");
+        weights.push(1);
+        questions.push("Who can I help today?");
+        weights.push(1);
+        questions.push("Who do I love? Who loves me?");
+        weights.push(1);
+        questions.push("Who can I reach out to for support or guidance today?");
+        weights.push(1);
+        questions.push("What could I teach someone today?");
+        weights.push(1);
+        questions.push("Someone I wish would reach out to me today is:");
+        weights.push(1);
+        questions.push("What social activity can I engage in today that brings me joy?");
+        weights.push(1);
+        questions.push("What positive influence can I be in someone else's life today?");
+        weights.push(1);
+        questions.push("How can I actively listen and be present in my conversations today?");
+        weights.push(1);
+        questions.push("What can I learn from the social interactions I have today?");
+        weights.push(1);
+        questions.push("Who can I collaborate with to achieve a shared goal today?");
+        weights.push(1);
+        questions.push("In what ways can I contribute positively to my community today?");
+        weights.push(1);
+        questions.push("What new social skills or insights can I develop today?");
+        weights.push(1);
+
+
+        setRandomQuestion(week, day, questions, weights, "social");
+
+        questions = new Array();
+        weights = new Array();
+        questions.push("On a scale from 1-10, yesterday was:");
+        weights.push(1);
+        questions.push("A word that would describe yesterday is:");
+        weights.push(1);
+        questions.push("Compared to an average day lately, yesterday was:");
+        weights.push(1);
+        questions.push("Yesterday summarized in a simple emoji:");
+        weights.push(1);
+        questions.push("Yesterday's primary emotion was:");
+        weights.push(1);
+        questions.push("If I had to describe yesterday in one color, it would be:");
+        weights.push(1);
+        questions.push("The overall vibe of yesterday can be summed up as:");
+        weights.push(1);
+        questions.push("In one sentence, how would I encapsulate yesterday?");
+        weights.push(1);
+        questions.push("A sound or song that represents yesterday is:");
+        weights.push(1);
+        questions.push("If yesterday were a weather forecast, it would be:");
+        weights.push(1);
+
+        setRandomQuestion(week, day, questions, weights, "summary");
+
+        questions = new Array();
+        weights = new Array();
+        questions.push("A positive moment I remember was:");
+        weights.push(1);
+        questions.push("Something I handled well was:");
+        weights.push(1);
+        questions.push("A situation I wouldn't change anything about was:");
+        weights.push(1);
+        questions.push("Something I learned yesterday was:");
+        weights.push(1);
+        questions.push("I was proud of myself when:");
+        weights.push(1);
+        questions.push("Yesterday's highlight was:");
+        weights.push(1);
+        questions.push("What were my wins yesterday?");
+        weights.push(1);
+        questions.push("What moments am I grateful for?");
+        weights.push(1);
+        questions.push("A challenge I handled well was:");
+        weights.push(1);
+        questions.push("My favorite memory from yesterday was:");
+        weights.push(1);
+        questions.push("A small victory that made me smile yesterday was:");
+        weights.push(1);
+        questions.push("A kind gesture I received or witnessed yesterday was:");
+        weights.push(1);
+        questions.push("One thing that brought me joy unexpectedly was:");
+        weights.push(1);
+        questions.push("An accomplishment that boosted my confidence was:");
+        weights.push(1);
+        questions.push("A moment of laughter that brightened my day was:");
+        weights.push(1);
+        questions.push("A positive interaction I had with someone was:");
+        weights.push(1);
+        questions.push("Something I did to take care of myself yesterday was:");
+        weights.push(1);
+        questions.push("A compliment or praise I received that made me feel proud was:");
+        weights.push(1);
+
+        setRandomQuestion(week, day, questions, weights, "good");
+
+
+        questions = new Array();
+        weights = new Array();
+        questions.push("A negative situation I remember was:");
+        weights.push(1);
+        questions.push("Something I could have done better was:");
+        weights.push(1);
+        questions.push("A simple thing that would have made yesterday better was:");
+        weights.push(1);
+        questions.push("A missed opportunity yesterday was:");
+        weights.push(1);
+        questions.push("Something that would have helped me yesterday was:");
+        weights.push(1);
+        questions.push("I was wasting time/energy when:");
+        weights.push(1);
+        questions.push("What didn't work as expected?");
+        weights.push(1);
+        questions.push("How did my emotions/feelings work against me?");
+        weights.push(1);
+        questions.push("When did I encounter resistance?");
+        weights.push(1);
+        questions.push("I got stuck when:");
+        weights.push(1);
+        questions.push("Regrets I have about yesterday:");
+        weights.push(1);
+        questions.push("Could I have been more productive?");
+        weights.push(1);
+        questions.push("Could I have been less stressed out?");
+        weights.push(1);
+        questions.push("Could I have been more loving toward the people around me?");
+        weights.push(1);
+        questions.push("The hardest thing about yesterday was:");
+        weights.push(1);
+        questions.push("One mistake I made yesterday was:");
+        weights.push(1);
+        questions.push("A situation I wish I handled differently was:");
+        weights.push(1);
+        questions.push("Something I neglected that affected my day negatively was:");
+        weights.push(1);
+        questions.push("An area where I could have communicated better yesterday was:");
+        weights.push(1);
+        questions.push("A task I procrastinated on yesterday was:");
+        weights.push(1);
+        questions.push("What unexpected obstacle threw me off course?");
+        weights.push(1);
+        questions.push("How did my mindset hinder my progress yesterday?");
+        weights.push(1);
+        questions.push("What aspect of self-discipline could I have improved?");
+        weights.push(1);
+        questions.push("What external factor negatively impacted my day?");
+        weights.push(1);
+
+        setRandomQuestion(week, day, questions, weights, "bad");
+    }
+
+    function initRandom(randomSeed) {
+// Create cyrb128 state:
+        var seed = cyrb128(randomSeed);
+// Four 32-bit component hashes provide the seed for sfc32.
+        var rand = sfc32(seed[0], seed[1], seed[2], seed[3]);
+        Math.random = rand;
+    }
+
+    function getCurrentDate() {
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+
+        return dd + '-' + mm + '-' + yyyy;
+    }
+
+    const addInputHighlight = document.querySelector("#wf-form-Add-Form-highlight");
+    const todoListHighlight = document.querySelector("#todo-middle-area-highlight");
+    const addInputLowlight = document.querySelector("#wf-form-Add-Form-lowlight");
+    const todoListLowlight = document.querySelector("#todo-middle-area-lowlight");
+    const todoInputsDeletable = [addInputHighlight, addInputLowlight];
+    const todoListsDeletable = [todoListHighlight, todoListLowlight]
+    const todoInputsNonDeletable = [];
+    const todoListsNonDeletable = [];
+
+
+    function updateTodoListData(list) {
+        let listSelector = list.id;
+        console.log(listSelector);
+        let items = list.querySelectorAll(".todo-label");
+        let values = [];
+        items.forEach(function (item) {
+            let classList = Array.from(item.parentElement.classList);
+            console.log("classList before shift: " + classList);
+            classList.shift();
+            console.log("classList after shift: " + classList);
+            values.push(new todoListItem(item.innerText, classList));
+        });
+        console.log(values);
+        dayData.todoLists[listSelector] = values;
+    }
+
+    const addTodoDeletable = (list, todo, classString) => {
+        let classStringTotal = "todo_item";
+        if (classString) {
+            classStringTotal += " " + classString;
+        }
+        const htmlContent = `
+             <div class="${classStringTotal}">
+                <div class="pointer-none todo-label">${todo}</div>
+                <img class="task-image"/>
+                <div class="svg-icon trash-icon w-embed">
+                  <svg
+                    class="pointer-none"
+                    width="24"
+                    height="25"
+                    viewbox="0 0 24 25"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M3 6.5H5H21"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    ></path>
+                    <path
+                      d="M8 6.5V4.5C8 3.96957 8.21071 3.46086 8.58579 3.08579C8.96086 2.71071 9.46957 2.5 10 2.5H14C14.5304 2.5 15.0391 2.71071 15.4142 3.08579C15.7893 3.46086 16 3.96957 16 4.5V6.5M19 6.5V20.5C19 21.0304 18.7893 21.5391 18.4142 21.9142C18.0391 22.2893 17.5304 22.5 17 22.5H7C6.46957 22.5 5.96086 22.2893 5.58579 21.9142C5.21071 21.5391 5 21.0304 5 20.5V6.5H19Z"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    ></path>
+                  </svg>
+                </div>
+              </div>
+`;
+        console.log("test classlist");
+        console.log(htmlContent.classList);
+        list.innerHTML += htmlContent;
+    };
+    const addTodoNonDeletable = (list, todo, classString) => {
+        let classStringTotal = "todo_item";
+        if (classString) {
+            classStringTotal += " " + classString;
+        }
+        const htmlContent = `
+             <div class="${classStringTotal}">
+                <div class="pointer-none todo-label">${todo}</div>
+                <img class="task-image"/>
+              </div>
+`;
+        list.innerHTML += htmlContent;
+    };
+
+    //add item on submit deletable
+    todoInputsDeletable.forEach(function (element, index) {
+        element.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const input = element.AddTerm.value.trim();
+
+            if (input.length) {
+                addTodoDeletable(todoListsDeletable[index], input);
+                updateTodoListData(todoListsDeletable[index]);
+                element.reset();
+            }
+        });
+    });
+
+    //add item on submit non deletable
+    todoInputsNonDeletable.forEach(function (element, index) {
+        element.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const input = element.AddTerm.value.trim();
+
+            if (input.length) {
+                addTodoNonDeletable(todoListsNonDeletable[index], input);
+                updateTodoListData(todoListsNonDeletable[index]);
+                element.reset();
+            }
+        });
+    });
+
+    //add item on blur deletable
+    todoInputsDeletable.forEach(function (element, index) {
+        element.AddTerm.onblur = function(){
+            const input = element.AddTerm.value.trim();
+
+            if (input.length) {
+                addTodoDeletable(todoListsDeletable[index], input);
+                updateTodoListData(todoListsDeletable[index]);
+                element.reset();
+            }
+        }
+    });
+
+    //add item on blur non deletable
+    todoInputsNonDeletable.forEach(function (element, index) {
+        element.AddTerm.onblur = function(){
+            const input = element.AddTerm.value.trim();
+
+            if (input.length) {
+                addTodoNonDeletable(todoListsNonDeletable[index], input);
+                updateTodoListData(todoListsNonDeletable[index]);
+                element.reset();
+            }
+        }
+    });
+
+    //delete items
+    todoListsDeletable.forEach(function (element, index) {
+        element.addEventListener("click", (e) => {
+            if (e.target.parentElement.parentElement.classList.contains("trash-icon")) {
+                e.target.parentElement.parentElement.parentElement.remove();
+                updateTodoListData(todoListsDeletable[index]);
+            } else if (e.target.parentElement.classList.contains("trash-icon")) {
+                e.target.parentElement.parentElement.remove();
+                updateTodoListData(todoListsDeletable[index]);
+            } else if (e.target.classList.contains("trash-icon")) {
+                e.target.parentElement.remove();
+                updateTodoListData(todoListsDeletable[index]);
+            }
+        });
+    });
+
+    //Cross out Items
+    todoListOld.addEventListener("click", (e) => {
+        let todo = "";
+        if (e.target.classList.contains("todo_item")) {
+            e.target.classList.toggle("is-done");
+            updateTodoListData(todoListOld);
+            todo = e.target.firstElementChild.innerHTML;
+        } else if (e.target.parentElement.classList.contains("todo_item")) {
+            e.target.parentElement.classList.toggle("is-done");
+            updateTodoListData(todoListOld);
+            todo = e.target.innerHTML;
+        }
+        // remove from today's tasks
+        if (e.target.classList.contains("is-done") || e.target.parentElement.classList.contains("is-done")) {
+            for (const a of todoListToday.querySelectorAll(".todo_item")) {
+                if (a.children[0].textContent === todo) {
+                    a.parentElement.removeChild(a);
+                    updateTodoListData(todoListToday);
+                }
+                }
+        // add to today's tasks
+        } else {
+            addTodoNonDeletable(todoListToday, todo);
+        }
+        updateTodoListData(todoListToday);
+
+    });
+
+    //Mark as today's task
+    todoListToday.addEventListener("click", (e) => {
+        if (e.target.classList.contains("todo_item")) {
+            e.target.classList.toggle("is-todays-task");
+            updateTodoListData(todoListToday);
+        } else if (e.target.parentElement.classList.contains("todo_item")) {
+            e.target.parentElement.classList.toggle("is-todays-task");
+            updateTodoListData(todoListToday);
+        }
+    });
+
+    function waitFor(conditionFunction) {
+        const poll = resolve => {
+            if(conditionFunction()) resolve();
+            else setTimeout(_ => poll(resolve), 500);
+        }
+        return new Promise(poll);
+    }
+    function waitForElm(element) {
+        return new Promise(resolve => {
+            if (element) {
+                return resolve(element);
+            }
+
+            const observer = new MutationObserver(mutations => {
+                if (element) {
+                    resolve(element);
+                    observer.disconnect();
+                }
+            });
+
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+        });
+    }
+
+    function setTodoItems() {
+// dayData has a list of todoLists based on selectors. create a method that
+        // adds a new item to a todolist without writing it to data. also consider the state of the todo
+        for (let [key, value] of Object.entries(dayData.todoLists)) {
+            let element = document.querySelector("#" + key);
+            console.log("tried to set todo Items for:")
+            console.log(element);
+            value.forEach( function (item) {
+if (todoListsDeletable.includes(element)) {
+    addTodoDeletable(element, item.text, item.class[0]);
+} else if (todoListsNonDeletable.includes(element)) {
+    addTodoNonDeletable(element, item.text, item.class[0]);
+}
+            });
+        }
+    }
+
+    function onVisible(element, callback) {
+        new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if(entry.intersectionRatio > 0) {
+                    callback(element);
+                    observer.disconnect();
+                }
+            });
+        }).observe(element);
+    }
+
+    function setTextareas() {
+//        // maybe add the height of calendar entries to their data (in the resize method that is missing) and then also set
+        //it when loading them
+        document.querySelectorAll("textarea[textarea]").forEach(function (textarea) {
+            if (dayData.inputs[textarea.getAttribute("textarea")]) {
+                textarea.value = dayData.inputs[textarea.getAttribute("textarea")];
+                // to resize them properly
+                onVisible(textarea, (element) => {
+                        console.log("it's visible");
+                        element.style.height = 'auto';
+                        element.style.height = element.scrollHeight + 16 + 'px';
+                    }
+                    );
+            }
+            }
+        );
+    }
+
+    function setCounter() {
+        document.querySelector("#final-counter").innerHTML = dayData.counter;
+    }
+
+    function clearTodoItems() {
+        //clear all todolists so I can keep them filled to test the styling
+       todoListsDeletable.forEach(function (todoList) {
+            todoList.innerHTML = "";
+            }
+        );
+        todoListsNonDeletable.forEach(function (todoList) {
+                todoList.innerHTML = "";
+            }
+        );
+    }
+
+    function parseDateString (dateString) {
+        var dateParts = dateString.split("-");
+// month is 0-based, that's why we need dataParts[1] - 1
+        var dateObject = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]);
+        return dateObject;
+    }
+
+    function fillPage() {
+        console.log("Data loaded!");
+        const userDataIframe = document.getElementById('userdataiframe').contentDocument;
+        clearTodoItems();
+        //load all weeks
+        let loadedJSONWeek1 = userDataIframe.getElementById("week1").value;
+        let loadedJSONWeek2 = userDataIframe.getElementById("week2").value;
+        let loadedJSONWeek3 = userDataIframe.getElementById("week3").value;
+        //check if one of them is max 6 days old
+        let activeWeek;
+        let today = new Date();
+        let lastWeekCutoffDate = new Date();
+        lastWeekCutoffDate.setDate(lastWeekCutoffDate.getDate() - 5);
+        if (loadedJSONWeek1 && parseDateString(JSON.parse(loadedJSONWeek1).date) > lastWeekCutoffDate) {
+            activeWeek = JSON.parse(loadedJSONWeek1);
+        } else if (loadedJSONWeek2 && parseDateString(JSON.parse(loadedJSONWeek2).date) > lastWeekCutoffDate) {
+            activeWeek = JSON.parse(loadedJSONWeek2);
+        } else if (loadedJSONWeek3 && parseDateString(JSON.parse(loadedJSONWeek3).date) > lastWeekCutoffDate) {
+            activeWeek = JSON.parse(loadedJSONWeek3);
+        }
+        if (activeWeek) {
+            //if yes, parse it
+            weekData.loadSavedData(activeWeek);
+        } else {
+            //if no, get the first empty week field or the oldest one
+            let weeksUserDataField;
+                let week1 = new WeekReflectionData();
+                week1.loadSavedData(loadedJSONWeek1);
+                let week2 = new WeekReflectionData();
+                week2.loadSavedData(loadedJSONWeek2);
+                let week3 = new WeekReflectionData();
+                week3.loadSavedData(loadedJSONWeek3);
+                let week1Date = parseDateString(week1.date);
+                let week2Date = parseDateString(week2.date);
+                let week3Date = parseDateString(week3.date);
+                // if any week is empty, overwrite it
+                if (!week3.date) {
+                    weeksUserDataField = "week3";
+                } else if (!week2.date) {
+                    weeksUserDataField = "week2";
+                } else if (!week1.date) {
+                    weeksUserDataField = "week1";
+                    // else get oldest week
+                } else if (week1Date < week2Date && week1Date < week3Date) {
+                    weeksUserDataField = "week1";
+                } else if (week2Date < week1Date && week2Date < week3Date) {
+                    weeksUserDataField = "week2";
+                } else if (week3Date < week2Date && week3Date < week1Date) {
+                    weeksUserDataField = "week3";
+                }
+            let mostRecentWeek;
+            //load all days, keep the ones that are max 1 week old
+            let dailyCutoffDate = new Date();
+            dailyCutoffDate.setDate(dailyCutoffDate.getDate() - 7);
+            let days = ["monday", "tuesday", "wednesday","thursday", "friday","saturday", "sunday"];
+            let thisWeeksDays = [];
+            for (const day of days) {
+                let loadedJSON = userDataIframe.getElementById(day).value;
+                if (loadedJSON && JSON.parse(loadedJSON).date && parseDateString(JSON.parse(loadedJSON)) > dailyCutoffDate) {
+                    let newDay = new DayReflectionData();
+                    newDay.loadSavedData(loadedJSON);
+                    thisWeeksDays.push(newDay);
+                }
+            }
+            //get most recent week
+            if (week1.date && (!week2.date || week1Date > week2Date) && (!week3.date || week1Date > week3Date)) {
+                mostRecentWeek = week1;
+            } else if (week2.date && (!week1.date || week2Date > week1Date) && (!week3.date || week2Date > week3Date)) {
+                mostRecentWeek = week2;
+            } else if (week3.date && (!week1.date || week3Date > week1Date) && (!week2.date || week3Date > week2Date)) {
+                mostRecentWeek = week3;
+            } else {
+                mostRecentWeek = new WeekReflectionData();
+            }
+            //create new week data
+            weekData = new WeekReflectionData();
+            //get old vision from week before
+            weekData.previousVision = mostRecentWeek.vision;
+            //get all good and bad notes, include questions, also get finished todos
+            let allGoodStuff = [];
+            let allBadStuff = [];
+            let allFinishedTodos = [];
+            for (const day of thisWeeksDays) {
+                //special good stuff
+                for (const specialGoodEntry of day.todoLists["todo-middle-area-good"]) {
+                    let textValue = specialGoodEntry.text;
+                    let classValue = specialGoodEntry.class;
+                    let promptValue = day.questions["good"];
+                    let weekDayValue = day.weekDay;
+                    allGoodStuff.push(new GoodOrBadStuff(textValue, classValue, promptValue, weekDayValue));
+                }
+                //general good stuff
+                for (const generalGoodEntry of day.todoLists["todo-middle-area-more-good"]) {
+                    let textValue = generalGoodEntry.text;
+                    let classValue = generalGoodEntry.class;
+                    let promptValue = "Good in general:";
+                    let weekDayValue = day.weekDay;
+                    allGoodStuff.push(new GoodOrBadStuff(textValue, classValue, promptValue, weekDayValue));
+                }
+                //special bad stuff
+                for (const specialBadEntry of day.todoLists["todo-middle-area-bad"]) {
+                    let textValue = specialBadEntry.text;
+                    let classValue = specialBadEntry.class;
+                    let promptValue = day.questions["bad"];
+                    let weekDayValue = day.weekDay;
+                    allBadStuff.push(new GoodOrBadStuff(textValue, classValue, promptValue, weekDayValue));
+                }
+                //general bad stuff
+                for (const generalBadEntry of day.todoLists["todo-middle-area-more-bad"]) {
+                    let textValue = generalBadEntry.text;
+                    let classValue = generalBadEntry.class;
+                    let promptValue = "Bad in general:";
+                    let weekDayValue = day.weekDay;
+                    allBadStuff.push(new GoodOrBadStuff(textValue, classValue, promptValue, weekDayValue));
+                }
+                //finished todos
+                for (const todo of day.todoLists["todo-middle-area-old"]) {
+                    if (todo.class.includes("is-done")) {
+                        allFinishedTodos.push(todo);
+                    }
+                }
+            }
+
+        }
+        // prep the html
+
+
+
+
+
+
+
+
+        //get all good notes, include questions
+        //get all bad notes, include questions
+        //get open todos from last day
+        //get all done tasks from all days in the week (remove duplicates)
+
+
+
+
+
+        let loadedJSONToday = userDataIframe.getElementById(dayData.weekday).value;
+        if (loadedJSONToday && JSON.parse(loadedJSONToday).date === dayData.date) {
+            dayData.loadSavedData(userDataIframe.getElementById(dayData.weekday).value);
+            console.log("Data overwritten from saved data!");
+        } else {
+            // get todos from yesterday or any day before
+            let days = ["sunday", "monday", "tuesday", "wednesday","thursday", "friday","saturday"];
+            let mostRecent;
+            for (const day of days) {
+                let loadedJSON = userDataIframe.getElementById(day).value;
+                if (loadedJSON && JSON.parse(loadedJSON).date && dayData.date !== JSON.parse(loadedJSON).date) {
+                    if (!mostRecent) {
+                        mostRecent = new DayReflectionData();
+                        mostRecent.loadSavedData(loadedJSON);
+                    } else if (parseDateString(mostRecent.date) < parseDateString(JSON.parse(loadedJSON).date)) {
+                        mostRecent.loadSavedData(loadedJSON);
+                    }
+                }
+            }
+            if (mostRecent) {
+                // take todos from that day and add them to yesterdays tasks
+                // clean the classes
+                for (const task of mostRecent.todoLists['todo-middle-area-today']) {
+                    task.class = [];
+                }
+                dayData.todoLists['todo-middle-area-old'] = mostRecent.todoLists['todo-middle-area-today'];
+                dayData.todoLists['todo-middle-area-today'] = mostRecent.todoLists['todo-middle-area-today'];
+
+                //increase counter
+                dayData.counter = mostRecent.counter ? (mostRecent.counter + 1) : 1;
+            }
+
+
+            initRandom(randomSeed);
+            randomizeQuestions(dayData.date, dayData.weekday);
+            console.log("New data created because dates didn't match");
+        }
+        setTodoItems();
+        setTextareas();
+        setQuestionsInHTML();
+        setCounter();
+        setButtonLogic();
+        //hide loading spinner
+        document.getElementsByClassName('loading-spinner')[0].remove();
+    }
+
+    function styleCalendarEntry() {
+        this.setAttribute("rows", "1");
+        if (this.value.length > 0) {
+            this.classList.add("calendarevent");
+        } else {
+            this.classList.remove("calendarevent");
+        }
+    }
+
+    function autoResize() {
+        this.style.height = 'auto';
+        this.style.height = this.scrollHeight + 16 + 'px';
+    }
+
+    textareas = document.querySelectorAll("[textarea]");
+    textareas.forEach(item => {item.addEventListener('input', saveToData, false)});
+    textareas.forEach(item => {item.addEventListener('input', autoResize, false)});
+    calendarTextareas = document.querySelectorAll(".textareaquarter");
+    calendarTextareas.forEach(item => {
+        item.addEventListener('input', styleCalendarEntry, false);
+        onVisible(item, (element) => {
+                console.log("calendars visible");
+            if (element.value.length > 0) {
+                element.classList.add("calendarevent");
+            } else {
+                element.classList.remove("calendarevent");
+            }
+            }
+        );
+    });
+
+    function checkAndSetButtonLogicForYesterdaysTasks() {
+        if (document.querySelector("#todo-middle-area-old .is-done")){
+            showNextButton("#step2", "Continue");
+        } else {
+            hideNextButton("#step2", "Skip >");
+        }
+
+        document.querySelectorAll("#todo-middle-area-old .todo_item").forEach(function (todoItem) {
+            todoItem.addEventListener("click", (e) => {
+                setTimeout( function () {
+                if (document.querySelector("#todo-middle-area-old .is-done")){
+                    showNextButton("#step2", "Continue");
+                } else {
+                    hideNextButton("#step2", "Skip >");
+                }
+                }, 100);
+            });
+        });
+    }
+
+    function checkAndSetButtonLogicForTodaysTasks() {
+        if (document.querySelector("#todo-middle-area-today .is-todays-task")){
+            showNextButton("#step3", "Continue");
+        } else {
+            hideNextButton("#step3", "Skip >");
+        }
+
+        document.querySelectorAll("#todo-middle-area-today .todo_item").forEach(function (todoItem) {
+            todoItem.addEventListener("click", (e) => {
+                setTimeout( function () {
+                    if (document.querySelector("#todo-middle-area-today .is-todays-task")){
+                        showNextButton("#step3", "Continue");
+                    } else {
+                        hideNextButton("#step3", "Skip >");
+                    }
+                }, 100);
+            });
+        });
+    }
+
+    function checkAndSetButtonLogicForCalendar() {
+        var calendarTextareas = [
+            "textarea[textarea='600']", "textarea[textarea='615']", "textarea[textarea='630']", "textarea[textarea='645']",
+            "textarea[textarea='700']", "textarea[textarea='715']", "textarea[textarea='730']", "textarea[textarea='745']",
+            "textarea[textarea='800']", "textarea[textarea='815']", "textarea[textarea='830']", "textarea[textarea='845']",
+            "textarea[textarea='900']", "textarea[textarea='915']", "textarea[textarea='930']", "textarea[textarea='945']",
+            "textarea[textarea='1000']", "textarea[textarea='1015']", "textarea[textarea='1030']", "textarea[textarea='1045']",
+            "textarea[textarea='1100']", "textarea[textarea='1115']", "textarea[textarea='1130']", "textarea[textarea='1145']",
+            "textarea[textarea='1200']", "textarea[textarea='1215']", "textarea[textarea='1230']", "textarea[textarea='1245']",
+            "textarea[textarea='1300']", "textarea[textarea='1315']", "textarea[textarea='1330']", "textarea[textarea='1345']",
+            "textarea[textarea='1400']", "textarea[textarea='1415']", "textarea[textarea='1430']", "textarea[textarea='1445']",
+            "textarea[textarea='1500']", "textarea[textarea='1515']", "textarea[textarea='1530']", "textarea[textarea='1545']",
+            "textarea[textarea='1600']", "textarea[textarea='1615']", "textarea[textarea='1630']", "textarea[textarea='1645']",
+            "textarea[textarea='1700']", "textarea[textarea='1715']", "textarea[textarea='1730']", "textarea[textarea='1745']",
+            "textarea[textarea='1800']", "textarea[textarea='1815']", "textarea[textarea='1830']", "textarea[textarea='1845']",
+            "textarea[textarea='1900']", "textarea[textarea='1915']", "textarea[textarea='1930']", "textarea[textarea='1945']",
+            "textarea[textarea='2000']", "textarea[textarea='2015']", "textarea[textarea='2030']", "textarea[textarea='2045']",
+            "textarea[textarea='2100']", "textarea[textarea='2115']", "textarea[textarea='2130']", "textarea[textarea='2145']",
+            "textarea[textarea='2200']", "textarea[textarea='2215']", "textarea[textarea='2230']", "textarea[textarea='2245']",
+            "textarea[textarea='2300']", "textarea[textarea='2315']", "textarea[textarea='2330']", "textarea[textarea='2345']",
+        ];
+        for (const entry of calendarTextareas) {
+            setTimeout(function () {
+                document.querySelector(entry).dispatchEvent(new Event("input"));
+            }, 1000);
+        }
+        checkAndSetButtonLogicForTextarea(calendarTextareas, "#step4");
+    }
+
+    function showNextButton(button, label) {
+        document.querySelector(button).classList.remove("step-incomplete");
+        document.querySelector(button).innerHTML = label;
+    }
+
+    function hideNextButton(button, label) {
+        document.querySelector(button).classList.add("step-incomplete");
+        document.querySelector(button).innerHTML = label;
+    }
+
+    function setButtonLogic() {
+        //step1 slide1
+        checkAndSetButtonLogicForTextarea(["textarea[textarea='summaryDay']"], "#step1-slider1");
+        //step1 slide2
+        checkAndSetButtonLogicForTodo(["#todo-middle-area-good .todo-label", "#todo-middle-area-more-good .todo-label"], "#step1-slider2", ["#addGood", "#addMoreGood"]);
+        //step1 slide 3
+        checkAndSetButtonLogicForTodo(["#todo-middle-area-bad .todo-label", "#todo-middle-area-more-bad .todo-label"], "#step1-slider3", ["#addBad", "#addMoreBad"]);
+        //step2
+        checkAndSetButtonLogicForYesterdaysTasks();
+        //step3
+        checkAndSetButtonLogicForTodaysTasks();
+        //step4
+        checkAndSetButtonLogicForCalendar();
+        //step5 slide1
+        checkAndSetButtonLogicForTextarea(["textarea[textarea='outlookDay']"], "#step5-slider1");
+        //step5 slide2
+        checkAndSetButtonLogicForTextarea(["textarea[textarea='visualizationDay']"], "#step5-slider2");
+        //step5 slide3
+        checkAndSetButtonLogicForTextarea(["textarea[textarea='prevention1Day']"], "#step5-slider3");
+        //step5 slide4
+        checkAndSetButtonLogicForTextarea(["textarea[textarea='prevention2Day']"], "#step5-slider4");
+        //step5 slide5
+        checkAndSetButtonLogicForTextarea(["textarea[textarea='boldnessDay']"], "#step5-slider5");
+        //step5 slide6
+        checkAndSetButtonLogicForTextarea(["textarea[textarea='socialDay']"], "#step5-slider6");
+        //step5 slide7
+        checkAndSetButtonLogicForTextarea(["textarea[textarea='customDay']"], "#step5-slider7");
+    }
+
+    function checkAndSetButtonLogicForTextarea(fields, button) {
+        let hasValue = false;
+        for (const entry of fields) {
+            if (document.querySelector(entry).value) {
+                hasValue = true;
+            }
+            document.querySelector(entry).addEventListener('input', function (e) {
+                hideButtonForTextarea(e, fields, button);
+            }, false);
+            setTimeout(function () {
+                document.querySelector(entry).dispatchEvent(new Event("input"));
+            }, 1000);
+        }
+        if (!hasValue) {
+            hideNextButton(button, "Skip >");
+        }
+    }
+
+    function hideButtonForTextarea(event, fields, button) {
+        let hasValue = false;
+        for (const entry of fields) {
+            if (document.querySelector(entry).value) {
+                hasValue = true;
+            }
+        }
+        if (!hasValue) {
+            hideNextButton(button, "Skip >");
+        } else {
+            showNextButton(button, "Continue");
+        }
+    }
+
+    function checkAndSetButtonLogicForTodo(fields, button, inputs) {
+        let hasValue = false;
+        for (const entry of fields) {
+            if (document.querySelector(entry)?.innerHTML) {
+                hasValue = true;
+            }
+        }
+        for (const input of inputs) {
+            document.querySelector(input).addEventListener('input', function (e) {
+                hideButtonForTodo(e, fields, button, inputs);
+            }, false);
+        }
+        if (!hasValue) {
+            hideNextButton(button, "Skip >");
+        }
+    }
+
+    function hideButtonForTodo(event, fields, button, inputs) {
+        let hasValue = false;
+        for (const entry of fields) {
+            if (document.querySelector(entry)?.innerHTML) {
+                hasValue = true;
+            }
+        }
+        for (const entry of inputs) {
+            if (document.querySelector(entry).value) {
+                hasValue = true;
+            }
+        }
+        if (!hasValue) {
+            hideNextButton(button, "Skip >");
+        } else {
+            showNextButton(button, "Continue");
+        }
+    }
+
+    function onVisible(element, callback) {
+        new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if(entry.intersectionRatio > 0) {
+                    callback(element);
+                    observer.disconnect();
+                }
+            });
+        }).observe(element);
+        if(!callback) return new Promise(r => callback=r);
+    }
+
+    //start
+    try {
+        var dayData = new DayReflectionData();
+        var weekData = new WeekReflectionData()
+        var randomSeed = dayData.date + dayData.weekday;
+
+
+        waitFor(_ => document.getElementById('userdataiframe').contentDocument).then(
+            _ => waitFor(_ => document.getElementById('userdataiframe').contentDocument.getElementById('wf-user-account-email')).then(
+                _ => waitFor(_ => document.getElementById('userdataiframe').contentDocument.getElementById('wf-user-account-email').value).then(
+                    _ => fillPage(dayData, randomSeed))));
+
+
+        //test section
+
+        const buttons = document.querySelectorAll(".w-button");
+        console.log(buttons);
+        buttons.forEach(function (element) {
+            element.addEventListener("click", (e) => {
+                var iframe = document.getElementById('userdataiframe').contentDocument;
+                if (iframe.getElementById(dayData.weekday).value !== JSON.stringify(dayData)) {
+                    console.log('user data updated');
+                    iframe.getElementById(dayData.weekday).value = JSON.stringify(dayData);
+                    iframe.querySelector(".w-users-useraccountformsavebutton").click();
+                }
+            });
+        });
+
+        console.log("Outlook 2 should be armed")
+        onVisible(document.querySelector("#Outlook-2"), () => console.log("it's visible!!!!!!"));
+
+    } catch (error) {
+        console.log(error);
+
+    }
+
+    function saveToData() {
+        console.log("saving to data: " +  this.value);
+        dayData.inputs[this.getAttribute("textarea")] = this.value;
+    }
+
+
+</script>
