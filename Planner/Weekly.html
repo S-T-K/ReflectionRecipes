@@ -18,13 +18,15 @@
         }
 
         loadSavedData(string) {
-            let parsed = JSON.parse(string);
-            this.date = parsed.date;
-            this.weekday = parsed.weekday;
-            this.questions = parsed.questions;
-            this.inputs = parsed.inputs;
-            this.todoLists = parsed.todoLists;
-            this.counter = parsed.counter;
+            if (string) {
+                let parsed = JSON.parse(string);
+                this.date = parsed.date;
+                this.weekday = parsed.weekday;
+                this.questions = parsed.questions;
+                this.inputs = parsed.inputs;
+                this.todoLists = parsed.todoLists;
+                this.counter = parsed.counter;
+            }
         }
     }
 
@@ -41,11 +43,13 @@
             this.vision = "";
         }
         loadSavedData(string) {
-            let parsed = JSON.parse(string);
-            this.date = parsed.date;
-            this.userDataField = parsed.userDataField;
-            this.previousVision = parsed.previousVision;
-            this.vision = parsed.vision;
+            if (string) {
+                let parsed = JSON.parse(string);
+                this.date = parsed.date;
+                this.userDataField = parsed.userDataField;
+                this.previousVision = parsed.previousVision;
+                this.vision = parsed.vision;
+            }
         }
 
     }
