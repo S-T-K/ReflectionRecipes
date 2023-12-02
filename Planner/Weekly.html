@@ -854,9 +854,6 @@ if (todoListsDeletable.includes(element)) {
                 week2.loadSavedData(loadedJSONWeek2);
                 let week3 = new WeekReflectionData();
                 week3.loadSavedData(loadedJSONWeek3);
-                let week1Date = parseDateString(week1.date);
-                let week2Date = parseDateString(week2.date);
-                let week3Date = parseDateString(week3.date);
                 // if any week is empty, overwrite it
                 if (!week3.date) {
                     weeksUserDataField = "week3";
@@ -865,11 +862,11 @@ if (todoListsDeletable.includes(element)) {
                 } else if (!week1.date) {
                     weeksUserDataField = "week1";
                     // else get oldest week
-                } else if (week1Date < week2Date && week1Date < week3Date) {
+                } else if (parseDateString(week1.date) < parseDateString(week2.date) && parseDateString(week1.date) < parseDateString(week3.date)) {
                     weeksUserDataField = "week1";
-                } else if (week2Date < week1Date && week2Date < week3Date) {
+                } else if (parseDateString(week2.date) < parseDateString(week1.date) && parseDateString(week2.date) < parseDateString(week3.date)) {
                     weeksUserDataField = "week2";
-                } else if (week3Date < week2Date && week3Date < week1Date) {
+                } else if (parseDateString(week3.date) < parseDateString(week2.date) && parseDateString(week3.date) < parseDateString(week1.date)) {
                     weeksUserDataField = "week3";
                 }
             let mostRecentWeek;
@@ -887,11 +884,11 @@ if (todoListsDeletable.includes(element)) {
                 }
             }
             //get most recent week
-            if (week1.date && (!week2.date || week1Date > week2Date) && (!week3.date || week1Date > week3Date)) {
+            if (week1.date && (!week2.date || parseDateString(week1.date) > parseDateString(week2.date)) && (!week3.date || parseDateString(week1.date) > parseDateString(week3.date))) {
                 mostRecentWeek = week1;
-            } else if (week2.date && (!week1.date || week2Date > week1Date) && (!week3.date || week2Date > week3Date)) {
+            } else if (week2.date && (!week1.date || parseDateString(week2.date) > parseDateString(week1.date)) && (!week3.date || parseDateString(week2.date) > parseDateString(week3.date))) {
                 mostRecentWeek = week2;
-            } else if (week3.date && (!week1.date || week3Date > week1Date) && (!week2.date || week3Date > week2Date)) {
+            } else if (week3.date && (!week1.date || parseDateString(week3.date) > parseDateString(week1.date)) && (!week2.date || parseDateString(week3.date) > parseDateString(week2.date))) {
                 mostRecentWeek = week3;
             } else {
                 mostRecentWeek = new WeekReflectionData();
