@@ -903,41 +903,53 @@ if (todoListsDeletable.includes(element)) {
             let allFinishedTodos = [];
             for (const day of thisWeeksDays) {
                 //special good stuff
-                for (const specialGoodEntry of day.todoLists["todo-middle-area-good"]) {
-                    let textValue = specialGoodEntry.text;
-                    let classValue = specialGoodEntry.class;
-                    let promptValue = day.questions["good"];
-                    let weekDayValue = day.weekDay;
-                    allGoodStuff.push(new GoodOrBadStuff(textValue, classValue, promptValue, weekDayValue));
+                if (day.todoLists["todo-middle-area-good"]) {
+                    for (const specialGoodEntry of day.todoLists["todo-middle-area-good"]) {
+                        let textValue = specialGoodEntry.text;
+                        let classValue = specialGoodEntry.class;
+                        let promptValue = day.questions["good"];
+                        let weekDayValue = day.weekDay;
+                        allGoodStuff.push(new GoodOrBadStuff(textValue, classValue, promptValue, weekDayValue));
+                    }
                 }
                 //general good stuff
-                for (const generalGoodEntry of day.todoLists["todo-middle-area-more-good"]) {
-                    let textValue = generalGoodEntry.text;
-                    let classValue = generalGoodEntry.class;
-                    let promptValue = "Good in general:";
-                    let weekDayValue = day.weekDay;
-                    allGoodStuff.push(new GoodOrBadStuff(textValue, classValue, promptValue, weekDayValue));
+                if (day.todoLists["todo-middle-area-more-good"]) {
+                    for (const generalGoodEntry of day.todoLists["todo-middle-area-more-good"]) {
+                        let textValue = generalGoodEntry.text;
+                        let classValue = generalGoodEntry.class;
+                        let promptValue = "Good in general:";
+                        let weekDayValue = day.weekDay;
+                        allGoodStuff.push(new GoodOrBadStuff(textValue, classValue, promptValue, weekDayValue));
+                    }
                 }
                 //special bad stuff
-                for (const specialBadEntry of day.todoLists["todo-middle-area-bad"]) {
-                    let textValue = specialBadEntry.text;
-                    let classValue = specialBadEntry.class;
-                    let promptValue = day.questions["bad"];
-                    let weekDayValue = day.weekDay;
-                    allBadStuff.push(new GoodOrBadStuff(textValue, classValue, promptValue, weekDayValue));
+                if (day.todoLists["todo-middle-area-bad"]) {
+                    for (const specialBadEntry of day.todoLists["todo-middle-area-bad"]) {
+                        let textValue = specialBadEntry.text;
+                        let classValue = specialBadEntry.class;
+                        let promptValue = day.questions["bad"];
+                        let weekDayValue = day.weekDay;
+                        allBadStuff.push(new GoodOrBadStuff(textValue, classValue, promptValue, weekDayValue));
+                    }
                 }
                 //general bad stuff
-                for (const generalBadEntry of day.todoLists["todo-middle-area-more-bad"]) {
-                    let textValue = generalBadEntry.text;
-                    let classValue = generalBadEntry.class;
-                    let promptValue = "Bad in general:";
-                    let weekDayValue = day.weekDay;
-                    allBadStuff.push(new GoodOrBadStuff(textValue, classValue, promptValue, weekDayValue));
+                if (day.todoLists["todo-middle-area-more-bad"]) {
+                    for (const generalBadEntry of day.todoLists["todo-middle-area-more-bad"]) {
+                        let textValue = generalBadEntry.text;
+                        let classValue = generalBadEntry.class;
+                        let promptValue = "Bad in general:";
+                        let weekDayValue = day.weekDay;
+                        allBadStuff.push(new GoodOrBadStuff(textValue, classValue, promptValue, weekDayValue));
+                    }
                 }
-                //finished todos
-                for (const todo of day.todoLists["todo-middle-area-old"]) {
-                    if (todo.class.includes("is-done")) {
-                        allFinishedTodos.push(todo);
+                //finished todos, remove duplicates
+                if (day.todoLists["todo-middle-area-old"]) {
+                    for (const todo of day.todoLists["todo-middle-area-old"]) {
+                        if (todo.class.includes("is-done")) {
+                            if (!allFinishedTodos.map(a => a.text).includes(todo.text)) {
+                                allFinishedTodos.push(todo);
+                            }
+                        }
                     }
                 }
             }
@@ -952,10 +964,8 @@ if (todoListsDeletable.includes(element)) {
 
 
 
-        //get all good notes, include questions
-        //get all bad notes, include questions
+
         //get open todos from last day
-        //get all done tasks from all days in the week (remove duplicates)
 
 
 
