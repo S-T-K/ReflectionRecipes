@@ -35,12 +35,20 @@
         userDataField;
         previousVision;
         vision;
+        goodStuff;
+        badStuff;
+        finishedTodos;
+        openTodos;
 
         constructor() {
             this.date = getCurrentDate();
             this.userDataField = "week1";
             this.previousVision = "";
             this.vision = "";
+            this.goodStuff = [];
+            this.badStuff = [];
+            this.finishedTodos = [];
+            this.openTodos = []
         }
         loadSavedData(string) {
             if (string) {
@@ -49,6 +57,10 @@
                 this.userDataField = parsed.userDataField;
                 this.previousVision = parsed.previousVision;
                 this.vision = parsed.vision;
+                this.goodStuff = parsed.goodStuff;
+                this.badStuff = parsed.badStuff;
+                this.finishedTodos = parsed.finishedTodos;
+                this.openTodos = parsed.openTodos;
             }
         }
 
@@ -922,6 +934,7 @@ if (todoListsDeletable.includes(element)) {
                         allGoodStuff.push(new GoodOrBadStuff(textValue, classValue, promptValue, weekDayValue));
                     }
                 }
+                weekData.goodStuff = allGoodStuff;
                 //special bad stuff
                 if (day.todoLists["todo-middle-area-bad"]) {
                     for (const specialBadEntry of day.todoLists["todo-middle-area-bad"]) {
@@ -942,6 +955,7 @@ if (todoListsDeletable.includes(element)) {
                         allBadStuff.push(new GoodOrBadStuff(textValue, classValue, promptValue, weekDayValue));
                     }
                 }
+                weekData.badStuff = allBadStuff;
                 //finished todos, remove duplicates
                 if (day.todoLists["todo-middle-area-old"]) {
                     for (const todo of day.todoLists["todo-middle-area-old"]) {
@@ -952,8 +966,29 @@ if (todoListsDeletable.includes(element)) {
                         }
                     }
                 }
+                weekData.finishedTodos = allFinishedTodos;
             }
-
+            //get open todos from the last day, doesn't have to be within this week
+            let mostRecent;
+            for (const day of days) {
+                let loadedJSON = userDataIframe.getElementById(day).value;
+                if (loadedJSON && JSON.parse(loadedJSON).date) {
+                    if (!mostRecent) {
+                        mostRecent = new DayReflectionData();
+                        mostRecent.loadSavedData(loadedJSON);
+                    } else if (parseDateString(mostRecent.date) < parseDateString(JSON.parse(loadedJSON).date)) {
+                        mostRecent.loadSavedData(loadedJSON);
+                    }
+                }
+            }
+            let allOpenTodos = [];
+            if (mostRecent && mostRecent.todoLists['todo-middle-area-today']) {
+                for (const task of mostRecent.todoLists['todo-middle-area-today']) {
+                    task.class = [];
+                    allOpenTodos.push(task);
+                }
+            }
+            weekData.openTodos = allOpenTodos;
         }
         // prep the html
 
