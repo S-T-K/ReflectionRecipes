@@ -857,6 +857,7 @@ if (todoListsDeletable.includes(element)) {
         if (activeWeek) {
             //if yes, parse it
             weekData.loadSavedData(activeWeek);
+            console.log("Data overwritten from saved data!");
         } else {
             //if no, get the first empty week field or the oldest one
             let weeksUserDataField;
@@ -989,65 +990,16 @@ if (todoListsDeletable.includes(element)) {
                 }
             }
             weekData.openTodos = allOpenTodos;
+            console.log("New data created");
         }
         // prep the html
-
-
-
-
-
-
-
-
-
-        //get open todos from last day
-
-
-
-
-
-        let loadedJSONToday = userDataIframe.getElementById(dayData.weekday).value;
-        if (loadedJSONToday && JSON.parse(loadedJSONToday).date === dayData.date) {
-            dayData.loadSavedData(userDataIframe.getElementById(dayData.weekday).value);
-            console.log("Data overwritten from saved data!");
-        } else {
-            // get todos from yesterday or any day before
-            let days = ["sunday", "monday", "tuesday", "wednesday","thursday", "friday","saturday"];
-            let mostRecent;
-            for (const day of days) {
-                let loadedJSON = userDataIframe.getElementById(day).value;
-                if (loadedJSON && JSON.parse(loadedJSON).date && dayData.date !== JSON.parse(loadedJSON).date) {
-                    if (!mostRecent) {
-                        mostRecent = new DayReflectionData();
-                        mostRecent.loadSavedData(loadedJSON);
-                    } else if (parseDateString(mostRecent.date) < parseDateString(JSON.parse(loadedJSON).date)) {
-                        mostRecent.loadSavedData(loadedJSON);
-                    }
-                }
-            }
-            if (mostRecent) {
-                // take todos from that day and add them to yesterdays tasks
-                // clean the classes
-                for (const task of mostRecent.todoLists['todo-middle-area-today']) {
-                    task.class = [];
-                }
-                dayData.todoLists['todo-middle-area-old'] = mostRecent.todoLists['todo-middle-area-today'];
-                dayData.todoLists['todo-middle-area-today'] = mostRecent.todoLists['todo-middle-area-today'];
-
-                //increase counter
-                dayData.counter = mostRecent.counter ? (mostRecent.counter + 1) : 1;
-            }
-
-
-            initRandom(randomSeed);
-            randomizeQuestions(dayData.date, dayData.weekday);
-            console.log("New data created because dates didn't match");
-        }
-        setTodoItems();
-        setTextareas();
-        setQuestionsInHTML();
-        setCounter();
-        setButtonLogic();
+        // initRandom(randomSeed);
+        // randomizeQuestions(dayData.date, dayData.weekday);
+        // setTodoItems();
+        // setTextareas();
+        // setQuestionsInHTML();
+        // setCounter();
+        // setButtonLogic();
         //hide loading spinner
         document.getElementsByClassName('loading-spinner')[0].remove();
     }
