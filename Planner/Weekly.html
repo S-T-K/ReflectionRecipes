@@ -920,7 +920,7 @@ if (todoListsDeletable.includes(element)) {
                         let textValue = specialGoodEntry.text;
                         let classValue = specialGoodEntry.class;
                         let promptValue = day.questions["good"];
-                        let weekDayValue = day.weekDay;
+                        let weekDayValue = day.weekday;
                         allGoodStuff.push(new GoodOrBadStuff(textValue, classValue, promptValue, weekDayValue));
                     }
                 }
@@ -930,7 +930,7 @@ if (todoListsDeletable.includes(element)) {
                         let textValue = generalGoodEntry.text;
                         let classValue = generalGoodEntry.class;
                         let promptValue = "Good in general:";
-                        let weekDayValue = day.weekDay;
+                        let weekDayValue = day.weekday;
                         allGoodStuff.push(new GoodOrBadStuff(textValue, classValue, promptValue, weekDayValue));
                     }
                 }
@@ -941,7 +941,7 @@ if (todoListsDeletable.includes(element)) {
                         let textValue = specialBadEntry.text;
                         let classValue = specialBadEntry.class;
                         let promptValue = day.questions["bad"];
-                        let weekDayValue = day.weekDay;
+                        let weekDayValue = day.weekday;
                         allBadStuff.push(new GoodOrBadStuff(textValue, classValue, promptValue, weekDayValue));
                     }
                 }
@@ -951,7 +951,7 @@ if (todoListsDeletable.includes(element)) {
                         let textValue = generalBadEntry.text;
                         let classValue = generalBadEntry.class;
                         let promptValue = "Bad in general:";
-                        let weekDayValue = day.weekDay;
+                        let weekDayValue = day.weekday;
                         allBadStuff.push(new GoodOrBadStuff(textValue, classValue, promptValue, weekDayValue));
                     }
                 }
