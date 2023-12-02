@@ -877,7 +877,7 @@ if (todoListsDeletable.includes(element)) {
             let thisWeeksDays = [];
             for (const day of days) {
                 let loadedJSON = userDataIframe.getElementById(day).value;
-                if (loadedJSON && JSON.parse(loadedJSON).date && parseDateString(JSON.parse(loadedJSON)) > dailyCutoffDate) {
+                if (loadedJSON && JSON.parse(loadedJSON).date && parseDateString(JSON.parse(loadedJSON).date) > dailyCutoffDate) {
                     let newDay = new DayReflectionData();
                     newDay.loadSavedData(loadedJSON);
                     thisWeeksDays.push(newDay);
