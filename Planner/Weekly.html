@@ -1,15 +1,16 @@
 <script>
 
-    class DayReflectionData  {
+    class DayReflectionData {
         date;
         weekday;
         questions;
         inputs;
         todoLists;
         counter;
+
         constructor() {
             this.date = getCurrentDate();
-            let days = ["sunday", "monday", "tuesday", "wednesday","thursday", "friday","saturday"];
+            let days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
             this.weekday = days[new Date().getDay()];
             this.questions = {};
             this.inputs = {};
@@ -50,6 +51,7 @@
             this.finishedTodos = [];
             this.openTodos = []
         }
+
         loadSavedData(string) {
             if (string) {
                 let parsed = JSON.parse(string);
@@ -83,11 +85,13 @@
     class todoListItem {
         text;
         class;
+
         constructor(textValue, classValue) {
             this.text = textValue;
             this.class = classValue;
         }
     }
+
     function cyrb128(str) {
         let h1 = 1779033703, h2 = 3144134277,
             h3 = 1013904242, h4 = 2773480762;
@@ -102,12 +106,15 @@
         h2 = Math.imul(h4 ^ (h2 >>> 22), 2869860233);
         h3 = Math.imul(h1 ^ (h3 >>> 17), 951274213);
         h4 = Math.imul(h2 ^ (h4 >>> 19), 2716044179);
-        return [(h1^h2^h3^h4)>>>0, (h2^h1)>>>0, (h3^h1)>>>0, (h4^h1)>>>0];
+        return [(h1 ^ h2 ^ h3 ^ h4) >>> 0, (h2 ^ h1) >>> 0, (h3 ^ h1) >>> 0, (h4 ^ h1) >>> 0];
     }
 
     function sfc32(a, b, c, d) {
-        return function() {
-            a >>>= 0; b >>>= 0; c >>>= 0; d >>>= 0;
+        return function () {
+            a >>>= 0;
+            b >>>= 0;
+            c >>>= 0;
+            d >>>= 0;
             var t = (a + b) | 0;
             a = b ^ b >>> 9;
             b = c + (c << 3) | 0;
@@ -121,7 +128,7 @@
 
 
     function populateWeightedQuestions(questions, weights) {
-        var weightedQuestions = new Array();
+        var weightedQuestions = [];
 
         for (var i = 0; i < questions.length; i++) {
             for (var j = 0; j < weights[i]; j++) {
@@ -138,11 +145,11 @@
 
     function setQuestion(week, day, question, selector) {
         // check for stored questions
-        var storedQuestion = getCookie(selector+week+day);
+        var storedQuestion = getCookie(selector + week + day);
         if (storedQuestion.length > 0) {
             question = storedQuestion
         } else {
-            setCookie(selector+week+day, question, 999);
+            setCookie(selector + week + day, question, 999);
         }
         setQuestionData(question, selector);
     }
@@ -174,8 +181,8 @@
 
     function randomizeQuestions(week, day) {
 
-        var questions = new Array();
-        var weights = new Array();
+        var questions = [];
+        var weights = [];
         questions.push("Something to look forward to today is:");
         weights.push(1);
         questions.push("What I'm keen on learning today is:");
@@ -207,8 +214,8 @@
 
         setRandomQuestion(week, day, questions, weights, "outlook");
 
-        questions = new Array();
-        weights = new Array();
+        questions = [];
+        weights = [];
         questions.push("The person I aim to be today is:");
         weights.push(1);
         questions.push("How I want to feel by the end of the day:");
@@ -236,9 +243,9 @@
 
         setRandomQuestion(week, day, questions, weights, "visualization");
 
-        questions = new Array();
-        weights = new Array();
-        var questions2 = new Array();
+        questions = [];
+        weights = [];
+        var questions2 = [];
         questions.push("A situation that might stress me out today is:");
         weights.push(1);
         questions2.push("... and how I'll deal with it is:");
@@ -314,8 +321,8 @@
 
         setRandomQuestionPair(week, day, questions, questions2, weights, "prevention1", "prevention2");
 
-        questions = new Array();
-        weights = new Array();
+        questions = [];
+        weights = [];
         questions.push("A bold/important action I could do today is:");
         weights.push(1);
         questions.push("The single most important task today is:");
@@ -365,8 +372,8 @@
 
         setRandomQuestion(week, day, questions, weights, "boldness");
 
-        questions = new Array();
-        weights = new Array();
+        questions = [];
+        weights = [];
         questions.push("Someone I could surprise, lead, or connect with today is:");
         weights.push(1);
         questions.push("How can I be loving today?");
@@ -411,8 +418,8 @@
 
         setRandomQuestion(week, day, questions, weights, "social");
 
-        questions = new Array();
-        weights = new Array();
+        questions = [];
+        weights = [];
         questions.push("On a scale from 1-10, yesterday was:");
         weights.push(1);
         questions.push("A word that would describe yesterday is:");
@@ -436,8 +443,8 @@
 
         setRandomQuestion(week, day, questions, weights, "summary");
 
-        questions = new Array();
-        weights = new Array();
+        questions = [];
+        weights = [];
         questions.push("A positive moment I remember was:");
         weights.push(1);
         questions.push("Something I handled well was:");
@@ -478,8 +485,8 @@
         setRandomQuestion(week, day, questions, weights, "good");
 
 
-        questions = new Array();
-        weights = new Array();
+        questions = [];
+        weights = [];
         questions.push("A negative situation I remember was:");
         weights.push(1);
         questions.push("Something I could have done better was:");
@@ -659,7 +666,7 @@
 
     //add item on blur deletable
     todoInputsDeletable.forEach(function (element, index) {
-        element.AddTerm.onblur = function(){
+        element.AddTerm.onblur = function () {
             const input = element.AddTerm.value.trim();
 
             if (input.length) {
@@ -672,7 +679,7 @@
 
     //add item on blur non deletable
     todoInputsNonDeletable.forEach(function (element, index) {
-        element.AddTerm.onblur = function(){
+        element.AddTerm.onblur = function () {
             const input = element.AddTerm.value.trim();
 
             if (input.length) {
@@ -699,52 +706,53 @@
         });
     });
 
-   /* //Cross out Items
-    todoListOld.addEventListener("click", (e) => {
-        let todo = "";
-        if (e.target.classList.contains("todo_item")) {
-            e.target.classList.toggle("is-done");
-            updateTodoListData(todoListOld);
-            todo = e.target.firstElementChild.innerHTML;
-        } else if (e.target.parentElement.classList.contains("todo_item")) {
-            e.target.parentElement.classList.toggle("is-done");
-            updateTodoListData(todoListOld);
-            todo = e.target.innerHTML;
-        }
-        // remove from today's tasks
-        if (e.target.classList.contains("is-done") || e.target.parentElement.classList.contains("is-done")) {
-            for (const a of todoListToday.querySelectorAll(".todo_item")) {
-                if (a.children[0].textContent === todo) {
-                    a.parentElement.removeChild(a);
-                    updateTodoListData(todoListToday);
-                }
-                }
-        // add to today's tasks
-        } else {
-            addTodoNonDeletable(todoListToday, todo);
-        }
-        updateTodoListData(todoListToday);
+    /* //Cross out Items
+     todoListOld.addEventListener("click", (e) => {
+         let todo = "";
+         if (e.target.classList.contains("todo_item")) {
+             e.target.classList.toggle("is-done");
+             updateTodoListData(todoListOld);
+             todo = e.target.firstElementChild.innerHTML;
+         } else if (e.target.parentElement.classList.contains("todo_item")) {
+             e.target.parentElement.classList.toggle("is-done");
+             updateTodoListData(todoListOld);
+             todo = e.target.innerHTML;
+         }
+         // remove from today's tasks
+         if (e.target.classList.contains("is-done") || e.target.parentElement.classList.contains("is-done")) {
+             for (const a of todoListToday.querySelectorAll(".todo_item")) {
+                 if (a.children[0].textContent === todo) {
+                     a.parentElement.removeChild(a);
+                     updateTodoListData(todoListToday);
+                 }
+                 }
+         // add to today's tasks
+         } else {
+             addTodoNonDeletable(todoListToday, todo);
+         }
+         updateTodoListData(todoListToday);
 
-    });
+     });
 
-    //Mark as today's task
-    todoListToday.addEventListener("click", (e) => {
-        if (e.target.classList.contains("todo_item")) {
-            e.target.classList.toggle("is-todays-task");
-            updateTodoListData(todoListToday);
-        } else if (e.target.parentElement.classList.contains("todo_item")) {
-            e.target.parentElement.classList.toggle("is-todays-task");
-            updateTodoListData(todoListToday);
-        }
-    });*/
+     //Mark as today's task
+     todoListToday.addEventListener("click", (e) => {
+         if (e.target.classList.contains("todo_item")) {
+             e.target.classList.toggle("is-todays-task");
+             updateTodoListData(todoListToday);
+         } else if (e.target.parentElement.classList.contains("todo_item")) {
+             e.target.parentElement.classList.toggle("is-todays-task");
+             updateTodoListData(todoListToday);
+         }
+     });*/
 
     function waitFor(conditionFunction) {
         const poll = resolve => {
-            if(conditionFunction()) resolve();
+            if (conditionFunction()) resolve();
             else setTimeout(_ => poll(resolve), 500);
         }
         return new Promise(poll);
     }
+
     function waitForElm(element) {
         return new Promise(resolve => {
             if (element) {
@@ -772,12 +780,12 @@
             let element = document.querySelector("#" + key);
             console.log("tried to set todo Items for:")
             console.log(element);
-            value.forEach( function (item) {
-if (todoListsDeletable.includes(element)) {
-    addTodoDeletable(element, item.text, item.class[0]);
-} else if (todoListsNonDeletable.includes(element)) {
-    addTodoNonDeletable(element, item.text, item.class[0]);
-}
+            value.forEach(function (item) {
+                if (todoListsDeletable.includes(element)) {
+                    addTodoDeletable(element, item.text, item.class[0]);
+                } else if (todoListsNonDeletable.includes(element)) {
+                    addTodoNonDeletable(element, item.text, item.class[0]);
+                }
             });
         }
     }
@@ -785,7 +793,7 @@ if (todoListsDeletable.includes(element)) {
     function onVisible(element, callback) {
         new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
-                if(entry.intersectionRatio > 0) {
+                if (entry.intersectionRatio > 0) {
                     callback(element);
                     observer.disconnect();
                 }
@@ -797,16 +805,16 @@ if (todoListsDeletable.includes(element)) {
 //        // maybe add the height of calendar entries to their data (in the resize method that is missing) and then also set
         //it when loading them
         document.querySelectorAll("textarea[textarea]").forEach(function (textarea) {
-            if (dayData.inputs[textarea.getAttribute("textarea")]) {
-                textarea.value = dayData.inputs[textarea.getAttribute("textarea")];
-                // to resize them properly
-                onVisible(textarea, (element) => {
-                        console.log("it's visible");
-                        element.style.height = 'auto';
-                        element.style.height = element.scrollHeight + 16 + 'px';
-                    }
+                if (dayData.inputs[textarea.getAttribute("textarea")]) {
+                    textarea.value = dayData.inputs[textarea.getAttribute("textarea")];
+                    // to resize them properly
+                    onVisible(textarea, (element) => {
+                            console.log("it's visible");
+                            element.style.height = 'auto';
+                            element.style.height = element.scrollHeight + 16 + 'px';
+                        }
                     );
-            }
+                }
             }
         );
     }
@@ -817,8 +825,8 @@ if (todoListsDeletable.includes(element)) {
 
     function clearTodoItems() {
         //clear all todolists so I can keep them filled to test the styling
-       todoListsDeletable.forEach(function (todoList) {
-            todoList.innerHTML = "";
+        todoListsDeletable.forEach(function (todoList) {
+                todoList.innerHTML = "";
             }
         );
         todoListsNonDeletable.forEach(function (todoList) {
@@ -827,7 +835,7 @@ if (todoListsDeletable.includes(element)) {
         );
     }
 
-    function parseDateString (dateString) {
+    function parseDateString(dateString) {
         var dateParts = dateString.split("-");
 // month is 0-based, that's why we need dataParts[1] - 1
         var dateObject = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]);
@@ -861,32 +869,32 @@ if (todoListsDeletable.includes(element)) {
         } else {
             //if no, get the first empty week field or the oldest one
             let weeksUserDataField;
-                let week1 = new WeekReflectionData();
-                week1.loadSavedData(loadedJSONWeek1);
-                let week2 = new WeekReflectionData();
-                week2.loadSavedData(loadedJSONWeek2);
-                let week3 = new WeekReflectionData();
-                week3.loadSavedData(loadedJSONWeek3);
-                // if any week is empty, overwrite it
-                if (!week3.date) {
-                    weeksUserDataField = "week3";
-                } else if (!week2.date) {
-                    weeksUserDataField = "week2";
-                } else if (!week1.date) {
-                    weeksUserDataField = "week1";
-                    // else get oldest week
-                } else if (parseDateString(week1.date) < parseDateString(week2.date) && parseDateString(week1.date) < parseDateString(week3.date)) {
-                    weeksUserDataField = "week1";
-                } else if (parseDateString(week2.date) < parseDateString(week1.date) && parseDateString(week2.date) < parseDateString(week3.date)) {
-                    weeksUserDataField = "week2";
-                } else if (parseDateString(week3.date) < parseDateString(week2.date) && parseDateString(week3.date) < parseDateString(week1.date)) {
-                    weeksUserDataField = "week3";
-                }
+            let week1 = new WeekReflectionData();
+            week1.loadSavedData(loadedJSONWeek1);
+            let week2 = new WeekReflectionData();
+            week2.loadSavedData(loadedJSONWeek2);
+            let week3 = new WeekReflectionData();
+            week3.loadSavedData(loadedJSONWeek3);
+            // if any week is empty, overwrite it
+            if (!week3.date) {
+                weeksUserDataField = "week3";
+            } else if (!week2.date) {
+                weeksUserDataField = "week2";
+            } else if (!week1.date) {
+                weeksUserDataField = "week1";
+                // else get oldest week
+            } else if (parseDateString(week1.date) < parseDateString(week2.date) && parseDateString(week1.date) < parseDateString(week3.date)) {
+                weeksUserDataField = "week1";
+            } else if (parseDateString(week2.date) < parseDateString(week1.date) && parseDateString(week2.date) < parseDateString(week3.date)) {
+                weeksUserDataField = "week2";
+            } else if (parseDateString(week3.date) < parseDateString(week2.date) && parseDateString(week3.date) < parseDateString(week1.date)) {
+                weeksUserDataField = "week3";
+            }
             let mostRecentWeek;
             //load all days, keep the ones that are max 1 week old
             let dailyCutoffDate = new Date();
             dailyCutoffDate.setDate(dailyCutoffDate.getDate() - 7);
-            let days = ["monday", "tuesday", "wednesday","thursday", "friday","saturday", "sunday"];
+            let days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
             let thisWeeksDays = [];
             for (const day of days) {
                 let loadedJSON = userDataIframe.getElementById(day).value;
@@ -992,6 +1000,8 @@ if (todoListsDeletable.includes(element)) {
             weekData.openTodos = allOpenTodos;
             console.log("New data created");
         }
+
+
         // prep the html
         // initRandom(randomSeed);
         // randomizeQuestions(dayData.date, dayData.weekday);
@@ -1019,24 +1029,28 @@ if (todoListsDeletable.includes(element)) {
     }
 
     textareas = document.querySelectorAll("[textarea]");
-    textareas.forEach(item => {item.addEventListener('input', saveToData, false)});
-    textareas.forEach(item => {item.addEventListener('input', autoResize, false)});
+    textareas.forEach(item => {
+        item.addEventListener('input', saveToData, false)
+    });
+    textareas.forEach(item => {
+        item.addEventListener('input', autoResize, false)
+    });
     calendarTextareas = document.querySelectorAll(".textareaquarter");
     calendarTextareas.forEach(item => {
         item.addEventListener('input', styleCalendarEntry, false);
         onVisible(item, (element) => {
                 console.log("calendars visible");
-            if (element.value.length > 0) {
-                element.classList.add("calendarevent");
-            } else {
-                element.classList.remove("calendarevent");
-            }
+                if (element.value.length > 0) {
+                    element.classList.add("calendarevent");
+                } else {
+                    element.classList.remove("calendarevent");
+                }
             }
         );
     });
 
     function checkAndSetButtonLogicForYesterdaysTasks() {
-        if (document.querySelector("#todo-middle-area-old .is-done")){
+        if (document.querySelector("#todo-middle-area-old .is-done")) {
             showNextButton("#step2", "Continue");
         } else {
             hideNextButton("#step2", "Skip >");
@@ -1044,19 +1058,19 @@ if (todoListsDeletable.includes(element)) {
 
         document.querySelectorAll("#todo-middle-area-old .todo_item").forEach(function (todoItem) {
             todoItem.addEventListener("click", (e) => {
-                setTimeout( function () {
-                if (document.querySelector("#todo-middle-area-old .is-done")){
-                    showNextButton("#step2", "Continue");
-                } else {
-                    hideNextButton("#step2", "Skip >");
-                }
+                setTimeout(function () {
+                    if (document.querySelector("#todo-middle-area-old .is-done")) {
+                        showNextButton("#step2", "Continue");
+                    } else {
+                        hideNextButton("#step2", "Skip >");
+                    }
                 }, 100);
             });
         });
     }
 
     function checkAndSetButtonLogicForTodaysTasks() {
-        if (document.querySelector("#todo-middle-area-today .is-todays-task")){
+        if (document.querySelector("#todo-middle-area-today .is-todays-task")) {
             showNextButton("#step3", "Continue");
         } else {
             hideNextButton("#step3", "Skip >");
@@ -1064,8 +1078,8 @@ if (todoListsDeletable.includes(element)) {
 
         document.querySelectorAll("#todo-middle-area-today .todo_item").forEach(function (todoItem) {
             todoItem.addEventListener("click", (e) => {
-                setTimeout( function () {
-                    if (document.querySelector("#todo-middle-area-today .is-todays-task")){
+                setTimeout(function () {
+                    if (document.querySelector("#todo-middle-area-today .is-todays-task")) {
                         showNextButton("#step3", "Continue");
                     } else {
                         hideNextButton("#step3", "Skip >");
@@ -1214,13 +1228,13 @@ if (todoListsDeletable.includes(element)) {
     function onVisible(element, callback) {
         new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
-                if(entry.intersectionRatio > 0) {
+                if (entry.intersectionRatio > 0) {
                     callback(element);
                     observer.disconnect();
                 }
             });
         }).observe(element);
-        if(!callback) return new Promise(r => callback=r);
+        if (!callback) return new Promise(r => callback = r);
     }
 
     //start
@@ -1260,7 +1274,7 @@ if (todoListsDeletable.includes(element)) {
     }
 
     function saveToData() {
-        console.log("saving to data: " +  this.value);
+        console.log("saving to data: " + this.value);
         dayData.inputs[this.getAttribute("textarea")] = this.value;
     }
 
