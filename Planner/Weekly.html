@@ -984,7 +984,7 @@
                         let textValue = specialGoodEntry.text;
                         let classValue = specialGoodEntry.class;
                         let promptValue = day.questions["good"];
-                        let weekDayValue = day.weekday;
+                        let weekDayValue = day.weekday.charAt(0).toUpperCase() + day.weekday.slice(1);
                         allGoodStuff.push(new GoodOrBadStuff(textValue, classValue, promptValue, weekDayValue));
                     }
                 }
@@ -994,7 +994,7 @@
                         let textValue = generalGoodEntry.text;
                         let classValue = generalGoodEntry.class;
                         let promptValue = "Good in general:";
-                        let weekDayValue = day.weekday;
+                        let weekDayValue = day.weekday.charAt(0).toUpperCase() + day.weekday.slice(1);
                         allGoodStuff.push(new GoodOrBadStuff(textValue, classValue, promptValue, weekDayValue));
                     }
                 }
@@ -1005,7 +1005,7 @@
                         let textValue = specialBadEntry.text;
                         let classValue = specialBadEntry.class;
                         let promptValue = day.questions["bad"];
-                        let weekDayValue = day.weekday;
+                        let weekDayValue = day.weekday.charAt(0).toUpperCase() + day.weekday.slice(1);
                         allBadStuff.push(new GoodOrBadStuff(textValue, classValue, promptValue, weekDayValue));
                     }
                 }
@@ -1015,7 +1015,7 @@
                         let textValue = generalBadEntry.text;
                         let classValue = generalBadEntry.class;
                         let promptValue = "Bad in general:";
-                        let weekDayValue = day.weekday;
+                        let weekDayValue = day.weekday.charAt(0).toUpperCase() + day.weekday.slice(1);
                         allBadStuff.push(new GoodOrBadStuff(textValue, classValue, promptValue, weekDayValue));
                     }
                 }
