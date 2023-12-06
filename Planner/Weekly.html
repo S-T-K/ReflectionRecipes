@@ -591,10 +591,6 @@
         dayData.todoLists[listSelector] = values;
     }
 
-    function updateRating(rating) {
-
-    }
-
     const addTodoGoodBadStuff = (list, todo, classString, prompt, weeekday) => {
         let classStringTotal = "todo_item";
         if (classString) {
@@ -783,12 +779,10 @@
             console.log(e.target);
             if (e.target.tagName.toLowerCase() === "input") {
                 console.log(e.target.getAttribute('data-name') + " " + e.target.getAttribute('value'));
+                let ratingSelector = e.target.getAttribute('data-name');
+                weekData.ratings[ratingSelector] = e.target.getAttribute('value');
             }
         })
-
-        updateRating(ratingForms[index]);
-
-
     });
 
     /* //Cross out Items
