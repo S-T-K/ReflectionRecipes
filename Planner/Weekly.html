@@ -40,6 +40,7 @@
         badStuff;
         finishedTodos;
         openTodos;
+        ratings
 
         constructor() {
             this.date = getCurrentDate();
@@ -50,6 +51,7 @@
             this.badStuff = [];
             this.finishedTodos = [];
             this.openTodos = []
+            this.ratings = {};
         }
 
         loadSavedData(string) {
@@ -63,6 +65,7 @@
                 this.badStuff = parsed.badStuff;
                 this.finishedTodos = parsed.finishedTodos;
                 this.openTodos = parsed.openTodos;
+                this.ratings = parsed.ratings;
             }
         }
 
@@ -566,6 +569,11 @@
     const todoInputsNonDeletable = [];
     const todoListsNonDeletable = [];
 
+    const ratingFormPreviousVision = document.querySelector("#rating-previous-vision");
+    const ratingFormSleep = document.querySelector("#rating-sleep");
+    const ratingFormNutrition = document.querySelector("#rating-nutrition");
+    const ratingForms = [ratingFormPreviousVision, ratingFormSleep, ratingFormNutrition];
+
 
     function updateTodoListData(list) {
         let listSelector = list.id;
@@ -581,6 +589,10 @@
         });
         console.log(values);
         dayData.todoLists[listSelector] = values;
+    }
+
+    function updateRating(rating) {
+
     }
 
     const addTodoGoodBadStuff = (list, todo, classString, prompt, weeekday) => {
@@ -764,6 +776,16 @@
                 updateTodoListData(todoListsDeletable[index]);
             }
         });
+    });
+
+    ratingForms.forEach(function (element, index) {
+        element.addEventListener("click", (e) => {
+            console.log(e.target);
+        })
+
+        updateRating(ratingForms[index]);
+
+
     });
 
     /* //Cross out Items
