@@ -560,7 +560,8 @@
     const todoListHighlight = document.querySelector("#todo-middle-area-highlight");
     const addInputLowlight = document.querySelector("#wf-form-Add-Form-lowlight");
     const todoListLowlight = document.querySelector("#todo-middle-area-lowlight");
-    const todoInputsDeletable = [addInputHighlight, addInputLowlight];
+    const todoInputsWithPrompt = [addInputHighlight, addInputLowlight];
+    const todoInputsDeletable = [];
     const todoListsDeletable = [todoListHighlight, todoListLowlight]
     const todoInputsNonDeletable = [];
     const todoListsNonDeletable = [];
@@ -689,6 +690,20 @@
 
             if (input.length) {
                 addTodoDeletable(todoListsDeletable[index], input);
+                updateTodoListData(todoListsDeletable[index]);
+                element.reset();
+            }
+        });
+    });
+
+    //add item on submit deletable with prompt for high and lowlights
+    todoInputsWithPrompt.forEach(function (element, index) {
+        element.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const input = element.AddTerm.value.trim();
+
+            if (input.length) {
+                addTodoGoodBadStuff(todoListsDeletable[index], input, null, "General:", "This week");
                 updateTodoListData(todoListsDeletable[index]);
                 element.reset();
             }
