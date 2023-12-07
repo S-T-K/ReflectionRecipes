@@ -572,7 +572,18 @@
     const ratingFormPreviousVision = document.querySelector("#rating-previous-vision");
     const ratingFormSleep = document.querySelector("#rating-sleep");
     const ratingFormNutrition = document.querySelector("#rating-nutrition");
-    const ratingForms = [ratingFormPreviousVision, ratingFormSleep, ratingFormNutrition];
+    const ratingFormPhysicalHealth = document.querySelector("#rating-physical");
+    const ratingFormMentalHealth = document.querySelector("#rating-mental");
+    const ratingFormLove = document.querySelector("#rating-love");
+    const ratingFormFamily = document.querySelector("#rating-family");
+    const ratingFormFriends = document.querySelector("#rating-friends");
+    const ratingFormMission = document.querySelector("#rating-mission");
+    const ratingFormFun = document.querySelector("#rating-fun");
+    const ratingFormFinances = document.querySelector("#rating-finances");
+    const ratingFormLearning = document.querySelector("#rating-learning");
+    const ratingForms = [ratingFormPreviousVision, ratingFormSleep, ratingFormNutrition, ratingFormPhysicalHealth,
+        ratingFormMentalHealth, ratingFormLove, ratingFormFamily, ratingFormFriends, ratingFormMission, ratingFormFun,
+        ratingFormFinances, ratingFormLearning];
 
 
     function updateTodoListData(list) {
@@ -781,6 +792,7 @@
                 console.log(e.target.getAttribute('data-name') + " " + e.target.getAttribute('value'));
                 let ratingSelector = e.target.getAttribute('data-name');
                 weekData.ratings[ratingSelector] = e.target.getAttribute('value');
+                //show or hide the respective element on the summary pages, adjust the number
             }
         })
     });
