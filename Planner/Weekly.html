@@ -599,7 +599,23 @@
             values.push(new todoListItem(item.innerText, classList));
         });
         console.log(values);
-        dayData.todoLists[listSelector] = values;
+        weekData.todoLists[listSelector] = values;
+    }
+
+    function updateGoodBadStuffData(list) {
+        let listSelector = list.id;
+        console.log(listSelector);
+        let items = list.querySelectorAll(".todo-label");
+        let values = [];
+        items.forEach(function (item) {
+            let classList = Array.from(item.parentElement.classList);
+            console.log("classList before shift: " + classList);
+            classList.shift();
+            console.log("classList after shift: " + classList);
+            values.push(new todoListItem(item.innerText, classList));
+        });
+        console.log(values);
+        weekData.todoLists[listSelector] = values;
     }
 
     const addTodoGoodBadStuff = (list, todo, classString, prompt, weeekday) => {
@@ -835,6 +851,17 @@
              updateTodoListData(todoListToday);
          }
      });*/
+
+    //mark as highlight
+    todoListHighlight.addEventListener("click", (e) => {
+        if (e.target.classList.contains("todo_item")) {
+            e.target.classList.toggle("is-highlight");
+            updateGoodBadStuffData(todoListHighlight);
+        } else if (e.target.parentElement.classList.contains("todo_item")) {
+            e.target.parentElement.classList.toggle("is-highlight");
+            updateGoodBadStuffData(todoListHighlight);
+        }
+    });
 
     function waitFor(conditionFunction) {
         const poll = resolve => {
