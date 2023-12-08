@@ -602,10 +602,10 @@
         weekData.todoLists[listSelector] = values;
     }
 
-    function updateGoodBadStuffData(list) {
+    function updateGoodStuffData(list) {
         let listSelector = list.id;
         console.log(listSelector);
-        let items = list.querySelectorAll(".todo-item");
+        let items = list.querySelectorAll(".todo_item");
         let values = [];
         items.forEach(function (item) {
             let classList = Array.from(item.classList);
@@ -615,7 +615,23 @@
             values.push(new GoodOrBadStuff(item.querySelector(".central-text"), classList, item.querySelector(".top-text"), item.querySelector(".bottom-text") ));
         });
         console.log(values);
-        weekData.todoLists[listSelector] = values;
+        weekData.goodStuff = values;
+    }
+
+    function updateBadStuffData(list) {
+        let listSelector = list.id;
+        console.log(listSelector);
+        let items = list.querySelectorAll(".todo_item");
+        let values = [];
+        items.forEach(function (item) {
+            let classList = Array.from(item.classList);
+            console.log("classList before shift: " + classList);
+            classList.shift();
+            console.log("classList after shift: " + classList);
+            values.push(new GoodOrBadStuff(item.querySelector(".central-text"), classList, item.querySelector(".top-text"), item.querySelector(".bottom-text") ));
+        });
+        console.log(values);
+        weekData.badStuff = values;
     }
 
     const addTodoGoodBadStuff = (list, todo, classString, prompt, weeekday) => {
@@ -883,7 +899,7 @@
 
             if (todoItem) {
                 todoItem.classList.toggle("is-highlight");
-                updateGoodBadStuffData(todoListHighlight);
+                updateGoodStuffData(todoListHighlight);
             }
         }
     });
