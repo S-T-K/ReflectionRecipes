@@ -809,6 +809,24 @@
                 let ratingSelector = e.target.getAttribute('data-name');
                 weekData.ratings[ratingSelector] = e.target.getAttribute('value');
                 //show or hide the respective element on the summary pages, adjust the number
+                //find the good and bad elements, update the value, hide them all
+                let elementsGood = document.querySelectorAll('[ratingGood="' + ratingSelector.toLowerCase() + '"]');
+                let elementsBad = document.querySelectorAll('[ratingBad="' + ratingSelector.toLowerCase() + '"]');
+                elementsGood.concat(elementsBad).forEach(function (item) {
+                    item.querySelector(".rating-element").innerHTML = weekData.ratings[ratingSelector];
+                    item.classList.add("hidden");
+                });
+                //if within range, show on respective page
+                if(weekData.ratings[ratingSelector] > 6) {
+                    elementsGood.forEach(function (item) {
+                        item.classList.remove("hidden");
+                    });
+                } else if (weekData.ratings[ratingSelector] < 5) {
+                    elementsBad.forEach(function (item) {
+                        item.classList.remove("hidden");
+                    });
+                }
+
             }
         })
     });
