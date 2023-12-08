@@ -605,14 +605,14 @@
     function updateGoodBadStuffData(list) {
         let listSelector = list.id;
         console.log(listSelector);
-        let items = list.querySelectorAll(".todo-label");
+        let items = list.querySelectorAll(".todo-item");
         let values = [];
         items.forEach(function (item) {
-            let classList = Array.from(item.parentElement.classList);
+            let classList = Array.from(item.classList);
             console.log("classList before shift: " + classList);
             classList.shift();
             console.log("classList after shift: " + classList);
-            values.push(new todoListItem(item.innerText, classList));
+            values.push(new GoodOrBadStuff(item.querySelector(".central-text"), classList, item.querySelector(".top-text"), item.querySelector(".bottom-text") ));
         });
         console.log(values);
         weekData.todoLists[listSelector] = values;
