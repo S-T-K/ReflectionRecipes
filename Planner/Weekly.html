@@ -812,7 +812,11 @@
                 //find the good and bad elements, update the value, hide them all
                 let elementsGood = document.querySelectorAll('[ratingGood="' + ratingSelector.toLowerCase() + '"]');
                 let elementsBad = document.querySelectorAll('[ratingBad="' + ratingSelector.toLowerCase() + '"]');
-                elementsGood.concat(elementsBad).forEach(function (item) {
+                elementsGood.forEach(function (item) {
+                    item.querySelector(".rating-element").innerHTML = weekData.ratings[ratingSelector];
+                    item.classList.add("hidden");
+                });
+                elementsBad.forEach(function (item) {
                     item.querySelector(".rating-element").innerHTML = weekData.ratings[ratingSelector];
                     item.classList.add("hidden");
                 });
@@ -872,12 +876,15 @@
 
     //mark as highlight
     todoListHighlight.addEventListener("click", (e) => {
-        if (e.target.classList.contains("todo_item")) {
-            e.target.classList.toggle("is-highlight");
-            updateGoodBadStuffData(todoListHighlight);
-        } else if (e.target.parentElement.classList.contains("todo_item")) {
-            e.target.parentElement.classList.toggle("is-highlight");
-            updateGoodBadStuffData(todoListHighlight);
+        const isTrashIconClick = e.target.closest(".trash-icon");
+
+        if (!isTrashIconClick) {
+            const todoItem = e.target.closest(".todo_item");
+
+            if (todoItem) {
+                todoItem.classList.toggle("is-highlight");
+                updateGoodBadStuffData(todoListHighlight);
+            }
         }
     });
 
