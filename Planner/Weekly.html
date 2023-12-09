@@ -898,13 +898,13 @@
             const todoItem = e.target.closest(".todo_item");
 
             if (todoItem) {
-                let text = todoItem.querySelector(".central-text").value;
+                let text = todoItem.querySelector(".central-text").innerHTML;
                 if (todoItem.classList.contains("is-highlight")) {
                     // remove the item from GoodStuff Summary Fields
                     let summaries = document.querySelectorAll(".goodSummary");
                     summaries.forEach(function (summary) {
                         summary.querySelectorAll(".central-text").forEach(function (item) {
-                            if (item.value === text) {
+                            if (item.innerHTML === text) {
                                 item.remove();
                             }
                         });
