@@ -906,6 +906,7 @@
                         summary.querySelectorAll(".central-text").forEach(function (item) {
                             if (item.innerHTML === text) {
                                 item.remove();
+                                return;
                             }
                         });
                     });
