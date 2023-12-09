@@ -904,7 +904,7 @@
                     let summaries = document.querySelectorAll(".goodsummary");
                     summaries.forEach(function (summary) {
                         summary.querySelectorAll(".central-text").forEach(function (item) {
-                            if (item.innerHTML === text) {
+                            if (item.innerHTML.trim() === text) {
                                 item.remove();
                                 return;
                             }
