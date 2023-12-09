@@ -898,8 +898,45 @@
             const todoItem = e.target.closest(".todo_item");
 
             if (todoItem) {
+                let text = todoItem.querySelector(".central-text").value;
+                if (todoItem.classList.contains("is-highlight")) {
+                    // remove the item from GoodStuff Summary Fields
+                    let summaries = document.querySelectorAll(".goodSummary");
+                    summaries.forEach(function (summary) {
+                        summary.querySelectorAll(".central-text").forEach(function (item) {
+                            if (item.value === text) {
+                                item.remove();
+                            }
+                        });
+                    });
+                } else {
+                    // add the item from GoodStuff Summary Fields
+                    let summaries = document.querySelectorAll(".goodSummary");
+                    summaries.forEach(function (summary) {
+                        const htmlContent = `
+             <div class="central-text">
+                ${text}
+              </div>
+`;
+                        summary.innerHTML += htmlContent;
+                    });
+                }
                 todoItem.classList.toggle("is-highlight");
                 updateGoodStuffData(todoListHighlight);
+            }
+        }
+    });
+
+    //mark as lowlight
+    todoListLowlight.addEventListener("click", (e) => {
+        const isTrashIconClick = e.target.closest(".trash-icon");
+
+        if (!isTrashIconClick) {
+            const todoItem = e.target.closest(".todo_item");
+
+            if (todoItem) {
+                todoItem.classList.toggle("is-lowlight");
+                updateBadStuffData(todoListLowlight);
             }
         }
     });
