@@ -567,9 +567,13 @@
     const todoListGoodGrateful = document.querySelector("#todo-middle-area-good-grateful");
     const addInputGoodRepeat = document.querySelector("#wf-form-Add-Form-Good-Repeat");
     const todoListGoodRepeat = document.querySelector("#todo-middle-area-good-repeat");
+    const addInputBadComplain = document.querySelector("#wf-form-Add-Form-Bad-Complain");
+    const todoListBadComplain = document.querySelector("#todo-middle-area-bad-complain");
+    const addInputBadImprove = document.querySelector("#wf-form-Add-Form-Bad-Improve");
+    const todoListBadImprove = document.querySelector("#todo-middle-area-bad-improve");
     const todoInputsWithPrompt = [addInputHighlight, addInputLowlight];
-    const todoInputsDeletable = [addInputGoodGrateful, addInputGoodRepeat];
-    const todoListsDeletable = [todoListHighlight, todoListLowlight, todoListGoodGrateful, todoListGoodRepeat]
+    const todoInputsDeletable = [addInputGoodGrateful, addInputGoodRepeat, addInputBadComplain, addInputBadImprove];
+    const todoListsDeletable = [todoListHighlight, todoListLowlight, todoListGoodGrateful, todoListGoodRepeat, todoListBadComplain, todoListBadImprove];
     const todoInputsNonDeletable = [];
     const todoListsNonDeletable = [];
 
@@ -940,6 +944,30 @@
             const todoItem = e.target.closest(".todo_item");
 
             if (todoItem) {
+                let text = todoItem.querySelector(".central-text").innerHTML;
+                if (todoItem.classList.contains("is-lowlight")) {
+                    // remove the item from BadStuff Summary Fields
+                    let summaries = document.querySelectorAll(".badsummary");
+                    summaries.forEach(function (summary) {
+                        summary.querySelectorAll(".central-text").forEach(function (item) {
+                            if (item.innerHTML.trim() === text) {
+                                item.remove();
+                                return;
+                            }
+                        });
+                    });
+                } else {
+                    // add the item from BadStuff Summary Fields
+                    let summaries = document.querySelectorAll(".badsummary");
+                    summaries.forEach(function (summary) {
+                        const htmlContent = `
+             <div class="central-text">
+                ${text}
+              </div>
+`;
+                        summary.innerHTML += htmlContent;
+                    });
+                }
                 todoItem.classList.toggle("is-lowlight");
                 updateBadStuffData(todoListLowlight);
             }
