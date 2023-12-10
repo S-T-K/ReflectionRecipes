@@ -1218,7 +1218,7 @@
         setGoodAndBadStuff("todo-middle-area-lowlight", weekData.badStuff);
 
         // remove the mocked item from Summary Fields
-        let summaries = document.querySelectorAll(".goodsummary .badsummary");
+        let summaries = document.querySelectorAll(".goodsummary, .badsummary");
         summaries.forEach(function (summary) {
             summary.querySelectorAll(".central-text").forEach(function (item) {
                     item.remove();
@@ -1226,6 +1226,7 @@
             });
 
         // remove the mocked summary answers
+
 
 
         // initRandom(randomSeed);
