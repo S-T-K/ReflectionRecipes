@@ -563,9 +563,11 @@
     const todoListHighlight = document.querySelector("#todo-middle-area-highlight");
     const addInputLowlight = document.querySelector("#wf-form-Add-Form-lowlight");
     const todoListLowlight = document.querySelector("#todo-middle-area-lowlight");
+    const addInputGoodGrateful = document.querySelector("#wf-form-Add-Form-Good-Grateful");
+    const todoListGoodGrateful = document.querySelector("todo-middle-area-good-grateful");
     const todoInputsWithPrompt = [addInputHighlight, addInputLowlight];
-    const todoInputsDeletable = [];
-    const todoListsDeletable = [todoListHighlight, todoListLowlight]
+    const todoInputsDeletable = [addInputGoodGrateful];
+    const todoListsDeletable = [todoListHighlight, todoListLowlight, todoListGoodGrateful]
     const todoInputsNonDeletable = [];
     const todoListsNonDeletable = [];
 
@@ -1212,6 +1214,17 @@
         // prep the html
         setGoodAndBadStuff("todo-middle-area-highlight", weekData.goodStuff);
         setGoodAndBadStuff("todo-middle-area-lowlight", weekData.badStuff);
+
+        // remove the mocked item from Summary Fields
+        let summaries = document.querySelectorAll(".goodsummary .badsummary");
+        summaries.forEach(function (summary) {
+            summary.querySelectorAll(".central-text").forEach(function (item) {
+                    item.remove();
+                });
+            });
+
+        // remove the mocked summary answers
+
 
         // initRandom(randomSeed);
         // randomizeQuestions(dayData.date, dayData.weekday);
