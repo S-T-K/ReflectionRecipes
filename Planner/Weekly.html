@@ -41,6 +41,7 @@
         finishedTodos;
         openTodos;
         ratings;
+        todoLists;
 
         constructor() {
             this.date = getCurrentDate();
@@ -52,6 +53,7 @@
             this.finishedTodos = [];
             this.openTodos = []
             this.ratings = {};
+            this.todoLists = {};
         }
 
         loadSavedData(string) {
@@ -66,6 +68,7 @@
                 this.finishedTodos = parsed.finishedTodos;
                 this.openTodos = parsed.openTodos;
                 this.ratings = parsed.ratings;
+                this.todoLists = parsed.todoLists;
             }
         }
 
@@ -571,9 +574,11 @@
     const todoListBadComplain = document.querySelector("#todo-middle-area-bad-complain");
     const addInputBadImprove = document.querySelector("#wf-form-Add-Form-Bad-Improve");
     const todoListBadImprove = document.querySelector("#todo-middle-area-bad-improve");
+    const addInputCalendar = document.querySelector("#wf-form-Add-Form-Calendar");
+    const todoListCalendar = document.querySelector("#todo-middle-area-calendar");
     const todoInputsWithPrompt = [addInputHighlight, addInputLowlight];
-    const todoInputsDeletable = [addInputGoodGrateful, addInputGoodRepeat, addInputBadComplain, addInputBadImprove];
-    const todoListsDeletable = [todoListHighlight, todoListLowlight, todoListGoodGrateful, todoListGoodRepeat, todoListBadComplain, todoListBadImprove];
+    const todoInputsDeletable = [addInputGoodGrateful, addInputGoodRepeat, addInputBadComplain, addInputBadImprove, addInputCalendar];
+    const todoListsDeletable = [todoListHighlight, todoListLowlight, todoListGoodGrateful, todoListGoodRepeat, todoListBadComplain, todoListBadImprove, todoListCalendar];
     const todoInputsNonDeletable = [];
     const todoListsNonDeletable = [];
 
