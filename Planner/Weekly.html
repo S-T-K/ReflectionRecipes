@@ -576,11 +576,14 @@
     const todoListBadImprove = document.querySelector("#todo-middle-area-bad-improve");
     const addInputCalendar = document.querySelector("#wf-form-Add-Form-Calendar");
     const todoListCalendar = document.querySelector("#todo-middle-area-calendar");
+    const addInputOld = document.querySelector("#wf-form-Add-Form-Old");
+    const todoListOld = document.querySelector("#todo-middle-area-old");
     const todoInputsWithPrompt = [addInputHighlight, addInputLowlight];
+    const todoListsWithPrompt = [todoListHighlight, todoListLowlight];
     const todoInputsDeletable = [addInputGoodGrateful, addInputGoodRepeat, addInputBadComplain, addInputBadImprove, addInputCalendar];
-    const todoListsDeletable = [todoListHighlight, todoListLowlight, todoListGoodGrateful, todoListGoodRepeat, todoListBadComplain, todoListBadImprove, todoListCalendar];
-    const todoInputsNonDeletable = [];
-    const todoListsNonDeletable = [];
+    const todoListsDeletable = [todoListGoodGrateful, todoListGoodRepeat, todoListBadComplain, todoListBadImprove, todoListCalendar];
+    const todoInputsNonDeletable = [addInputOld];
+    const todoListsNonDeletable = [todoListOld];
 
     const ratingFormPreviousVision = document.querySelector("#rating-previous-vision");
     const ratingFormSleep = document.querySelector("#rating-sleep");
@@ -767,8 +770,8 @@
             const input = element.AddTerm.value.trim();
 
             if (input.length) {
-                addTodoGoodBadStuff(todoListsDeletable[index], input, null, "General:", "This week");
-                updateTodoListData(todoListsDeletable[index]);
+                addTodoGoodBadStuff(todoListsWithPrompt[index], input, null, "General:", "This week");
+                updateTodoListData(todoListsWithPrompt[index]);
                 element.reset();
             }
         });
