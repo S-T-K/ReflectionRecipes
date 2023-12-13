@@ -1248,8 +1248,8 @@
             if (mostRecent && mostRecent.todoLists['todo-middle-area-today']) {
                 for (const task of mostRecent.todoLists['todo-middle-area-today']) {
                     task.class = [];
-                    addTodoDeletable(todoListNextWeek, task);
-                    addTodoDeletable(todoListOld, task);
+                    addTodoDeletable(todoListNextWeek, task.text);
+                    addTodoDeletable(todoListOld, task.text);
                     allOpenTodos.push(task);
                 }
             }
