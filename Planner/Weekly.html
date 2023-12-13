@@ -899,6 +899,34 @@
 
      });
 
+    //Select next weeks tasks and add them to the final list
+    todoListNextWeek.addEventListener("click", (e) => {
+        let todo = "";
+        if (e.target.classList.contains("todo_item")) {
+            e.target.classList.toggle("is-next-weeks-task");
+            updateTodoListData(todoListNextWeek);
+            todo = e.target.firstElementChild.innerHTML;
+        } else if (e.target.parentElement.classList.contains("todo_item")) {
+            e.target.parentElement.classList.toggle("is-next-weeks-task");
+            updateTodoListData(todoListNextWeek);
+            todo = e.target.innerHTML;
+        }
+        // remove from the final tasks
+        if (e.target.classList.contains("is-next-weeks-task") || e.target.parentElement.classList.contains("is-next-weeks-task")) {
+            for (const a of todoListImproveGoals.querySelectorAll(".todo_item")) {
+                if (a.children[0].textContent === todo) {
+                    a.parentElement.removeChild(a);
+                    updateTodoListData(todoListImproveGoals);
+                }
+            }
+            // add to today's tasks
+        } else {
+            addTodoNonDeletable(todoListImproveGoals, todo);
+        }
+        updateTodoListData(todoListImproveGoals);
+
+    });
+
      //add Gratefulness, Improvement and Calendar answers to backlog
     const inputsForBacklog = [addInputGoodGrateful, addInputBadImprove, addInputCalendar];
     inputsForBacklog.forEach(function (element) {
@@ -1189,6 +1217,30 @@
             weekData = new WeekReflectionData();
             //get old vision from week before
             weekData.previousVision = mostRecentWeek.vision;
+            //get open todos from the last day, doesn't have to be within this week
+            let mostRecent;
+            for (const day of days) {
+                let loadedJSON = userDataIframe.getElementById(day).value;
+                if (loadedJSON && JSON.parse(loadedJSON).date) {
+                    if (!mostRecent) {
+                        mostRecent = new DayReflectionData();
+                        mostRecent.loadSavedData(loadedJSON);
+                    } else if (parseDateString(mostRecent.date) < parseDateString(JSON.parse(loadedJSON).date)) {
+                        mostRecent.loadSavedData(loadedJSON);
+                    }
+                }
+            }
+            let allOpenTodos = [];
+            if (mostRecent && mostRecent.todoLists['todo-middle-area-today']) {
+                for (const task of mostRecent.todoLists['todo-middle-area-today']) {
+                    task.class = [];
+                    addTodoDeletable(todoListNextWeek, task.text);
+                    addTodoDeletable(todoListOld, task.text);
+                    allOpenTodos.push(task);
+                }
+            }
+            weekData.openTodos = allOpenTodos;
+
             //get all good and bad notes, include questions, also get finished todos
             let allGoodStuff = [];
             let allBadStuff = [];
@@ -1249,29 +1301,7 @@
                 }
                 weekData.finishedTodos = allFinishedTodos;
             }
-            //get open todos from the last day, doesn't have to be within this week
-            let mostRecent;
-            for (const day of days) {
-                let loadedJSON = userDataIframe.getElementById(day).value;
-                if (loadedJSON && JSON.parse(loadedJSON).date) {
-                    if (!mostRecent) {
-                        mostRecent = new DayReflectionData();
-                        mostRecent.loadSavedData(loadedJSON);
-                    } else if (parseDateString(mostRecent.date) < parseDateString(JSON.parse(loadedJSON).date)) {
-                        mostRecent.loadSavedData(loadedJSON);
-                    }
-                }
-            }
-            let allOpenTodos = [];
-            if (mostRecent && mostRecent.todoLists['todo-middle-area-today']) {
-                for (const task of mostRecent.todoLists['todo-middle-area-today']) {
-                    task.class = [];
-                    addTodoDeletable(todoListNextWeek, task.text);
-                    addTodoDeletable(todoListOld, task.text);
-                    allOpenTodos.push(task);
-                }
-            }
-            weekData.openTodos = allOpenTodos;
+
             console.log("New data created");
         }
 
