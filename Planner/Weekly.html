@@ -900,7 +900,7 @@
      //add Gratefullness and Improvement answers to backlog
     addInputGoodGrateful.addEventListener("submit", (e) => {
         e.preventDefault();
-        const input = element.AddTerm.value.trim();
+        const input = addInputGoodGrateful.AddTerm.value.trim();
 
         if (input.length) {
             addTodoDeletable(todoListNextWeek, input);
@@ -910,7 +910,7 @@
     });
     addInputBadImprove.addEventListener("submit", (e) => {
         e.preventDefault();
-        const input = element.AddTerm.value.trim();
+        const input = addInputBadImprove.AddTerm.value.trim();
 
         if (input.length) {
             addTodoDeletable(todoListNextWeek, input);
