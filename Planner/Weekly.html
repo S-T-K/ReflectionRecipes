@@ -1247,6 +1247,7 @@
                         if (todo.class.includes("is-done")) {
                             if (!allFinishedTodos.map(a => a.text).includes(todo.text)) {
                                 allFinishedTodos.push(todo);
+                                addTodoDeletable(todoListOld, todo.text, "is-done");
                             }
                         }
                     }
