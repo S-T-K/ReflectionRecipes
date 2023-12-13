@@ -911,17 +911,17 @@
             updateTodoListData(todoListNextWeek);
             todo = e.target.innerHTML;
         }
-        // remove from the final tasks
+        // add to the final tasks
         if (e.target.classList.contains("is-next-weeks-task") || e.target.parentElement.classList.contains("is-next-weeks-task")) {
+            addTodoDeletable(todoListImproveGoals, todo);
+            // remove from the final list
+        } else {
             for (const a of todoListImproveGoals.querySelectorAll(".todo_item")) {
                 if (a.children[0].textContent === todo) {
                     a.parentElement.removeChild(a);
                     updateTodoListData(todoListImproveGoals);
                 }
             }
-            // add to today's tasks
-        } else {
-            addTodoNonDeletable(todoListImproveGoals, todo);
         }
         updateTodoListData(todoListImproveGoals);
 
@@ -1028,6 +1028,9 @@
             }
         }
     });
+
+    //clickhandler for the buttons
+
 
     function waitFor(conditionFunction) {
         const poll = resolve => {
