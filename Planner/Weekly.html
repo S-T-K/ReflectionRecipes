@@ -578,12 +578,12 @@
     const todoListCalendar = document.querySelector("#todo-middle-area-calendar");
     const addInputOld = document.querySelector("#wf-form-Add-Form-Old");
     const todoListOld = document.querySelector("#todo-middle-area-old");
-    const addInputFinal = document.querySelector("#wf-form-Add-Form-Final");
-    const todoListFinal = document.querySelector("#todo-middle-area-final");
+    const addInputNextWeek = document.querySelector("#wf-form-Add-Form-Next-Week");
+    const todoListNextWeek = document.querySelector("#todo-middle-area-next-week");
     const todoInputsWithPrompt = [addInputHighlight, addInputLowlight];
     const todoListsWithPrompt = [todoListHighlight, todoListLowlight];
-    const todoInputsDeletable = [addInputGoodGrateful, addInputGoodRepeat, addInputBadComplain, addInputBadImprove, addInputCalendar, addInputFinal];
-    const todoListsDeletable = [todoListGoodGrateful, todoListGoodRepeat, todoListBadComplain, todoListBadImprove, todoListCalendar, todoListFinal];
+    const todoInputsDeletable = [addInputGoodGrateful, addInputGoodRepeat, addInputBadComplain, addInputBadImprove, addInputCalendar, addInputNextWeek];
+    const todoListsDeletable = [todoListGoodGrateful, todoListGoodRepeat, todoListBadComplain, todoListBadImprove, todoListCalendar, todoListNextWeek];
     const todoInputsNonDeletable = [addInputOld];
     const todoListsNonDeletable = [todoListOld];
 
@@ -869,7 +869,7 @@
         })
     });
 
-    /* //Cross out Items
+     //Cross out done tasks and update the backlog accordingly
      todoListOld.addEventListener("click", (e) => {
          let todo = "";
          if (e.target.classList.contains("todo_item")) {
@@ -881,23 +881,23 @@
              updateTodoListData(todoListOld);
              todo = e.target.innerHTML;
          }
-         // remove from today's tasks
+         // remove from the backlog tasks
          if (e.target.classList.contains("is-done") || e.target.parentElement.classList.contains("is-done")) {
-             for (const a of todoListToday.querySelectorAll(".todo_item")) {
+             for (const a of todoListNextWeek.querySelectorAll(".todo_item")) {
                  if (a.children[0].textContent === todo) {
                      a.parentElement.removeChild(a);
-                     updateTodoListData(todoListToday);
+                     updateTodoListData(todoListNextWeek);
                  }
                  }
          // add to today's tasks
          } else {
-             addTodoNonDeletable(todoListToday, todo);
+             addTodoNonDeletable(todoListNextWeek, todo);
          }
-         updateTodoListData(todoListToday);
+         updateTodoListData(todoListNextWeek);
 
      });
 
-     //Mark as today's task
+    /* //Mark as today's task
      todoListToday.addEventListener("click", (e) => {
          if (e.target.classList.contains("todo_item")) {
              e.target.classList.toggle("is-todays-task");
@@ -1248,6 +1248,8 @@
             if (mostRecent && mostRecent.todoLists['todo-middle-area-today']) {
                 for (const task of mostRecent.todoLists['todo-middle-area-today']) {
                     task.class = [];
+                    addTodoDeletable(todoListNextWeek, task);
+                    addTodoDeletable(todoListOld, task);
                     allOpenTodos.push(task);
                 }
             }
