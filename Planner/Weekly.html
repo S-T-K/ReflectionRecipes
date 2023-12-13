@@ -897,6 +897,28 @@
 
      });
 
+     //add Gratefullness and Improvement answers to backlog
+    addInputGoodGrateful.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const input = element.AddTerm.value.trim();
+
+        if (input.length) {
+            addTodoDeletable(todoListNextWeek, input);
+            updateTodoListData(todoListNextWeek);
+            element.reset();
+        }
+    });
+    addInputBadImprove.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const input = element.AddTerm.value.trim();
+
+        if (input.length) {
+            addTodoDeletable(todoListNextWeek, input);
+            updateTodoListData(todoListNextWeek);
+            element.reset();
+        }
+    });
+
     /* //Mark as today's task
      todoListToday.addEventListener("click", (e) => {
          if (e.target.classList.contains("todo_item")) {
