@@ -851,6 +851,22 @@
         });
     });
 
+    //delete items for prompt list
+    todoListsWithPrompt.forEach(function (element, index) {
+        element.addEventListener("click", (e) => {
+            if (e.target.parentElement.parentElement.classList.contains("trash-icon")) {
+                e.target.parentElement.parentElement.parentElement.remove();
+                updateTodoListData(todoListsWithPrompt[index]);
+            } else if (e.target.parentElement.classList.contains("trash-icon")) {
+                e.target.parentElement.parentElement.remove();
+                updateTodoListData(todoListsWithPrompt[index]);
+            } else if (e.target.classList.contains("trash-icon")) {
+                e.target.parentElement.remove();
+                updateTodoListData(todoListsWithPrompt[index]);
+            }
+        });
+    });
+
     ratingForms.forEach(function (element, index) {
         element.addEventListener("click", (e) => {
             console.log(e.target);
