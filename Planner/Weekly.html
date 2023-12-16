@@ -842,15 +842,35 @@
     //delete items
     todoListsDeletable.forEach(function (element, index) {
         element.addEventListener("click", (e) => {
+            let deletedItem = null;
             if (e.target.parentElement.parentElement.classList.contains("trash-icon")) {
+                deletedItem = e.target.parentElement.parentElement.parentElement.querySelector(".todo-label").innerHTML.trim();
                 e.target.parentElement.parentElement.parentElement.remove();
                 updateTodoListData(todoListsDeletable[index]);
             } else if (e.target.parentElement.classList.contains("trash-icon")) {
+                deletedItem = e.target.parentElement.parentElement.querySelector(".todo-label").innerHTML.trim();
                 e.target.parentElement.parentElement.remove();
                 updateTodoListData(todoListsDeletable[index]);
             } else if (e.target.classList.contains("trash-icon")) {
+                deletedItem = e.target.parentElement.querySelector(".todo-label").innerHTML.trim();
                 e.target.parentElement.remove();
                 updateTodoListData(todoListsDeletable[index]);
+            }
+
+            // if an item that landed on the list for next week was deleted, delete it there as well, also on the final list
+            if (deletedItem && inputsForBacklog.includes(todoInputsDeletable[index])) {
+                for (const a of todoListNextWeek.querySelectorAll(".todo_item")) {
+                    if (a.children[0].textContent === deletedItem) {
+                        a.parentElement.removeChild(a);
+                        updateTodoListData(todoListNextWeek);
+                    }
+                }
+                for (const a of todoListImproveGoals.querySelectorAll(".todo_item")) {
+                    if (a.children[0].textContent === deletedItem) {
+                        a.parentElement.removeChild(a);
+                        updateTodoListData(todoListImproveGoals);
+                    }
+                }
             }
         });
     });
