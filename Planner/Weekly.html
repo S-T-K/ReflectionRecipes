@@ -753,6 +753,8 @@
         list.innerHTML += htmlContent;
     };
 
+    const inputsForBacklog = [addInputGoodGrateful, addInputBadImprove, addInputCalendar];
+
     //add item on submit deletable
     todoInputsDeletable.forEach(function (element, index) {
         element.addEventListener("submit", (e) => {
@@ -762,6 +764,10 @@
             if (input.length) {
                 addTodoDeletable(todoListsDeletable[index], input);
                 updateTodoListData(todoListsDeletable[index]);
+                if (inputsForBacklog.includes(todoListsDeletable[index])) {
+                    addTodoDeletable(todoListNextWeek, input);
+                    updateTodoListData(todoListNextWeek);
+                }
                 element.reset();
             }
         });
@@ -776,6 +782,10 @@
             if (input.length) {
                 addTodoGoodBadStuff(todoListsWithPrompt[index], input, null, "General:", "This week");
                 updateTodoListData(todoListsWithPrompt[index]);
+                if (inputsForBacklog.includes(todoListsDeletable[index])) {
+                    addTodoDeletable(todoListNextWeek, input);
+                    updateTodoListData(todoListNextWeek);
+                }
                 element.reset();
             }
         });
@@ -790,6 +800,10 @@
             if (input.length) {
                 addTodoNonDeletable(todoListsNonDeletable[index], input);
                 updateTodoListData(todoListsNonDeletable[index]);
+                if (inputsForBacklog.includes(todoListsDeletable[index])) {
+                    addTodoDeletable(todoListNextWeek, input);
+                    updateTodoListData(todoListNextWeek);
+                }
                 element.reset();
             }
         });
@@ -926,21 +940,6 @@
         updateTodoListData(todoListImproveGoals);
 
     });
-
-     //add Gratefulness, Improvement and Calendar answers to backlog
-    const inputsForBacklog = [addInputGoodGrateful, addInputBadImprove, addInputCalendar];
-    inputsForBacklog.forEach(function (element) {
-        element.addEventListener("submit", (e) => {
-            e.preventDefault();
-            const input = element.AddTerm.value.trim();
-            if (input.length) {
-                addTodoDeletable(todoListNextWeek, input);
-                updateTodoListData(todoListNextWeek);
-                element.reset();
-            }
-        });
-    });
-
 
     /* //Mark as today's task
      todoListToday.addEventListener("click", (e) => {
