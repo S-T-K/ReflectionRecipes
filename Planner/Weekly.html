@@ -764,7 +764,7 @@
             if (input.length) {
                 addTodoDeletable(todoListsDeletable[index], input);
                 updateTodoListData(todoListsDeletable[index]);
-                if (inputsForBacklog.includes(todoListsDeletable[index])) {
+                if (inputsForBacklog.includes(todoInputsDeletable[index])) {
                     addTodoDeletable(todoListNextWeek, input);
                     updateTodoListData(todoListNextWeek);
                 }
@@ -782,7 +782,7 @@
             if (input.length) {
                 addTodoGoodBadStuff(todoListsWithPrompt[index], input, null, "General:", "This week");
                 updateTodoListData(todoListsWithPrompt[index]);
-                if (inputsForBacklog.includes(todoListsDeletable[index])) {
+                if (inputsForBacklog.includes(todoInputsWithPrompt[index])) {
                     addTodoDeletable(todoListNextWeek, input);
                     updateTodoListData(todoListNextWeek);
                 }
@@ -800,7 +800,7 @@
             if (input.length) {
                 addTodoNonDeletable(todoListsNonDeletable[index], input);
                 updateTodoListData(todoListsNonDeletable[index]);
-                if (inputsForBacklog.includes(todoListsDeletable[index])) {
+                if (inputsForBacklog.includes(todoInputsNonDeletable[index])) {
                     addTodoDeletable(todoListNextWeek, input);
                     updateTodoListData(todoListNextWeek);
                 }
@@ -813,11 +813,8 @@
     todoInputsDeletable.forEach(function (element, index) {
         element.AddTerm.onblur = function () {
             const input = element.AddTerm.value.trim();
-
             if (input.length) {
-                addTodoDeletable(todoListsDeletable[index], input);
-                updateTodoListData(todoListsDeletable[index]);
-                element.reset();
+                todoInputsDeletable[index].requestSubmit();
             }
         }
     });
@@ -826,11 +823,18 @@
     todoInputsNonDeletable.forEach(function (element, index) {
         element.AddTerm.onblur = function () {
             const input = element.AddTerm.value.trim();
-
             if (input.length) {
-                addTodoNonDeletable(todoListsNonDeletable[index], input);
-                updateTodoListData(todoListsNonDeletable[index]);
-                element.reset();
+                todoInputsNonDeletable[index].requestSubmit();
+            }
+        }
+    });
+
+    //add item on blur with prompt
+    todoInputsWithPrompt.forEach(function (element, index) {
+        element.AddTerm.onblur = function () {
+            const input = element.AddTerm.value.trim();
+            if (input.length) {
+                todoInputsWithPrompt[index].requestSubmit();
             }
         }
     });
