@@ -38,8 +38,6 @@
         vision;
         goodStuff;
         badStuff;
-        finishedTodos;
-        openTodos;
         ratings;
         todoLists;
         questions;
@@ -51,8 +49,6 @@
             this.vision = "";
             this.goodStuff = [];
             this.badStuff = [];
-            this.finishedTodos = [];
-            this.openTodos = []
             this.ratings = {};
             this.todoLists = {};
             this.questions = {};
@@ -67,8 +63,6 @@
                 this.vision = parsed.vision;
                 this.goodStuff = parsed.goodStuff;
                 this.badStuff = parsed.badStuff;
-                this.finishedTodos = parsed.finishedTodos;
-                this.openTodos = parsed.openTodos;
                 this.ratings = parsed.ratings;
                 this.todoLists = parsed.todoLists;
                 this.questions = parsed.questions;
@@ -897,7 +891,7 @@
     }
 
     function setCounter() {
-        document.querySelector("#final-counter").innerHTML = dayData.counter;
+        document.querySelector("#final-counter").innerHTML = weekData.counter;
     }
 
     function clearTodoItems() {
@@ -1013,16 +1007,13 @@
                     }
                 }
             }
-            let allOpenTodos = [];
             if (mostRecent && mostRecent.todoLists['todo-middle-area-today']) {
                 for (const task of mostRecent.todoLists['todo-middle-area-today']) {
                     task.class = [];
                     addTodoDeletable(todoListNextWeek, task.text);
                     addTodoDeletable(todoListOld, task.text);
-                    allOpenTodos.push(task);
                 }
             }
-            weekData.openTodos = allOpenTodos;
 
             //get all good and bad notes, include questions, also get finished todos
             let allGoodStuff = [];
@@ -1082,8 +1073,8 @@
                         }
                     }
                 }
-                weekData.finishedTodos = allFinishedTodos;
             }
+            weekData.counter = mostRecent.counter ? (mostRecent.counter + 1) : 1;
 
             console.log("New data created");
         }
@@ -1110,7 +1101,7 @@
         // setTodoItems();
         // setTextareas();
          setQuestionsInHTML();
-        // setCounter();
+         setCounter();
         // setButtonLogic();
         //hide loading spinner
         document.getElementsByClassName('loading-spinner')[0].remove();
