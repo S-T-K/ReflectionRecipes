@@ -519,7 +519,11 @@
 
             if (input.length) {
                 addTodoGoodBadStuff(todoListsWithPrompt[index], input, null, "General:", "This week");
-                updateTodoListData(todoListsWithPrompt[index]);
+                if (todoListsWithPrompt[index] === todoListHighlight) {
+                    updateGoodStuffData(todoListHighlight);
+                } else if (todoListsWithPrompt[index] === todoListLowlight) {
+                    updateBadStuffData(todoListLowlight);
+                }
                 if (inputsForBacklog.includes(todoInputsWithPrompt[index])) {
                     addTodoDeletable(todoListNextWeek, input);
                     updateTodoListData(todoListNextWeek);
