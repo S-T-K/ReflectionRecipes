@@ -946,6 +946,7 @@
         if (activeWeek) {
             //if yes, parse it
             weekData.loadSavedData(activeWeek);
+            setTodoItems();
             console.log("Data overwritten from saved data!");
         } else {
             //if no, get the first empty week field or the oldest one
