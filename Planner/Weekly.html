@@ -840,7 +840,7 @@
     function setTodoItems() {
 // dayData has a list of todoLists based on selectors. create a method that
         // adds a new item to a todolist without writing it to data. also consider the state of the todo
-        for (let [key, value] of Object.entries(dayData.todoLists)) {
+        for (let [key, value] of Object.entries(weekData.todoLists)) {
             let element = document.querySelector("#" + key);
             console.log("tried to set todo Items for:")
             console.log(element);
