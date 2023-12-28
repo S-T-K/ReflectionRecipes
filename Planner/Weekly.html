@@ -392,7 +392,7 @@
         weekData.badStuff = values;
     }
 
-    const addTodoGoodBadStuff = (list, todo, classString, prompt, weeekday) => {
+    const addTodoGoodBadStuff = (list, todo, classString, prompt, weekday) => {
         let classStringTotal = "todo_item";
         if (classString) {
             classStringTotal += " " + classString;
@@ -403,7 +403,7 @@
                 <div class="text-flex">
                     <div class="top-text">${prompt}</div>
                     <div class="central-text">${todo}</div>
-                    <div class="bottom-text">${weeekday}</div>
+                    <div class="bottom-text">${weekday}</div>
                 </div>
                 <div class="svg-icon trash-icon w-embed">
                   <svg
@@ -849,6 +849,8 @@
                     addTodoDeletable(element, item.text, item.class[0]);
                 } else if (todoListsNonDeletable.includes(element)) {
                     addTodoNonDeletable(element, item.text, item.class[0]);
+                } else if (todoListsWithPrompt.includes(element)) {
+                    addTodoGoodBadStuff(element, item.text, item.class[0], item.prompt, item.weekday)
                 }
             });
         }
