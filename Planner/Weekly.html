@@ -841,6 +841,12 @@
         });
     }
 
+    function setRatings() {
+        weekData.ratings.forEach(rating => {
+            document.querySelector("[data-name='"+ rating.key + "'][value='" + rating.value + "']").checked = true;
+        });
+    }
+
     function setTodoItems() {
 // dayData has a list of todoLists based on selectors. create a method that
         // adds a new item to a todolist without writing it to data. also consider the state of the todo
@@ -951,6 +957,7 @@
             //if yes, parse it
             weekData.loadSavedData(activeWeek);
             setTodoItems();
+            setRatings();
             console.log("Data overwritten from saved data!");
         } else {
             //if no, get the first empty week field or the oldest one
