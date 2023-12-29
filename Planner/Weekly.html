@@ -370,7 +370,7 @@
             console.log("classList before shift: " + classList);
             classList.shift();
             console.log("classList after shift: " + classList);
-            values.push(new GoodOrBadStuff(item.querySelector(".central-text"), classList, item.querySelector(".top-text"), item.querySelector(".bottom-text") ));
+            values.push(new GoodOrBadStuff(item.querySelector(".central-text").innerText, classList, item.querySelector(".top-text").innerText, item.querySelector(".bottom-text").innerText ));
         });
         console.log(values);
         weekData.goodStuff = values;
@@ -386,7 +386,7 @@
             console.log("classList before shift: " + classList);
             classList.shift();
             console.log("classList after shift: " + classList);
-            values.push(new GoodOrBadStuff(item.querySelector(".central-text"), classList, item.querySelector(".top-text"), item.querySelector(".bottom-text") ));
+            values.push(new GoodOrBadStuff(item.querySelector(".central-text").innerText, classList, item.querySelector(".top-text").innerText, item.querySelector(".bottom-text").innerText ));
         });
         console.log(values);
         weekData.badStuff = values;
