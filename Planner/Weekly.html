@@ -842,9 +842,9 @@
     }
 
     function setRatings() {
-        weekData.ratings.forEach(rating => {
-            document.querySelector("[data-name='"+ rating.key + "'][value='" + rating.value + "']").checked = true;
-        });
+        for (let [key, value] of Object.entries(weekData.ratings)) {
+            document.querySelector("[data-name='"+ key + "'][value='" + value + "']").checked = true;
+        }
     }
 
     function setTodoItems() {
