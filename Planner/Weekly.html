@@ -847,6 +847,14 @@
             //find the good and bad elements, update the value, hide them all
             let elementsGood = document.querySelectorAll('[ratingGood="' + key.toLowerCase() + '"]');
             let elementsBad = document.querySelectorAll('[ratingBad="' + key.toLowerCase() + '"]');
+            elementsGood.forEach(function (item) {
+                item.querySelector(".rating-element").innerHTML = weekData.ratings[key];
+                item.classList.add("hidden");
+            });
+            elementsBad.forEach(function (item) {
+                item.querySelector(".rating-element").innerHTML = weekData.ratings[key];
+                item.classList.add("hidden");
+            });
             //if within range, show on respective page
             if(weekData.ratings[key] > 6) {
                 elementsGood.forEach(function (item) {
