@@ -844,6 +844,19 @@
     function setRatings() {
         for (let [key, value] of Object.entries(weekData.ratings)) {
             document.querySelector("[data-name='"+ key + "'][value='" + value + "']").parentElement.querySelector("div").classList.add("w--redirected-checked");
+            //find the good and bad elements, update the value, hide them all
+            let elementsGood = document.querySelectorAll('[ratingGood="' + key.toLowerCase() + '"]');
+            let elementsBad = document.querySelectorAll('[ratingBad="' + key.toLowerCase() + '"]');
+            //if within range, show on respective page
+            if(weekData.ratings[key] > 6) {
+                elementsGood.forEach(function (item) {
+                    item.classList.remove("hidden");
+                });
+            } else if (weekData.ratings[key] < 5) {
+                elementsBad.forEach(function (item) {
+                    item.classList.remove("hidden");
+                });
+            }
         }
     }
 
