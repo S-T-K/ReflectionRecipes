@@ -843,7 +843,7 @@
 
     function setRatings() {
         for (let [key, value] of Object.entries(weekData.ratings)) {
-            document.querySelector("[data-name='"+ key + "'][value='" + value + "']").parentElement.classList.add("w--redirected-checked");
+            document.querySelector("[data-name='"+ key + "'][value='" + value + "']").parentElement.querySelector("div").classList.add("w--redirected-checked");
         }
     }
 
