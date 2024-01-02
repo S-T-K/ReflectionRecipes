@@ -1059,6 +1059,8 @@
                     addTodoDeletable(todoListOld, task.text);
                 }
             }
+            updateTodoListData(todoListNextWeek);
+            updateTodoListData(todoListOld);
 
             //get all good and bad notes, include questions, also get finished todos
             let allGoodStuff = [];
@@ -1118,6 +1120,7 @@
                         }
                     }
                 }
+                updateTodoListData(todoListOld);
             }
             weekData.counter = mostRecentWeek.counter ? (mostRecentWeek.counter + 1) : 1;
 
