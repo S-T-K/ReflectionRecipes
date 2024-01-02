@@ -888,7 +888,30 @@
                 } else if (todoListsNonDeletable.includes(element)) {
                     addTodoNonDeletable(element, item.text, item.class[0]);
                 } else if (todoListsWithPrompt.includes(element)) {
-                    addTodoGoodBadStuff(element, item.text, item.class[0], item.prompt, item.weekday)
+                    addTodoGoodBadStuff(element, item.text, item.class[0], item.prompt, item.weekday);
+                    if (element === todoListHighlight && item.class[0]) {
+                        // add the item from GoodStuff Summary Fields
+                        let summaries = document.querySelectorAll(".goodsummary");
+                        summaries.forEach(function (summary) {
+                            const htmlContent = `
+             <div class="central-text">
+                ${text}
+              </div>
+`;
+                            summary.innerHTML += htmlContent;
+                        });
+                    } else if (element === todoListLowlight && item.class[0]) {
+                        // add the item from BadStuff Summary Fields
+                        let summaries = document.querySelectorAll(".badsummary");
+                        summaries.forEach(function (summary) {
+                            const htmlContent = `
+             <div class="central-text">
+                ${text}
+              </div>
+`;
+                            summary.innerHTML += htmlContent;
+                        });
+                    }
                 }
             });
         }
