@@ -554,6 +554,10 @@
         dayData.todoLists[listSelector] = values;
     }
 
+    function disableAutoComplete (input) {
+        input.setAttribute("autocomplete", "off");
+    }
+
     const addTodoDeletable = (list, todo, classString) => {
         let classStringTotal = "todo_item";
         if (classString) {
@@ -610,6 +614,7 @@
 
     //add item on submit deletable
     todoInputsDeletable.forEach(function (element, index) {
+        disableAutoComplete(element.AddTerm);
         element.addEventListener("submit", (e) => {
             e.preventDefault();
             const input = element.AddTerm.value.trim();
@@ -624,6 +629,7 @@
 
     //add item on submit non deletable
     todoInputsNonDeletable.forEach(function (element, index) {
+        disableAutoComplete(element.AddTerm);
         element.addEventListener("submit", (e) => {
             e.preventDefault();
             const input = element.AddTerm.value.trim();
