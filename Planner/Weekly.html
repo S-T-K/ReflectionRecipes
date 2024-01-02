@@ -1155,13 +1155,6 @@
                 updateTodoListData(todoListOld);
             }
             weekData.counter = mostRecentWeek.counter ? (mostRecentWeek.counter + 1) : 1;
-// remove the mocked item from Summary Fields
-            let summaries = document.querySelectorAll(".goodsummary, .badsummary");
-            summaries.forEach(function (summary) {
-                summary.querySelectorAll(".central-text").forEach(function (item) {
-                    item.remove();
-                });
-            });
 
             console.log("New data created");
         }
@@ -1415,6 +1408,14 @@
         var dayData = new DayReflectionData();
         var weekData = new WeekReflectionData()
         var randomSeed = dayData.date + dayData.weekday;
+
+        // remove the mocked item from Summary Fields
+        let summaries = document.querySelectorAll(".goodsummary, .badsummary");
+        summaries.forEach(function (summary) {
+            summary.querySelectorAll(".central-text").forEach(function (item) {
+                item.remove();
+            });
+        });
 
 
         waitFor(_ => document.getElementById('userdataiframe').contentDocument).then(
