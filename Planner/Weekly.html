@@ -36,6 +36,7 @@
         userDataField;
         previousVision;
         vision;
+        customQuestion;
         goodStuff;
         badStuff;
         ratings;
@@ -48,6 +49,7 @@
             this.userDataField = "week1";
             this.previousVision = "";
             this.vision = "";
+            this.customQuestion = "";
             this.goodStuff = [];
             this.badStuff = [];
             this.ratings = {};
@@ -63,6 +65,7 @@
                 this.userDataField = parsed.userDataField;
                 this.previousVision = parsed.previousVision;
                 this.vision = parsed.vision;
+                this.customQuestion = parsed.customQuestion;
                 this.goodStuff = parsed.goodStuff;
                 this.badStuff = parsed.badStuff;
                 this.ratings = parsed.ratings;
@@ -949,21 +952,25 @@
     }
 
     function setTextareas() {
-//        // maybe add the height of calendar entries to their data (in the resize method that is missing) and then also set
-        //it when loading them
-        document.querySelectorAll("textarea[textarea]").forEach(function (textarea) {
-                if (dayData.inputs[textarea.getAttribute("textarea")]) {
-                    textarea.value = dayData.inputs[textarea.getAttribute("textarea")];
-                    // to resize them properly
-                    onVisible(textarea, (element) => {
-                            console.log("it's visible");
-                            element.style.height = 'auto';
-                            element.style.height = element.scrollHeight + 16 + 'px';
-                        }
-                    );
-                }
+//       //set the vision and the custom question
+        let textAreaVision = document.querySelector("textarea[textarea='vision']");
+        let textAreaCustom = document.querySelector("textarea[textarea='custom']");
+        textAreaVision.value = weekData.vision;
+        textAreaCustom.value = weekData.customQuestion;
+        onVisible(textAreaVision, (element) => {
+                console.log("it's visible");
+                element.style.height = 'auto';
+                element.style.height = element.scrollHeight + 16 + 'px';
             }
         );
+        onVisible(textAreaCustom, (element) => {
+                console.log("it's visible");
+                element.style.height = 'auto';
+                element.style.height = element.scrollHeight + 16 + 'px';
+            }
+        );
+
+
     }
 
     function setCounter() {
@@ -1173,7 +1180,7 @@
          initRandom(randomSeed);
          randomizeQuestions(weekData.date, weekData.date);
         // setTodoItems();
-        // setTextareas();
+         setTextareas();
          setQuestionsInHTML();
          setCounter();
         // setButtonLogic();
