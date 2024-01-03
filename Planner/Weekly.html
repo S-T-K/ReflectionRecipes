@@ -717,6 +717,7 @@
         // add to the final tasks
         if (e.target.classList.contains("is-next-weeks-task") || e.target.parentElement.classList.contains("is-next-weeks-task")) {
             addTodoDeletable(todoListImproveGoals, todo);
+            updateTodoListData(todoListImproveGoals);
             // remove from the final list
         } else {
             for (const a of todoListImproveGoals.querySelectorAll(".todo_item")) {
@@ -1093,7 +1094,6 @@
             }
             updateTodoListData(todoListNextWeek);
             updateTodoListData(todoListOld);
-            updateTodoListData(todoListImproveGoals);
 
             //get all good and bad notes, include questions, also get finished todos
             let allGoodStuff = [];
