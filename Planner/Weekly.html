@@ -357,7 +357,7 @@
             console.log("classList before shift: " + classList);
             classList.shift();
             console.log("classList after shift: " + classList);
-            values.push(new todoListItem(item.innerText, classList));
+            values.push(new todoListItem(item.innerHTML, classList));
         });
         console.log(values);
         weekData.todoLists[listSelector] = values;
