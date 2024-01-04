@@ -1036,11 +1036,11 @@
             //if no, get the first empty week field or the oldest one
             let weeksUserDataField;
             let week1 = new WeekReflectionData();
-            week1.loadSavedData(loadedJSONWeek1);
+            week1.loadSavedData(JSON.parse(loadedJSONWeek1));
             let week2 = new WeekReflectionData();
-            week2.loadSavedData(loadedJSONWeek2);
+            week2.loadSavedData(JSON.parse(loadedJSONWeek2));
             let week3 = new WeekReflectionData();
-            week3.loadSavedData(loadedJSONWeek3);
+            week3.loadSavedData(JSON.parse(loadedJSONWeek3));
             // if any week is empty, overwrite it
             if (!week3.date) {
                 weeksUserDataField = "week3";
