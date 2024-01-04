@@ -1168,6 +1168,10 @@
             console.log("New data created");
         }
 
+        // set previous Vision if provided
+        if (weekData.previousVision) {
+            document.querySelector("#previousVision").innerHTML = weekData.previousVision;
+        }
 
         // prep the html
         setGoodAndBadStuff("todo-middle-area-highlight", weekData.goodStuff);
