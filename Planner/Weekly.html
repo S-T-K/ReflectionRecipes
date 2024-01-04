@@ -969,7 +969,8 @@
                 element.style.height = element.scrollHeight + 16 + 'px';
             }
         );
-
+        textAreaVision.addEventListener('input', saveToData, false);
+        textAreaCustom.addEventListener('input', saveToData, false);
 
     }
 
@@ -1204,24 +1205,9 @@
 
     textareas = document.querySelectorAll("[textarea]");
     textareas.forEach(item => {
-        item.addEventListener('input', saveToData, false)
-    });
-    textareas.forEach(item => {
         item.addEventListener('input', autoResize, false)
     });
-    calendarTextareas = document.querySelectorAll(".textareaquarter");
-    calendarTextareas.forEach(item => {
-        item.addEventListener('input', styleCalendarEntry, false);
-        onVisible(item, (element) => {
-                console.log("calendars visible");
-                if (element.value.length > 0) {
-                    element.classList.add("calendarevent");
-                } else {
-                    element.classList.remove("calendarevent");
-                }
-            }
-        );
-    });
+
 
     function checkAndSetButtonLogicForYesterdaysTasks() {
         if (document.querySelector("#todo-middle-area-old .is-done")) {
@@ -1457,7 +1443,11 @@
 
     function saveToData() {
         console.log("saving to data: " + this.value);
-        dayData.inputs[this.getAttribute("textarea")] = this.value;
+        if (this.getAttribute("textarea") === "vision") {
+            weekData.vision = this.value;
+        } else if (this.getAttribute("textarea") === "custom") {
+            weekData.customQuestion = this.value;
+        }
     }
 
 
