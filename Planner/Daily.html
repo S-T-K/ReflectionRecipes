@@ -28,6 +28,56 @@
         }
     }
 
+    class WeekReflectionData {
+        date;
+        userDataField;
+        previousVision;
+        vision;
+        customQuestion;
+        goodStuff;
+        badStuff;
+        ratings;
+        todoLists;
+        questions;
+        counter;
+
+        constructor() {
+            this.date = getCurrentDate();
+            this.userDataField = "week1";
+            this.previousVision = "";
+            this.vision = "";
+            this.customQuestion = "";
+            this.goodStuff = [];
+            this.badStuff = [];
+            this.ratings = {};
+            this.todoLists = {};
+            this.questions = {};
+            this.counter = 1;
+        }
+
+        loadSavedData(string) {
+            if (string) {
+                let parsed = string;
+                this.date = parsed.date;
+                this.userDataField = parsed.userDataField;
+                this.previousVision = parsed.previousVision;
+                this.vision = parsed.vision;
+                this.customQuestion = parsed.customQuestion;
+                this.goodStuff = parsed.goodStuff;
+                this.badStuff = parsed.badStuff;
+                this.ratings = parsed.ratings;
+                this.todoLists = parsed.todoLists;
+                this.questions = parsed.questions;
+                this.counter = parsed.counter;
+            } else {
+                this.userDataField = "";
+                this.date = null;
+                this.counter = null;
+            }
+        }
+
+    }
+
     class todoListItem {
         text;
         class;
@@ -861,6 +911,36 @@ if (todoListsDeletable.includes(element)) {
             randomizeQuestions(dayData.date, dayData.weekday);
             console.log("New data created because dates didn't match");
         }
+        //load weekData and get one that is max 8 days old for vision and custom question
+        //load all weeks
+        let loadedJSONWeek1 = userDataIframe.getElementById("week1").value;
+        let loadedJSONWeek2 = userDataIframe.getElementById("week2").value;
+        let loadedJSONWeek3 = userDataIframe.getElementById("week3").value;
+        //check if one of them is max 8 days old
+        let activeWeek;
+        let today = new Date();
+        let lastWeekCutoffDate = new Date();
+        lastWeekCutoffDate.setDate(lastWeekCutoffDate.getDate() - 7);
+        if (loadedJSONWeek1 && parseDateString(JSON.parse(loadedJSONWeek1).date) > lastWeekCutoffDate) {
+            activeWeek = JSON.parse(loadedJSONWeek1);
+        } else if (loadedJSONWeek2 && parseDateString(JSON.parse(loadedJSONWeek2).date) > lastWeekCutoffDate) {
+            activeWeek = JSON.parse(loadedJSONWeek2);
+        } else if (loadedJSONWeek3 && parseDateString(JSON.parse(loadedJSONWeek3).date) > lastWeekCutoffDate) {
+            activeWeek = JSON.parse(loadedJSONWeek3);
+        }
+        if (activeWeek) {
+            //if yes, parse it
+            weekData.loadSavedData(activeWeek);
+            document.querySelector("#vision").innerHTML = weekData.vision;
+            document.querySelector("#customQuestion").innerHTML = weekData.customQuestion;
+            console.log("Week data loaded for vision and custom question");
+        } else {
+            console.log("No current week data found");
+        }
+
+
+
+
         setTodoItems();
         setTextareas();
         setQuestionsInHTML();
@@ -1092,6 +1172,7 @@ if (todoListsDeletable.includes(element)) {
     //start
     try {
         var dayData = new DayReflectionData();
+        var weekData = new WeekReflectionData()
         var randomSeed = dayData.date + dayData.weekday;
 
 
