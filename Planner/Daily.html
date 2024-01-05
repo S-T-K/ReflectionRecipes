@@ -920,7 +920,7 @@ if (todoListsDeletable.includes(element)) {
         let activeWeek;
         let today = new Date();
         let lastWeekCutoffDate = new Date();
-        lastWeekCutoffDate.setDate(lastWeekCutoffDate.getDate() - 7);
+        lastWeekCutoffDate.setDate(lastWeekCutoffDate.getDate() - 8);
         if (loadedJSONWeek1 && parseDateString(JSON.parse(loadedJSONWeek1).date) > lastWeekCutoffDate) {
             activeWeek = JSON.parse(loadedJSONWeek1);
         } else if (loadedJSONWeek2 && parseDateString(JSON.parse(loadedJSONWeek2).date) > lastWeekCutoffDate) {
