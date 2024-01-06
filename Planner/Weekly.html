@@ -738,6 +738,21 @@
 
     });
 
+    //finalize goals and mark them for next week
+    todoListImproveGoals.addEventListener("click", (e) => {
+        let todo = "";
+        if (e.target.classList.contains("todo_item")) {
+            e.target.classList.toggle("is-finalized-task");
+            updateTodoListData(todoListImproveGoals);
+            todo = e.target.firstElementChild.innerHTML;
+        } else if (e.target.parentElement.classList.contains("todo_item")) {
+            e.target.parentElement.classList.toggle("is-finalized-task");
+            updateTodoListData(todoListImproveGoals);
+            todo = e.target.innerHTML;
+        }
+
+    });
+
     /* //Mark as today's task
      todoListToday.addEventListener("click", (e) => {
          if (e.target.classList.contains("todo_item")) {
@@ -1345,8 +1360,26 @@
         checkAndSetButtonLogicForRatings("#rating-finances", "#step2-slide11");
         //step2 slide12
         checkAndSetButtonLogicForRatings("#rating-learning", "#step2-slide12");
-
-
+        //step3 slide1
+        checkAndSetButtonLogicForTodo(["#todo-middle-area-good-grateful .todo-label"], "#step3-slide1", ["#wf-form-Add-Form-Good-Grateful"]);
+        //step3 slide2
+        checkAndSetButtonLogicForTodo(["#todo-middle-area-good-repeat .todo-label"], "#step3-slide2", ["#wf-form-Add-Form-Good-Repeat"]);
+        //step3 slide3
+        checkAndSetButtonLogicForTodo(["#todo-middle-area-bad-complain .todo-label"], "#step3-slide3", ["#wf-form-Add-Form-Bad-Complain"]);
+        //step3 slide4
+        checkAndSetButtonLogicForTodo(["#todo-middle-area-bad-improve .todo-label"], "#step3-slide4", ["#wf-form-Add-Form-Bad-Improve"]);
+        //step4 slide1
+        checkAndSetButtonLogicForTodo(["#todo-middle-area-calendar .todo-label"], "#step4", ["#wf-form-Add-Form-Calendar"]);
+        //step5 slide1
+        checkAndSetButtonLogicForSelectableTodoList("#todo-middle-area-old", "is-done", "#step1-slide1");
+        //step5 slide2
+        checkAndSetButtonLogicForSelectableTodoList("#todo-middle-area-next-week", "is-next-weeks-task", "#step5-slide2");
+        //step5 slide3
+        checkAndSetButtonLogicForSelectableTodoList("#todo-middle-area-improve-goals", "is-finalized-task", "#step5-slide3");
+        //step6 slide1
+        checkAndSetButtonLogicForTextarea(["textarea[textarea='vision']"], "#step6-slide1");
+        //step6 slide2
+        checkAndSetButtonLogicForTextarea(["textarea[textarea='custom']"], "#step6-slide2");
 
         // //step1 slide1
         // checkAndSetButtonLogicForTextarea(["textarea[textarea='summaryDay']"], "#step1-slider1");
@@ -1408,16 +1441,16 @@
         }
     }
 
-    function checkAndSetButtonLogicForTodo(fields, button, inputs) {
+    function checkAndSetButtonLogicForTodo(fields, button, forms) {
         let hasValue = false;
         for (const entry of fields) {
             if (document.querySelector(entry)?.innerHTML) {
                 hasValue = true;
             }
         }
-        for (const input of inputs) {
-            document.querySelector(input).addEventListener('input', function (e) {
-                hideButtonForTodo(e, fields, button, inputs);
+        for (const form of forms) {
+            document.querySelector(form + " input").addEventListener('input', function (e) {
+                hideButtonForTodo(e, fields, button, forms);
             }, false);
         }
         if (!hasValue) {
@@ -1425,15 +1458,15 @@
         }
     }
 
-    function hideButtonForTodo(event, fields, button, inputs) {
+    function hideButtonForTodo(event, fields, button, forms) {
         let hasValue = false;
         for (const entry of fields) {
             if (document.querySelector(entry)?.innerHTML) {
                 hasValue = true;
             }
         }
-        for (const entry of inputs) {
-            if (document.querySelector(entry).value) {
+        for (const form of forms) {
+            if (document.querySelector(form + " input").value) {
                 hasValue = true;
             }
         }
