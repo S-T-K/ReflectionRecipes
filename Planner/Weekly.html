@@ -1192,7 +1192,7 @@
          setTextareas();
          setQuestionsInHTML();
          setCounter();
-        // setButtonLogic();
+         setButtonLogic();
         //hide loading spinner
         document.getElementsByClassName('loading-spinner')[0].remove();
     }
@@ -1217,20 +1217,40 @@
     });
 
 
-    function checkAndSetButtonLogicForYesterdaysTasks() {
-        if (document.querySelector("#todo-middle-area-old .is-done")) {
-            showNextButton("#step2", "Continue");
+        function checkAndSetButtonLogicForSelectableTodoList(todolistId, selectedStateClass, buttonID) {
+        if (document.querySelector(todolistId + " ." + selectedStateClass)) {
+            showNextButton(buttonID, "Continue");
         } else {
-            hideNextButton("#step2", "Skip >");
+            hideNextButton(buttonID, "Skip >");
         }
 
-        document.querySelectorAll("#todo-middle-area-old .todo_item").forEach(function (todoItem) {
+        document.querySelectorAll(todolistId + " .todo_item").forEach(function (todoItem) {
             todoItem.addEventListener("click", (e) => {
                 setTimeout(function () {
-                    if (document.querySelector("#todo-middle-area-old .is-done")) {
-                        showNextButton("#step2", "Continue");
+                    if (document.querySelector(todolistId + " ." + selectedStateClass)) {
+                        showNextButton(buttonID, "Continue");
                     } else {
-                        hideNextButton("#step2", "Skip >");
+                        hideNextButton(buttonID, "Skip >");
+                    }
+                }, 100);
+            });
+        });
+    }
+
+    function checkAndSetButtonLogicForRatings(rating, buttonID) {
+        if (document.querySelector(rating + " .w--redirected-checked")) {
+            showNextButton(buttonID, "Continue");
+        } else {
+            hideNextButton(buttonID, "Skip >");
+        }
+
+        document.querySelectorAll(rating + " input").forEach(function (ratingInput) {
+            ratingInput.addEventListener("click", (e) => {
+                setTimeout(function () {
+                    if (document.querySelector(rating + " .w--redirected-checked")) {
+                        showNextButton(buttonID, "Continue");
+                    } else {
+                        hideNextButton(buttonID, "Skip >");
                     }
                 }, 100);
             });
@@ -1298,31 +1318,62 @@
 
     function setButtonLogic() {
         //step1 slide1
-        checkAndSetButtonLogicForTextarea(["textarea[textarea='summaryDay']"], "#step1-slider1");
+        checkAndSetButtonLogicForSelectableTodoList("#todo-middle-area-highlight", "is-highlight", "#step1-slide1");
         //step1 slide2
-        checkAndSetButtonLogicForTodo(["#todo-middle-area-good .todo-label", "#todo-middle-area-more-good .todo-label"], "#step1-slider2", ["#addGood", "#addMoreGood"]);
-        //step1 slide 3
-        checkAndSetButtonLogicForTodo(["#todo-middle-area-bad .todo-label", "#todo-middle-area-more-bad .todo-label"], "#step1-slider3", ["#addBad", "#addMoreBad"]);
-        //step2
-        checkAndSetButtonLogicForYesterdaysTasks();
-        //step3
-        checkAndSetButtonLogicForTodaysTasks();
-        //step4
-        checkAndSetButtonLogicForCalendar();
-        //step5 slide1
-        checkAndSetButtonLogicForTextarea(["textarea[textarea='outlookDay']"], "#step5-slider1");
-        //step5 slide2
-        checkAndSetButtonLogicForTextarea(["textarea[textarea='visualizationDay']"], "#step5-slider2");
-        //step5 slide3
-        checkAndSetButtonLogicForTextarea(["textarea[textarea='prevention1Day']"], "#step5-slider3");
-        //step5 slide4
-        checkAndSetButtonLogicForTextarea(["textarea[textarea='prevention2Day']"], "#step5-slider4");
-        //step5 slide5
-        checkAndSetButtonLogicForTextarea(["textarea[textarea='boldnessDay']"], "#step5-slider5");
-        //step5 slide6
-        checkAndSetButtonLogicForTextarea(["textarea[textarea='socialDay']"], "#step5-slider6");
-        //step5 slide7
-        checkAndSetButtonLogicForTextarea(["textarea[textarea='customDay']"], "#step5-slider7");
+        checkAndSetButtonLogicForSelectableTodoList("#todo-middle-area-lowlight", "is-lowlight", "#step1-slide2");
+        //step2 slide1
+        checkAndSetButtonLogicForRatings("#rating-previous-vision", "#step2-slide1");
+        //step2 slide2
+        checkAndSetButtonLogicForRatings("#rating-sleep", "#step2-slide2");
+        //step2 slide3
+        checkAndSetButtonLogicForRatings("#rating-nutrition", "#step2-slide3");
+        //step2 slide4
+        checkAndSetButtonLogicForRatings("#rating-physical", "#step2-slide4");
+        //step2 slide5
+        checkAndSetButtonLogicForRatings("#rating-mental", "#step2-slide5");
+        //step2 slide6
+        checkAndSetButtonLogicForRatings("#rating-love", "#step2-slide6");
+        //step2 slide7
+        checkAndSetButtonLogicForRatings("#rating-family", "#step2-slide7");
+        //step2 slide8
+        checkAndSetButtonLogicForRatings("#rating-friends", "#step2-slide8");
+        //step2 slide9
+        checkAndSetButtonLogicForRatings("#rating-mission", "#step2-slide9");
+        //step2 slide10
+        checkAndSetButtonLogicForRatings("#rating-fun", "#step2-slide10");
+        //step2 slide11
+        checkAndSetButtonLogicForRatings("#rating-finances", "#step2-slide11");
+        //step2 slide12
+        checkAndSetButtonLogicForRatings("#rating-learning", "#step2-slide12");
+
+
+
+        // //step1 slide1
+        // checkAndSetButtonLogicForTextarea(["textarea[textarea='summaryDay']"], "#step1-slider1");
+        // //step1 slide2
+        // checkAndSetButtonLogicForTodo(["#todo-middle-area-good .todo-label", "#todo-middle-area-more-good .todo-label"], "#step1-slider2", ["#addGood", "#addMoreGood"]);
+        // //step1 slide 3
+        // checkAndSetButtonLogicForTodo(["#todo-middle-area-bad .todo-label", "#todo-middle-area-more-bad .todo-label"], "#step1-slider3", ["#addBad", "#addMoreBad"]);
+        // //step2
+        // checkAndSetButtonLogicForYesterdaysTasks();
+        // //step3
+        // checkAndSetButtonLogicForTodaysTasks();
+        // //step4
+        // checkAndSetButtonLogicForCalendar();
+        // //step5 slide1
+        // checkAndSetButtonLogicForTextarea(["textarea[textarea='outlookDay']"], "#step5-slider1");
+        // //step5 slide2
+        // checkAndSetButtonLogicForTextarea(["textarea[textarea='visualizationDay']"], "#step5-slider2");
+        // //step5 slide3
+        // checkAndSetButtonLogicForTextarea(["textarea[textarea='prevention1Day']"], "#step5-slider3");
+        // //step5 slide4
+        // checkAndSetButtonLogicForTextarea(["textarea[textarea='prevention2Day']"], "#step5-slider4");
+        // //step5 slide5
+        // checkAndSetButtonLogicForTextarea(["textarea[textarea='boldnessDay']"], "#step5-slider5");
+        // //step5 slide6
+        // checkAndSetButtonLogicForTextarea(["textarea[textarea='socialDay']"], "#step5-slider6");
+        // //step5 slide7
+        // checkAndSetButtonLogicForTextarea(["textarea[textarea='customDay']"], "#step5-slider7");
     }
 
     function checkAndSetButtonLogicForTextarea(fields, button) {
