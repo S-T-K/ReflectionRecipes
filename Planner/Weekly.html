@@ -1252,6 +1252,26 @@
         });
     }
 
+    function checkAndSetButtonLogicForSelectableTodoListCompleted(todolistId, selectedStateClass, buttonID) {
+        if (document.querySelector(todolistId + " ." + selectedStateClass).length === document.querySelector(todolistId + " .todo_item").length) {
+            showNextButton(buttonID, "Continue");
+        } else {
+            hideNextButton(buttonID, "Skip >");
+        }
+
+        document.querySelectorAll(todolistId + " .todo_item").forEach(function (todoItem) {
+            todoItem.addEventListener("click", (e) => {
+                setTimeout(function () {
+                    if (document.querySelector(todolistId + " ." + selectedStateClass).length === document.querySelector(todolistId + " .todo_item").length) {
+                        showNextButton(buttonID, "Continue");
+                    } else {
+                        hideNextButton(buttonID, "Skip >");
+                    }
+                }, 100);
+            });
+        });
+    }
+
     function checkAndSetButtonLogicForRatings(rating, buttonID) {
         if (document.querySelector(rating + " .w--redirected-checked")) {
             showNextButton(buttonID, "Continue");
@@ -1375,7 +1395,7 @@
         //step5 slide2
         checkAndSetButtonLogicForSelectableTodoList("#todo-middle-area-next-week", "is-next-weeks-task", "#step5-slide2");
         //step5 slide3
-        checkAndSetButtonLogicForSelectableTodoList("#todo-middle-area-improve-goals", "is-finalized-task", "#step5-slide3");
+        checkAndSetButtonLogicForSelectableTodoListCompleted("#todo-middle-area-improve-goals", "is-finalized-task", "#step5-slide3");
         //step6 slide1
         checkAndSetButtonLogicForTextarea(["textarea[textarea='vision']"], "#step6-slide1");
         //step6 slide2
