@@ -1253,7 +1253,7 @@
     }
 
     function checkAndSetButtonLogicForSelectableTodoListCompleted(todolistId, selectedStateClass, buttonID) {
-        if (document.querySelectorAll(todolistId + " ." + selectedStateClass).length === document.querySelectorAll(todolistId + " .todo_item").length) {
+        if (document.querySelectorAll(todolistId + " ." + selectedStateClass)?.length === document.querySelectorAll(todolistId + " .todo_item")?.length) {
             showNextButton(buttonID, "Continue");
         } else {
             hideNextButton(buttonID, "Skip >");
@@ -1262,7 +1262,7 @@
         document.querySelectorAll(todolistId + " .todo_item").forEach(function (todoItem) {
             todoItem.addEventListener("click", (e) => {
                 setTimeout(function () {
-                    if (document.querySelectorAll(todolistId + " ." + selectedStateClass).length === document.querySelectorAll(todolistId + " .todo_item").length) {
+                    if (document.querySelectorAll(todolistId + " ." + selectedStateClass)?.length === document.querySelectorAll(todolistId + " .todo_item")?.length) {
                         showNextButton(buttonID, "Continue");
                     } else {
                         hideNextButton(buttonID, "Skip >");
