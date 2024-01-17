@@ -7,6 +7,8 @@
         questions;
         inputs;
         todoLists;
+        vision;
+        customQuestion;
         counter;
         constructor() {
             this.date = getCurrentDate();
@@ -16,6 +18,8 @@
             this.questions = {};
             this.inputs = {};
             this.todoLists = {};
+            this.vision = null;
+            this.customQuestion = null;
             this.counter = 0;
         }
 
@@ -27,6 +31,8 @@
             this.questions = parsed.questions;
             this.inputs = parsed.inputs;
             this.todoLists = parsed.todoLists;
+            this.vision = parsed.vision;
+            this.customQuestion = parsed.customQuestion;
             this.counter = parsed.counter;
         }
     }
@@ -937,8 +943,8 @@ if (todoListsDeletable.includes(element)) {
             if (activeWeek) {
                 //if yes, parse it
                 weekData.loadSavedData(activeWeek);
-                document.querySelector("#vision").innerHTML = weekData.vision;
-                document.querySelector("#customQuestion").innerHTML = weekData.customQuestion;
+                dayData.vision = weekData.vision;
+                dayData.customQuestion = weekData.customQuestion;
                 console.log("Week data loaded for vision and custom question");
                 //check if it is more recent than the last daily, if yes, take its backlog items
                 if (mostRecent && activeWeek.milliseconds < mostRecent.milliseconds) {
@@ -950,7 +956,12 @@ if (todoListsDeletable.includes(element)) {
             }
         }
 
-
+        if (dayData.vision) {
+            document.querySelector("#vision").innerHTML = dayData.vision;
+        }
+        if (dayData.customQuestion) {
+            document.querySelector("#customQuestion").innerHTML = dayData.customQuestion;
+        }
 
 
         setTodoItems();
