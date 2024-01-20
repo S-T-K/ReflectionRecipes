@@ -1515,6 +1515,9 @@
         onVisible(document.querySelector("#Outlook-2"), () => console.log("it's visible!!!!!!"));
 
     } catch (error) {
+        if (error.message === "Failed to execute 'observe' on 'IntersectionObserver': parameter 1 is not of type 'Element'.") {
+            console.log("Now a message saying that webflow has blacklisted you is displayed");
+        }
         console.log(error);
 
     }
