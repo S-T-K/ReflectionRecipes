@@ -1086,6 +1086,15 @@
                     addTodoDeletable(todoListOld, task.text);
                 }
             }
+            //add the tasks from last week that weren't tagged as this week's tasks
+            if (mostRecentWeek && mostRecentWeek.todoLists) {
+                for (const task of mostRecentWeek.todoLists['todo-middle-area-next-week']) {
+                    if (!task.class.includes("is-next-weeks-task")) {
+                        addTodoDeletable(todoListNextWeek, task.text);
+                        addTodoDeletable(todoListOld, task.text);
+                    }
+                }
+            }
             updateTodoListData(todoListNextWeek);
             updateTodoListData(todoListOld);
 
