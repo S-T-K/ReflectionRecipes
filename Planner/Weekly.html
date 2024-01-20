@@ -1037,7 +1037,6 @@
             } else if (parseDateString(week3.date) < parseDateString(week2.date) && parseDateString(week3.date) < parseDateString(week1.date)) {
                 weeksUserDataField = "week3";
             }
-            weekData.userDataField = weeksUserDataField;
             let mostRecentWeek;
             //load all days, keep the ones that are max 1 week old
             let dailyCutoffDate = new Date();
@@ -1064,6 +1063,7 @@
             }
             //create new week data
             weekData = new WeekReflectionData();
+            weekData.userDataField = weeksUserDataField;
             //get old vision from week before
             weekData.previousVision = mostRecentWeek.vision;
             //get open todos from the last day, doesn't have to be within this week
