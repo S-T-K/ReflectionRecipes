@@ -1037,6 +1037,7 @@
             } else if (parseDateString(week3.date) < parseDateString(week2.date) && parseDateString(week3.date) < parseDateString(week1.date)) {
                 weeksUserDataField = "week3";
             }
+            weekData.userDataField = weeksUserDataField;
             let mostRecentWeek;
             //load all days, keep the ones that are max 1 week old
             let dailyCutoffDate = new Date();
@@ -1515,9 +1516,6 @@
         onVisible(document.querySelector("#Outlook-2"), () => console.log("it's visible!!!!!!"));
 
     } catch (error) {
-        if (error.message === "Failed to execute 'observe' on 'IntersectionObserver': parameter 1 is not of type 'Element'.") {
-            console.log("Now a message saying that webflow has blacklisted you is displayed");
-        }
         console.log(error);
 
     }
