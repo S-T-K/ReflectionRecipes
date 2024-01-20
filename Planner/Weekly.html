@@ -1,38 +1,45 @@
 <script>
 
-    class DayReflectionData {
+    class DayReflectionData  {
         date;
         weekday;
+        milliseconds;
         questions;
         inputs;
         todoLists;
+        vision;
+        customQuestion;
         counter;
-
         constructor() {
             this.date = getCurrentDate();
-            let days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+            let days = ["sunday", "monday", "tuesday", "wednesday","thursday", "friday","saturday"];
             this.weekday = days[new Date().getDay()];
+            this.milliseconds = (new Date()).getTime();
             this.questions = {};
             this.inputs = {};
             this.todoLists = {};
+            this.vision = null;
+            this.customQuestion = null;
             this.counter = 0;
         }
 
         loadSavedData(string) {
-            if (string) {
-                let parsed = JSON.parse(string);
-                this.date = parsed.date;
-                this.weekday = parsed.weekday;
-                this.questions = parsed.questions;
-                this.inputs = parsed.inputs;
-                this.todoLists = parsed.todoLists;
-                this.counter = parsed.counter;
-            }
+            let parsed = JSON.parse(string);
+            this.date = parsed.date;
+            this.weekday = parsed.weekday;
+            this.milliseconds = parsed.milliseconds;
+            this.questions = parsed.questions;
+            this.inputs = parsed.inputs;
+            this.todoLists = parsed.todoLists;
+            this.vision = parsed.vision;
+            this.customQuestion = parsed.customQuestion;
+            this.counter = parsed.counter;
         }
     }
 
     class WeekReflectionData {
         date;
+        milliseconds;
         userDataField;
         previousVision;
         vision;
@@ -46,6 +53,7 @@
 
         constructor() {
             this.date = getCurrentDate();
+            this.milliseconds = (new Date()).getTime();
             this.userDataField = "week1";
             this.previousVision = "";
             this.vision = "";
@@ -62,6 +70,7 @@
             if (string) {
                 let parsed = string;
                 this.date = parsed.date;
+                this.milliseconds = parsed.milliseconds;
                 this.userDataField = parsed.userDataField;
                 this.previousVision = parsed.previousVision;
                 this.vision = parsed.vision;
@@ -75,6 +84,7 @@
             } else {
                 this.userDataField = "";
                 this.date = null;
+                this.milliseconds = null;
                 this.counter = null;
             }
         }
