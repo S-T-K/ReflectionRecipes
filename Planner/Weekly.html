@@ -1572,7 +1572,7 @@
     }
 
     function getCookieBackup(name) {
-        let maxChunk = getCookie(name+"MaxChunk");
+        let maxChunk = parseInt(getCookie(name+"MaxChunk"));
         let totalCookieString = "";
         for (let i = 0; i <maxChunk+1; i++) {
             totalCookieString = totalCookieString.concat(getCookie(name+i));
