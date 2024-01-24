@@ -1564,11 +1564,11 @@
     }
 
     function backupToCookie(name, value) {
-        let chunks = value.match(/.{1,3500}/g);
+        let chunks = value.match(/.{1,1000}/g);
         chunks.forEach(function (chunk, index) {
             setCookie(name+index, chunk, 999);
         });
-        setCookie(name+"MaxChunk", chunks.length-1);
+        setCookie(name+"MaxChunk", chunks.length-1, 999);
     }
 
     function getCookieBackup(name) {
