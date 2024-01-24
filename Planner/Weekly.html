@@ -988,13 +988,11 @@
     }
 
     function fillPage() {
-        console.log("Data loaded!");
-        const userDataIframe = document.getElementById('userdataiframe').contentDocument;
         clearTodoItems();
         //load all weeks
-        let loadedJSONWeek1 = userDataIframe.getElementById("week1").value;
-        let loadedJSONWeek2 = userDataIframe.getElementById("week2").value;
-        let loadedJSONWeek3 = userDataIframe.getElementById("week3").value;
+        let loadedJSONWeek1 = getMostRecentData("week1");
+        let loadedJSONWeek2 = getMostRecentData("week2");
+        let loadedJSONWeek3 = getMostRecentData("week3");
         //check if one of them is max 6 days old
         let activeWeek;
         let today = new Date();
@@ -1044,7 +1042,7 @@
             let days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
             let thisWeeksDays = [];
             for (const day of days) {
-                let loadedJSON = userDataIframe.getElementById(day).value;
+                let loadedJSON = getMostRecentData(day);
                 if (loadedJSON && JSON.parse(loadedJSON).date && parseDateString(JSON.parse(loadedJSON).date) > dailyCutoffDate) {
                     let newDay = new DayReflectionData();
                     newDay.loadSavedData(loadedJSON);
@@ -1069,7 +1067,7 @@
             //get open todos from the last day, doesn't have to be within this week
             let mostRecent;
             for (const day of days) {
-                let loadedJSON = userDataIframe.getElementById(day).value;
+                let loadedJSON = getMostRecentData(day);
                 if (loadedJSON && JSON.parse(loadedJSON).date) {
                     if (!mostRecent) {
                         mostRecent = new DayReflectionData();
@@ -1521,9 +1519,6 @@
             });
         });
 
-        console.log("Outlook 2 should be armed")
-        onVisible(document.querySelector("#Outlook-2"), () => console.log("it's visible!!!!!!"));
-
     } catch (error) {
         console.log(error);
 
@@ -1536,6 +1531,60 @@
         } else if (this.getAttribute("textarea") === "custom") {
             weekData.customQuestion = this.value;
         }
+    }
+
+    function backupToCookie(name, value) {
+        let chunks = value.match(/.{1,3500}/g);
+        for (const [index, chunk] of chunks) {
+            setCookie(name+index, chunk, 999);
+        }
+        setCookie(name+"MaxChunk", chunks.length-1);
+    }
+
+    function getCookieBackup(name) {
+        let maxChunk = getCookie(name+"MaxChunk");
+        let totalCookieString = "";
+        for (let i = 0; i <maxChunk+1; i++) {
+            totalCookieString = totalCookieString.concat(getCookie(name+i));
+        }
+        return totalCookieString;
+    }
+
+    function getMostRecentData(name) {
+        const userDataIframe = document.getElementById('userdataiframe').contentDocument;
+        console.log(userDataIframe.getElementById(name).value);
+        let loadedUserDataJSON = userDataIframe.getElementById(name).value;
+        let loadedCookieJSON = getCookieBackup(name);
+
+        //if all are empty return something, doesn't matter
+        if (!isJsonString(loadedUserDataJSON) && !isJsonString(loadedCookieJSON)) {
+            return loadedUserDataJSON;
+        }
+        //if one is empty, return the other
+        if (isJsonString(loadedUserDataJSON) && !isJsonString(loadedCookieJSON)) {
+            return loadedUserDataJSON;
+        }
+        if (!isJsonString(loadedUserDataJSON) && isJsonString(loadedCookieJSON)) {
+            return loadedCookieJSON;
+        }
+
+        let parsedUserData = JSON.parse(loadedUserDataJSON);
+        let parsedCookie = JSON.parse(loadedCookieJSON);
+
+        if (parsedUserData.milliseconds > parsedCookie.milliseconds) {
+            return loadedUserDataJSON;
+        } else {
+            return loadedCookieJSON;
+        }
+    }
+
+    function isJsonString(str) {
+        try {
+            JSON.parse(str);
+        } catch (e) {
+            return false;
+        }
+        return true;
     }
 
 

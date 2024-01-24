@@ -883,20 +883,19 @@ if (todoListsDeletable.includes(element)) {
     }
 
     function fillPage() {
-        console.log("Data loaded!");
-        const userDataIframe = document.getElementById('userdataiframe').contentDocument;
-        console.log(userDataIframe.getElementById(dayData.weekday).value);
         clearTodoItems();
-        let loadedJSONToday = userDataIframe.getElementById(dayData.weekday).value;
+        let loadedJSONToday = getMostRecentData(dayData.weekday);
+        console.log("Data loaded!");
+
         if (loadedJSONToday && JSON.parse(loadedJSONToday).date === dayData.date) {
-            dayData.loadSavedData(userDataIframe.getElementById(dayData.weekday).value);
+            dayData.loadSavedData(loadedJSONToday);
             console.log("Data overwritten from saved data!");
         } else {
             // get todos from yesterday or any day before
             let days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
             let mostRecent;
             for (const day of days) {
-                let loadedJSON = userDataIframe.getElementById(day).value;
+                let loadedJSON = getMostRecentData(day);
                 if (loadedJSON && JSON.parse(loadedJSON).date && dayData.date !== JSON.parse(loadedJSON).date) {
                     if (!mostRecent) {
                         mostRecent = new DayReflectionData();
@@ -925,9 +924,9 @@ if (todoListsDeletable.includes(element)) {
             console.log("New data created because dates didn't match");
             //load weekData and get one that is max 8 days old for vision and custom question
             //load all weeks
-            let loadedJSONWeek1 = userDataIframe.getElementById("week1").value;
-            let loadedJSONWeek2 = userDataIframe.getElementById("week2").value;
-            let loadedJSONWeek3 = userDataIframe.getElementById("week3").value;
+            let loadedJSONWeek1 = getMostRecentData("week1");
+            let loadedJSONWeek2 = getMostRecentData("week2");
+            let loadedJSONWeek3 = getMostRecentData("week3");
             //check if one of them is max 8 days old
             let activeWeek;
             let today = new Date();
@@ -1212,6 +1211,8 @@ if (todoListsDeletable.includes(element)) {
         buttons.forEach(function (element) {
             element.addEventListener("click", (e) => {
                 var iframe = document.getElementById('userdataiframe').contentDocument;
+                backupToCookie(dayData.weekday, JSON.stringify(dayData));
+                console.log('cookie data updated');
                 if (iframe.getElementById(dayData.weekday).value !== JSON.stringify(dayData)) {
                     console.log('user data updated');
                     iframe.getElementById(dayData.weekday).value = JSON.stringify(dayData);
@@ -1219,9 +1220,6 @@ if (todoListsDeletable.includes(element)) {
                 }
             });
         });
-
-        console.log("Outlook 2 should be armed")
-        onVisible(document.querySelector("#Outlook-2"), () => console.log("it's visible!!!!!!"));
 
     } catch (error) {
         console.log(error);
@@ -1231,6 +1229,60 @@ if (todoListsDeletable.includes(element)) {
     function saveToData() {
         console.log("saving to data: " +  this.value);
         dayData.inputs[this.getAttribute("textarea")] = this.value;
+    }
+
+    function backupToCookie(name, value) {
+        let chunks = value.match(/.{1,3500}/g);
+        for (const [index, chunk] of chunks) {
+            setCookie(name+index, chunk, 999);
+        }
+        setCookie(name+"MaxChunk", chunks.length-1);
+    }
+
+    function getCookieBackup(name) {
+        let maxChunk = getCookie(name+"MaxChunk");
+        let totalCookieString = "";
+        for (let i = 0; i <maxChunk+1; i++) {
+            totalCookieString = totalCookieString.concat(getCookie(name+i));
+        }
+        return totalCookieString;
+    }
+
+    function getMostRecentData(name) {
+        const userDataIframe = document.getElementById('userdataiframe').contentDocument;
+        console.log(userDataIframe.getElementById(name).value);
+        let loadedUserDataJSON = userDataIframe.getElementById(name).value;
+        let loadedCookieJSON = getCookieBackup(name);
+
+        //if all are empty return something, doesn't matter
+        if (!isJsonString(loadedUserDataJSON) && !isJsonString(loadedCookieJSON)) {
+            return loadedUserDataJSON;
+        }
+        //if one is empty, return the other
+        if (isJsonString(loadedUserDataJSON) && !isJsonString(loadedCookieJSON)) {
+            return loadedUserDataJSON;
+        }
+        if (!isJsonString(loadedUserDataJSON) && isJsonString(loadedCookieJSON)) {
+            return loadedCookieJSON;
+        }
+
+        let parsedUserData = JSON.parse(loadedUserDataJSON);
+        let parsedCookie = JSON.parse(loadedCookieJSON);
+
+        if (parsedUserData.milliseconds > parsedCookie.milliseconds) {
+            return loadedUserDataJSON;
+        } else {
+            return loadedCookieJSON;
+        }
+    }
+
+    function isJsonString(str) {
+        try {
+            JSON.parse(str);
+        } catch (e) {
+            return false;
+        }
+        return true;
     }
 
 
