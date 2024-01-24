@@ -491,7 +491,7 @@
         list.innerHTML += htmlContent;
     };
 
-    const inputsForBacklog = [addInputGoodGrateful, addInputBadImprove, addInputCalendar];
+    const inputsForBacklog = [addInputGoodRepeat, addInputBadImprove, addInputCalendar];
 
     //add item on submit deletable
     todoInputsDeletable.forEach(function (element, index) {
@@ -526,10 +526,6 @@
                 } else if (todoListsWithPrompt[index] === todoListLowlight) {
                     updateBadStuffData(todoListLowlight);
                 }
-                if (inputsForBacklog.includes(todoInputsWithPrompt[index])) {
-                    addTodoDeletable(todoListNextWeek, input);
-                    updateTodoListData(todoListNextWeek);
-                }
                 element.reset();
             }
         });
@@ -545,10 +541,6 @@
             if (input.length) {
                 addTodoNonDeletable(todoListsNonDeletable[index], input);
                 updateTodoListData(todoListsNonDeletable[index]);
-                if (inputsForBacklog.includes(todoInputsNonDeletable[index])) {
-                    addTodoDeletable(todoListNextWeek, input);
-                    updateTodoListData(todoListNextWeek);
-                }
                 element.reset();
             }
         });
@@ -692,7 +684,7 @@
                  }
          // add to today's tasks
          } else {
-             addTodoNonDeletable(todoListNextWeek, todo);
+             addTodoDeletable(todoListNextWeek, todo);
          }
          updateTodoListData(todoListNextWeek);
 
