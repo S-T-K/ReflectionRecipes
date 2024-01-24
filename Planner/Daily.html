@@ -1204,15 +1204,21 @@ if (todoListsDeletable.includes(element)) {
                     _ => fillPage(dayData, randomSeed))));
 
 
-        //test section
 
-        const buttons = document.querySelectorAll(".w-button");
-        console.log(buttons);
+        // save data to cookies
+        const buttonsForCookies = document.querySelectorAll(".w-button");
+        buttonsForCookies.forEach(function (element) {
+            element.addEventListener("click", (e) => {
+                backupToCookie(dayData.weekday, JSON.stringify(dayData));
+                console.log('cookie data updated');
+            });
+        });
+
+        // save data to userdata
+        const buttons = document.querySelectorAll(".triggers-save");
         buttons.forEach(function (element) {
             element.addEventListener("click", (e) => {
                 var iframe = document.getElementById('userdataiframe').contentDocument;
-                backupToCookie(dayData.weekday, JSON.stringify(dayData));
-                console.log('cookie data updated');
                 if (iframe.getElementById(dayData.weekday).value !== JSON.stringify(dayData)) {
                     console.log('user data updated');
                     iframe.getElementById(dayData.weekday).value = JSON.stringify(dayData);

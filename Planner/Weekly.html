@@ -1504,18 +1504,25 @@
                     _ => fillPage(dayData, randomSeed))));
 
 
-        //test section
+        // save data to cookies
+        const buttonsForCookies = document.querySelectorAll(".w-button");
+        buttonsForCookies.forEach(function (element) {
+            element.addEventListener("click", (e) => {
+                backupToCookie(weekData.userDataField, JSON.stringify(weekData));
+                console.log('cookie data updated');
+            });
+        });
 
-        const buttons = document.querySelectorAll(".w-button");
-        console.log(buttons);
+        // save data to userdata
+        const buttons = document.querySelectorAll(".triggers-save");
         buttons.forEach(function (element) {
             element.addEventListener("click", (e) => {
                 var iframe = document.getElementById('userdataiframe').contentDocument;
-                 if (iframe.getElementById(weekData.userDataField).value !== JSON.stringify(weekData)) {
-                     console.log('user data updated');
-                     iframe.getElementById(weekData.userDataField).value = JSON.stringify(weekData);
-                     iframe.querySelector(".w-users-useraccountformsavebutton").click();
-                 }
+                if (iframe.getElementById(weekData.userDataField).value !== JSON.stringify(weekData)) {
+                    console.log('user data updated');
+                    iframe.getElementById(weekData.userDataField).value = JSON.stringify(weekData);
+                    iframe.querySelector(".w-users-useraccountformsavebutton").click();
+                }
             });
         });
 
