@@ -1239,9 +1239,9 @@ if (todoListsDeletable.includes(element)) {
 
     function backupToCookie(name, value) {
         let chunks = value.match(/.{1,3500}/g);
-        for (const [index, chunk] of chunks) {
+        chunks.forEach(function (chunk, index) {
             setCookie(name+index, chunk, 999);
-        }
+        });
         setCookie(name+"MaxChunk", chunks.length-1);
     }
 
