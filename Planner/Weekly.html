@@ -833,6 +833,7 @@
                 currentTry=currentTry+1;
                 setTimeout(_ => poll(resolve), 500);
             } else {
+                console.log("user data not found, probably triggered webflows maximum request. Using cookie data instead")
                 resolve();
             }
         }

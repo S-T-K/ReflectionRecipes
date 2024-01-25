@@ -787,9 +787,17 @@
     });
 
     function waitFor(conditionFunction) {
+        let maxTries = 10;
+        let currentTry = 0;
         const poll = resolve => {
-            if(conditionFunction()) resolve();
-            else setTimeout(_ => poll(resolve), 500);
+            if (conditionFunction()) resolve();
+            else if (currentTry < maxTries) {
+                currentTry=currentTry+1;
+                setTimeout(_ => poll(resolve), 500);
+            } else {
+                console.log("user data not found, probably triggered webflows maximum request. Using cookie data instead")
+                resolve();
+            }
         }
         return new Promise(poll);
     }
