@@ -1,6 +1,6 @@
 <script>
 
-    class DayReflectionData  {
+    class DayReflectionData {
         date;
         weekday;
         milliseconds;
@@ -10,9 +10,10 @@
         vision;
         customQuestion;
         counter;
+
         constructor() {
             this.date = getCurrentDate();
-            let days = ["sunday", "monday", "tuesday", "wednesday","thursday", "friday","saturday"];
+            let days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
             this.weekday = days[new Date().getDay()];
             this.milliseconds = (new Date()).getTime();
             this.questions = {};
@@ -117,8 +118,8 @@
 
     function setCookie(cname, cvalue, exdays) {
         const d = new Date();
-        d.setTime(d.getTime() + (exdays*24*60*60*1000));
-        let expires = "expires="+ d.toUTCString();
+        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+        let expires = "expires=" + d.toUTCString();
         document.cookie = cname + "=" + encodeURIComponent(cvalue) + ";" + expires + ";path=/";
     }
 
@@ -126,7 +127,7 @@
         let name = cname + "=";
         let decodedCookie = decodeURIComponent(document.cookie);
         let ca = decodedCookie.split(';');
-        for(let i = 0; i <ca.length; i++) {
+        for (let i = 0; i < ca.length; i++) {
             let c = ca[i];
             while (c.charAt(0) == ' ') {
                 c = c.substring(1);
@@ -291,7 +292,6 @@
         weights.push(1);
 
 
-
         setRandomQuestion(week, day, questions, weights, "complain");
 
         questions = [];
@@ -400,7 +400,7 @@
         weekData.todoLists[listSelector] = values;
     }
 
-    function disableAutoComplete (input) {
+    function disableAutoComplete(input) {
         input.setAttribute("autocomplete", "off");
     }
 
@@ -414,7 +414,7 @@
             console.log("classList before shift: " + classList);
             classList.shift();
             console.log("classList after shift: " + classList);
-            values.push(new GoodOrBadStuff(item.querySelector(".central-text").innerText, classList, item.querySelector(".top-text").innerText, item.querySelector(".bottom-text").innerText ));
+            values.push(new GoodOrBadStuff(item.querySelector(".central-text").innerText, classList, item.querySelector(".top-text").innerText, item.querySelector(".bottom-text").innerText));
         });
         console.log(values);
         weekData.goodStuff = values;
@@ -430,7 +430,7 @@
             console.log("classList before shift: " + classList);
             classList.shift();
             console.log("classList after shift: " + classList);
-            values.push(new GoodOrBadStuff(item.querySelector(".central-text").innerText, classList, item.querySelector(".top-text").innerText, item.querySelector(".bottom-text").innerText ));
+            values.push(new GoodOrBadStuff(item.querySelector(".central-text").innerText, classList, item.querySelector(".top-text").innerText, item.querySelector(".bottom-text").innerText));
         });
         console.log(values);
         weekData.badStuff = values;
@@ -648,7 +648,7 @@
                     item.classList.add("hidden");
                 });
                 //if within range, show on respective page
-                if(weekData.ratings[ratingSelector] > 6) {
+                if (weekData.ratings[ratingSelector] > 6) {
                     elementsGood.forEach(function (item) {
                         item.classList.remove("hidden");
                     });
@@ -662,33 +662,33 @@
         })
     });
 
-     //Cross out done tasks and update the backlog accordingly
-     todoListOld.addEventListener("click", (e) => {
-         let todo = "";
-         if (e.target.classList.contains("todo_item")) {
-             e.target.classList.toggle("is-done");
-             updateTodoListData(todoListOld);
-             todo = e.target.firstElementChild.innerHTML;
-         } else if (e.target.parentElement.classList.contains("todo_item")) {
-             e.target.parentElement.classList.toggle("is-done");
-             updateTodoListData(todoListOld);
-             todo = e.target.innerHTML;
-         }
-         // remove from the backlog tasks
-         if (e.target.classList.contains("is-done") || e.target.parentElement.classList.contains("is-done")) {
-             for (const a of todoListNextWeek.querySelectorAll(".todo_item")) {
-                 if (a.children[0].textContent === todo) {
-                     a.parentElement.removeChild(a);
-                     updateTodoListData(todoListNextWeek);
-                 }
-                 }
-         // add to today's tasks
-         } else {
-             addTodoDeletable(todoListNextWeek, todo);
-         }
-         updateTodoListData(todoListNextWeek);
+    //Cross out done tasks and update the backlog accordingly
+    todoListOld.addEventListener("click", (e) => {
+        let todo = "";
+        if (e.target.classList.contains("todo_item")) {
+            e.target.classList.toggle("is-done");
+            updateTodoListData(todoListOld);
+            todo = e.target.firstElementChild.innerHTML;
+        } else if (e.target.parentElement.classList.contains("todo_item")) {
+            e.target.parentElement.classList.toggle("is-done");
+            updateTodoListData(todoListOld);
+            todo = e.target.innerHTML;
+        }
+        // remove from the backlog tasks
+        if (e.target.classList.contains("is-done") || e.target.parentElement.classList.contains("is-done")) {
+            for (const a of todoListNextWeek.querySelectorAll(".todo_item")) {
+                if (a.children[0].textContent === todo) {
+                    a.parentElement.removeChild(a);
+                    updateTodoListData(todoListNextWeek);
+                }
+            }
+            // add to today's tasks
+        } else {
+            addTodoDeletable(todoListNextWeek, todo);
+        }
+        updateTodoListData(todoListNextWeek);
 
-     });
+    });
 
     //Select next weeks tasks and add them to the final list
     todoListNextWeek.addEventListener("click", (e) => {
@@ -761,7 +761,7 @@
                         summary.querySelectorAll(".central-text").forEach(function (item) {
                             if (item.innerHTML.trim() === text) {
                                 item.remove();
-                                return;
+
                             }
                         });
                     });
@@ -799,7 +799,7 @@
                         summary.querySelectorAll(".central-text").forEach(function (item) {
                             if (item.innerHTML.trim() === text) {
                                 item.remove();
-                                return;
+
                             }
                         });
                     });
@@ -830,7 +830,7 @@
         const poll = resolve => {
             if (conditionFunction()) resolve();
             else if (currentTry < maxTries) {
-                currentTry=currentTry+1;
+                currentTry = currentTry + 1;
                 setTimeout(_ => poll(resolve), 500);
             } else {
                 console.log("user data not found, probably triggered webflows maximum request. Using cookie data instead")
@@ -862,7 +862,7 @@
 
     function setRatings() {
         for (let [key, value] of Object.entries(weekData.ratings)) {
-            document.querySelector("[data-name='"+ key + "'][value='" + value + "']").parentElement.querySelector("div").classList.add("w--redirected-checked");
+            document.querySelector("[data-name='" + key + "'][value='" + value + "']").parentElement.querySelector("div").classList.add("w--redirected-checked");
             //find the good and bad elements, update the value, hide them all
             let elementsGood = document.querySelectorAll('[ratingGood="' + key.toLowerCase() + '"]');
             let elementsBad = document.querySelectorAll('[ratingBad="' + key.toLowerCase() + '"]');
@@ -875,7 +875,7 @@
                 item.classList.add("hidden");
             });
             //if within range, show on respective page
-            if(weekData.ratings[key] > 6) {
+            if (weekData.ratings[key] > 6) {
                 elementsGood.forEach(function (item) {
                     item.classList.remove("hidden");
                 });
@@ -933,7 +933,6 @@
                 });
             }
         });
-
 
 
     }
@@ -1197,14 +1196,13 @@
         // remove the mocked summary answers
 
 
-
-         initRandom(randomSeed);
-         randomizeQuestions(weekData.date, weekData.date);
+        initRandom(randomSeed);
+        randomizeQuestions(weekData.date, weekData.date);
         // setTodoItems();
-         setTextareas();
-         setQuestionsInHTML();
-         setCounter();
-         setButtonLogic();
+        setTextareas();
+        setQuestionsInHTML();
+        setCounter();
+        setButtonLogic();
         //hide loading spinner
         document.getElementsByClassName('loading-spinner')[0].remove();
     }
@@ -1229,23 +1227,19 @@
     });
 
 
-        function checkAndSetButtonLogicForSelectableTodoList(todolistId, selectedStateClass, buttonID) {
+    function checkAndSetButtonLogicForSelectableTodoList(todolistId, selectedStateClass, buttonID) {
         if (document.querySelector(todolistId + " ." + selectedStateClass)) {
             showNextButton(buttonID, "Continue");
         } else {
             hideNextButton(buttonID, "Skip >");
         }
 
-        document.querySelectorAll(todolistId + " .todo_item").forEach(function (todoItem) {
-            todoItem.addEventListener("click", (e) => {
-                setTimeout(function () {
-                    if (document.querySelector(todolistId + " ." + selectedStateClass)) {
-                        showNextButton(buttonID, "Continue");
-                    } else {
-                        hideNextButton(buttonID, "Skip >");
-                    }
-                }, 100);
-            });
+        document.querySelector(todolistId).addEventListener("click", (e) => {
+            if (document.querySelector(todolistId + " ." + selectedStateClass)) {
+                showNextButton(buttonID, "Continue");
+            } else {
+                hideNextButton(buttonID, "Skip >");
+            }
         });
     }
 
@@ -1283,26 +1277,6 @@
                         showNextButton(buttonID, "Continue");
                     } else {
                         hideNextButton(buttonID, "Skip >");
-                    }
-                }, 100);
-            });
-        });
-    }
-
-    function checkAndSetButtonLogicForTodaysTasks() {
-        if (document.querySelector("#todo-middle-area-today .is-todays-task")) {
-            showNextButton("#step3", "Continue");
-        } else {
-            hideNextButton("#step3", "Skip >");
-        }
-
-        document.querySelectorAll("#todo-middle-area-today .todo_item").forEach(function (todoItem) {
-            todoItem.addEventListener("click", (e) => {
-                setTimeout(function () {
-                    if (document.querySelector("#todo-middle-area-today .is-todays-task")) {
-                        showNextButton("#step3", "Continue");
-                    } else {
-                        hideNextButton("#step3", "Skip >");
                     }
                 }, 100);
             });
@@ -1397,33 +1371,6 @@
         checkAndSetButtonLogicForTextarea(["textarea[textarea='vision']"], "#step6-slide1");
         //step6 slide2
         checkAndSetButtonLogicForTextarea(["textarea[textarea='custom']"], "#step6-slide2");
-
-        // //step1 slide1
-        // checkAndSetButtonLogicForTextarea(["textarea[textarea='summaryDay']"], "#step1-slider1");
-        // //step1 slide2
-        // checkAndSetButtonLogicForTodo(["#todo-middle-area-good .todo-label", "#todo-middle-area-more-good .todo-label"], "#step1-slider2", ["#addGood", "#addMoreGood"]);
-        // //step1 slide 3
-        // checkAndSetButtonLogicForTodo(["#todo-middle-area-bad .todo-label", "#todo-middle-area-more-bad .todo-label"], "#step1-slider3", ["#addBad", "#addMoreBad"]);
-        // //step2
-        // checkAndSetButtonLogicForYesterdaysTasks();
-        // //step3
-        // checkAndSetButtonLogicForTodaysTasks();
-        // //step4
-        // checkAndSetButtonLogicForCalendar();
-        // //step5 slide1
-        // checkAndSetButtonLogicForTextarea(["textarea[textarea='outlookDay']"], "#step5-slider1");
-        // //step5 slide2
-        // checkAndSetButtonLogicForTextarea(["textarea[textarea='visualizationDay']"], "#step5-slider2");
-        // //step5 slide3
-        // checkAndSetButtonLogicForTextarea(["textarea[textarea='prevention1Day']"], "#step5-slider3");
-        // //step5 slide4
-        // checkAndSetButtonLogicForTextarea(["textarea[textarea='prevention2Day']"], "#step5-slider4");
-        // //step5 slide5
-        // checkAndSetButtonLogicForTextarea(["textarea[textarea='boldnessDay']"], "#step5-slider5");
-        // //step5 slide6
-        // checkAndSetButtonLogicForTextarea(["textarea[textarea='socialDay']"], "#step5-slider6");
-        // //step5 slide7
-        // checkAndSetButtonLogicForTextarea(["textarea[textarea='customDay']"], "#step5-slider7");
     }
 
     function checkAndSetButtonLogicForTextarea(fields, button) {
@@ -1566,16 +1513,16 @@
     function backupToCookie(name, value) {
         let chunks = value.match(/.{1,1000}/g);
         chunks.forEach(function (chunk, index) {
-            setCookie(name+index, chunk, 999);
+            setCookie(name + index, chunk, 999);
         });
-        setCookie(name+"MaxChunk", chunks.length-1, 999);
+        setCookie(name + "MaxChunk", chunks.length - 1, 999);
     }
 
     function getCookieBackup(name) {
-        let maxChunk = parseInt(getCookie(name+"MaxChunk"));
+        let maxChunk = parseInt(getCookie(name + "MaxChunk"));
         let totalCookieString = "";
-        for (let i = 0; i <maxChunk+1; i++) {
-            totalCookieString = totalCookieString.concat(getCookie(name+i));
+        for (let i = 0; i < maxChunk + 1; i++) {
+            totalCookieString = totalCookieString.concat(getCookie(name + i));
         }
         return totalCookieString;
     }
