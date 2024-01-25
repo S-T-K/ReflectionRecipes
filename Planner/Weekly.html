@@ -825,9 +825,16 @@
 
 
     function waitFor(conditionFunction) {
+        let maxTries = 10;
+        let currentTry = 0;
         const poll = resolve => {
             if (conditionFunction()) resolve();
-            else setTimeout(_ => poll(resolve), 500);
+            else if (currentTry < maxTries) {
+                currentTry=currentTry+1;
+                setTimeout(_ => poll(resolve), 500);
+            } else {
+                resolve();
+            }
         }
         return new Promise(poll);
     }
