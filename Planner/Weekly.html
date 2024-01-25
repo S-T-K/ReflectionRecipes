@@ -1250,17 +1250,13 @@
             hideNextButton(buttonID, "Skip >");
         }
 
-        document.querySelectorAll(todolistId + " .todo_item").forEach(function (todoItem) {
-            todoItem.addEventListener("click", (e) => {
-                setTimeout(function () {
+        document.querySelector(todolistId).addEventListener("click", (e) => {
                     if (document.querySelectorAll(todolistId + " ." + selectedStateClass)?.length === document.querySelectorAll(todolistId + " .todo_item")?.length) {
                         showNextButton(buttonID, "Continue");
                     } else {
                         hideNextButton(buttonID, "Skip >");
                     }
-                }, 100);
             });
-        });
     }
 
     function checkAndSetButtonLogicForRatings(rating, buttonID) {
