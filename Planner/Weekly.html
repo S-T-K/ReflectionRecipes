@@ -924,7 +924,7 @@
             }
         });
         //if no good stuff, adjust header
-        if (weekData.goodStuff.length < 0) {
+        if (weekData.goodStuff.length < 1) {
             document.querySelector("#highlights-header").innerHTML = "Write down all the good stuff that happened this week. Mark your personal highlights";
         }
 
@@ -943,7 +943,7 @@
             }
         });
         //if no bad stuff, adjust header
-        if (weekData.badStuff.length < 0) {
+        if (weekData.badStuff.length < 1) {
             document.querySelector("#lowlights-header").innerHTML = "Write down all the bad stuff that happened this week. Mark your personal lowlights";
         }
 
@@ -1158,7 +1158,7 @@
                 }
                 weekData.goodStuff = allGoodStuff;
                 //if no good stuff, adjust header
-                if (weekData.goodStuff.length < 0) {
+                if (weekData.goodStuff.length < 1) {
                     document.querySelector("#highlights-header").innerHTML = "Write down all the good stuff that happened this week. Mark your personal highlights";
                 }
                 //special bad stuff
@@ -1183,7 +1183,7 @@
                 }
                 weekData.badStuff = allBadStuff;
                 //if no bad stuff, adjust header
-                if (weekData.badStuff.length < 0) {
+                if (weekData.badStuff.length < 1) {
                     document.querySelector("#lowlights-header").innerHTML = "Write down all the bad stuff that happened this week. Mark your personal lowlights";
                 }
                 //finished todos, remove duplicates
