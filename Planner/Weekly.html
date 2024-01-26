@@ -918,6 +918,10 @@
                 });
             }
         });
+        //if no good stuff, adjust header
+        if (weekData.goodStuff.length < 0) {
+            document.querySelector("#highlights-header").innerHTML = "Write down all the good stuff that happened this week. Mark your personal highlights";
+        }
 
         weekData.badStuff.forEach(badStuff => {
             if (badStuff.class[0]) {
@@ -933,6 +937,10 @@
                 });
             }
         });
+        //if no bad stuff, adjust header
+        if (weekData.badStuff.length < 0) {
+            document.querySelector("#lowlights-header").innerHTML = "Write down all the bad stuff that happened this week. Mark your personal lowlights";
+        }
 
 
     }
@@ -1144,6 +1152,10 @@
                     }
                 }
                 weekData.goodStuff = allGoodStuff;
+                //if no good stuff, adjust header
+                if (weekData.goodStuff.length < 0) {
+                    document.querySelector("#highlights-header").innerHTML = "Write down all the good stuff that happened this week. Mark your personal highlights";
+                }
                 //special bad stuff
                 if (day.todoLists["todo-middle-area-bad"]) {
                     for (const specialBadEntry of day.todoLists["todo-middle-area-bad"]) {
@@ -1165,6 +1177,10 @@
                     }
                 }
                 weekData.badStuff = allBadStuff;
+                //if no bad stuff, adjust header
+                if (weekData.badStuff.length < 0) {
+                    document.querySelector("#lowlights-header").innerHTML = "Write down all the bad stuff that happened this week. Mark your personal lowlights";
+                }
                 //finished todos, remove duplicates
                 if (day.todoLists["todo-middle-area-old"]) {
                     for (const todo of day.todoLists["todo-middle-area-old"]) {
