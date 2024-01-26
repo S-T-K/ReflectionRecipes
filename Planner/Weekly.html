@@ -398,6 +398,11 @@
         });
         console.log(values);
         weekData.todoLists[listSelector] = values;
+        if (listSelector === "todo-middle-area-highlight") {
+            weekData.goodStuff = values;
+        } else if (listSelector === "todo-middle-area-lowlight") {
+            weekData.badStuff = values;
+        }
     }
 
     function disableAutoComplete(input) {
