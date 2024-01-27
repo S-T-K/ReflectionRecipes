@@ -251,11 +251,19 @@
 
     //start
     try {
-        var weekData = new WeekReflectionData()
-        waitFor(_ => document.getElementById('userdataiframe').contentDocument).then(
-            _ => waitFor(_ => document.getElementById('userdataiframe').contentDocument.getElementById('wf-user-account-email')).then(
-                _ => waitFor(_ => document.getElementById('userdataiframe').contentDocument.getElementById('wf-user-account-email').value).then(
-                    _ => fillPage())));
+        var weekData = new WeekReflectionData();
+        if (getCookie("wf_loggedin") !== "true") {
+            console.log("not logged in");
+            document.querySelector("#start-daily").remove();
+            document.querySelector("#start-weekly").innerHTML = "Start!";
+            document.getElementsByClassName('loading-spinner')[0].remove();
+        } else {
+            console.log("logged in");
+            waitFor(_ => document.getElementById('userdataiframe').contentDocument).then(
+                _ => waitFor(_ => document.getElementById('userdataiframe').contentDocument.getElementById('wf-user-account-email')).then(
+                    _ => waitFor(_ => document.getElementById('userdataiframe').contentDocument.getElementById('wf-user-account-email').value).then(
+                        _ => fillPage())));
+        }
 
     } catch (error) {
         console.log(error);
