@@ -166,80 +166,84 @@
     }
 
     function fillPage() {
-        // if logged in, and there's no daily or weekly data yet, or not logged in, just show a start button
-        let showStartButton = false;
+        try {
+            // if logged in, and there's no daily or weekly data yet, or not logged in, just show a start button
+            let showStartButton = false;
 
-        if (getCookie("wf_loggedin") === "true") {
-            console.log("logged in");
+            if (getCookie("wf_loggedin") === "true") {
+                console.log("logged in");
 
-            //load all weeks
-            let loadedJSONWeek1 = getMostRecentData("week1");
-            let loadedJSONWeek2 = getMostRecentData("week2");
-            let loadedJSONWeek3 = getMostRecentData("week3");
-            //if all of them are empty, it's the users first visit and the start button should be displayed
-            if (!loadedJSONWeek1 && !loadedJSONWeek3 && !loadedJSONWeek3) {
-                showStartButton = true;
-            }
-
-            //check if one of them is max 6 days old
-            let activeWeek;
-            let lastWeekCutoffDate = new Date();
-            lastWeekCutoffDate.setDate(lastWeekCutoffDate.getDate() - 5);
-            if (loadedJSONWeek1 && parseDateString(JSON.parse(loadedJSONWeek1).date) > lastWeekCutoffDate) {
-                activeWeek = JSON.parse(loadedJSONWeek1);
-            } else if (loadedJSONWeek2 && parseDateString(JSON.parse(loadedJSONWeek2).date) > lastWeekCutoffDate) {
-                activeWeek = JSON.parse(loadedJSONWeek2);
-            } else if (loadedJSONWeek3 && parseDateString(JSON.parse(loadedJSONWeek3).date) > lastWeekCutoffDate) {
-                activeWeek = JSON.parse(loadedJSONWeek3);
-            }
-            if (activeWeek) {
-                // show how many days until the next weekly
-                let daysUntilNewWeekly = Math.ceil((parseDateString(activeWeek.date).getTime() - lastWeekCutoffDate.getTime())/(1000 * 3600 * 24));
-                if (daysUntilNewWeekly === 1) {
-                    document.querySelector("#weekly-button-lower").innerHTML = "Next Weekly available in " + daysUntilNewWeekly + " days";
-                } else {
-                    document.querySelector("#weekly-button-lower").innerHTML = "Next Weekly available in " + daysUntilNewWeekly + "day";
+                //load all weeks
+                let loadedJSONWeek1 = getMostRecentData("week1");
+                let loadedJSONWeek2 = getMostRecentData("week2");
+                let loadedJSONWeek3 = getMostRecentData("week3");
+                //if all of them are empty, it's the users first visit and the start button should be displayed
+                if (!loadedJSONWeek1 && !loadedJSONWeek3 && !loadedJSONWeek3) {
+                    showStartButton = true;
                 }
 
+                //check if one of them is max 6 days old
+                let activeWeek;
+                let lastWeekCutoffDate = new Date();
+                lastWeekCutoffDate.setDate(lastWeekCutoffDate.getDate() - 5);
+                if (loadedJSONWeek1 && parseDateString(JSON.parse(loadedJSONWeek1).date) > lastWeekCutoffDate) {
+                    activeWeek = JSON.parse(loadedJSONWeek1);
+                } else if (loadedJSONWeek2 && parseDateString(JSON.parse(loadedJSONWeek2).date) > lastWeekCutoffDate) {
+                    activeWeek = JSON.parse(loadedJSONWeek2);
+                } else if (loadedJSONWeek3 && parseDateString(JSON.parse(loadedJSONWeek3).date) > lastWeekCutoffDate) {
+                    activeWeek = JSON.parse(loadedJSONWeek3);
+                }
+                if (activeWeek) {
+                    // show how many days until the next weekly
+                    let daysUntilNewWeekly = Math.ceil((parseDateString(activeWeek.date).getTime() - lastWeekCutoffDate.getTime()) / (1000 * 3600 * 24));
+                    if (daysUntilNewWeekly === 1) {
+                        document.querySelector("#weekly-button-lower").innerHTML = "Next Weekly available in " + daysUntilNewWeekly + " days";
+                    } else {
+                        document.querySelector("#weekly-button-lower").innerHTML = "Next Weekly available in " + daysUntilNewWeekly + "day";
+                    }
 
-                // check if any daily is newer than the active week
-                // if yes, display "view last weekly"
-                let mostRecent;
-                let days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
-                for (const day of days) {
-                    let loadedJSON = getMostRecentData(day);
-                    if (loadedJSON && JSON.parse(loadedJSON).date) {
-                        if (!mostRecent) {
-                            mostRecent = new DayReflectionData();
-                            mostRecent.loadSavedData(loadedJSON);
-                        } else if (parseDateString(mostRecent.date) < parseDateString(JSON.parse(loadedJSON).date)) {
-                            mostRecent.loadSavedData(loadedJSON);
+
+                    // check if any daily is newer than the active week
+                    // if yes, display "view last weekly"
+                    let mostRecent;
+                    let days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+                    for (const day of days) {
+                        let loadedJSON = getMostRecentData(day);
+                        if (loadedJSON && JSON.parse(loadedJSON).date) {
+                            if (!mostRecent) {
+                                mostRecent = new DayReflectionData();
+                                mostRecent.loadSavedData(loadedJSON);
+                            } else if (parseDateString(mostRecent.date) < parseDateString(JSON.parse(loadedJSON).date)) {
+                                mostRecent.loadSavedData(loadedJSON);
+                            }
                         }
                     }
-                }
-                if (mostRecent.time > activeWeek.time) {
-                    document.querySelector("#weekly-button-upper").innerHTML = "View last Weekly";
+                    if (mostRecent.time > activeWeek.time) {
+                        document.querySelector("#weekly-button-upper").innerHTML = "View last Weekly";
+                    } else {
+                        //if weekly is the latest dataset, show "edit last weekly"
+                        document.querySelector("#weekly-button-upper").innerHTML = "Edit last Weekly";
+                    }
+
                 } else {
-                    //if weekly is the latest dataset, show "edit last weekly"
-                    document.querySelector("#weekly-button-upper").innerHTML = "Edit last Weekly";
+                    // show start Weekly Reflection on button, remove days until
+                    document.querySelector("#weekly-button-upper").innerHTML = "Start Weekly Reflection";
+                    document.querySelector("#weekly-button-lower").remove();
                 }
 
             } else {
-                // show start Weekly Reflection on button, remove days until
-                document.querySelector("#weekly-button-upper").innerHTML = "Start Weekly Reflection";
-                document.querySelector("#weekly-button-lower").remove();
+                console.log("not logged in");
+                showStartButton = true;
             }
 
-        } else {
-            console.log("not logged in");
-            showStartButton = true;
-        }
+            if (showStartButton) {
+                document.querySelector("#start-daily").remove();
+                document.querySelector("#start-weekly").innerHTML = "Start!";
+            }
 
-        if (showStartButton) {
-            document.querySelector("#start-daily").remove();
-            document.querySelector("#start-weekly").innerHTML = "Start!";
-        }
-
+            document.getElementsByClassName('loading-spinner')[0].remove();
+    } catch (error) {
+        console.log(error);
         document.getElementsByClassName('loading-spinner')[0].remove();
     }
 
