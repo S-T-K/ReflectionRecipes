@@ -1,0 +1,307 @@
+<script>
+
+    class DayReflectionData {
+        date;
+        weekday;
+        milliseconds;
+        questions;
+        inputs;
+        todoLists;
+        vision;
+        customQuestion;
+        counter;
+
+        constructor() {
+            this.date = getCurrentDate();
+            let days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+            this.weekday = days[new Date().getDay()];
+            this.milliseconds = (new Date()).getTime();
+            this.questions = {};
+            this.inputs = {};
+            this.todoLists = {};
+            this.vision = null;
+            this.customQuestion = null;
+            this.counter = 0;
+        }
+
+        loadSavedData(string) {
+            let parsed = JSON.parse(string);
+            this.date = parsed.date;
+            this.weekday = parsed.weekday;
+            this.milliseconds = parsed.milliseconds;
+            this.questions = parsed.questions;
+            this.inputs = parsed.inputs;
+            this.todoLists = parsed.todoLists;
+            this.vision = parsed.vision;
+            this.customQuestion = parsed.customQuestion;
+            this.counter = parsed.counter;
+        }
+    }
+
+    class WeekReflectionData {
+        date;
+        milliseconds;
+        userDataField;
+        previousVision;
+        vision;
+        customQuestion;
+        goodStuff;
+        badStuff;
+        ratings;
+        todoLists;
+        questions;
+        counter;
+
+        constructor() {
+            this.date = getCurrentDate();
+            this.milliseconds = (new Date()).getTime();
+            this.userDataField = "week1";
+            this.previousVision = "";
+            this.vision = "";
+            this.customQuestion = "";
+            this.goodStuff = [];
+            this.badStuff = [];
+            this.ratings = {};
+            this.todoLists = {};
+            this.questions = {};
+            this.counter = 1;
+        }
+
+        loadSavedData(string) {
+            if (string) {
+                let parsed = string;
+                this.date = parsed.date;
+                this.milliseconds = parsed.milliseconds;
+                this.userDataField = parsed.userDataField;
+                this.previousVision = parsed.previousVision;
+                this.vision = parsed.vision;
+                this.customQuestion = parsed.customQuestion;
+                this.goodStuff = parsed.goodStuff;
+                this.badStuff = parsed.badStuff;
+                this.ratings = parsed.ratings;
+                this.todoLists = parsed.todoLists;
+                this.questions = parsed.questions;
+                this.counter = parsed.counter;
+            } else {
+                this.userDataField = "";
+                this.date = null;
+                this.milliseconds = null;
+                this.counter = null;
+            }
+        }
+
+    }
+
+    class GoodOrBadStuff {
+        text;
+        class;
+        prompt;
+        weekDay;
+
+        constructor(textValue, classValue, promptValue, weekDayValue) {
+            this.text = textValue;
+            this.class = classValue;
+            this.prompt = promptValue;
+            this.weekDay = weekDayValue;
+        }
+    }
+
+    class todoListItem {
+        text;
+        class;
+
+        constructor(textValue, classValue) {
+            this.text = textValue;
+            this.class = classValue;
+        }
+    }
+
+    function getCookie(cname) {
+        let name = cname + "=";
+        let decodedCookie = decodeURIComponent(document.cookie);
+        let ca = decodedCookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+
+
+    function getCurrentDate() {
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+
+        return dd + '-' + mm + '-' + yyyy;
+    }
+
+    function waitFor(conditionFunction) {
+        let maxTries = 10;
+        let currentTry = 0;
+        const poll = resolve => {
+            if (conditionFunction()) resolve();
+            else if (currentTry < maxTries) {
+                currentTry = currentTry + 1;
+                setTimeout(_ => poll(resolve), 500);
+            } else {
+                console.log("user data not found, probably triggered webflows maximum request. Using cookie data instead")
+                resolve();
+            }
+        }
+        return new Promise(poll);
+    }
+
+    function parseDateString(dateString) {
+        var dateParts = dateString.split("-");
+// month is 0-based, that's why we need dataParts[1] - 1
+        var dateObject = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]);
+        return dateObject;
+    }
+
+    function fillPage() {
+        // if logged in, and there's no daily or weekly data yet, or not logged in, just show a start button
+        let showStartButton = false;
+
+        if (getCookie("wf_loggedin") === "true") {
+            console.log("logged in");
+
+            //load all weeks
+            let loadedJSONWeek1 = getMostRecentData("week1");
+            let loadedJSONWeek2 = getMostRecentData("week2");
+            let loadedJSONWeek3 = getMostRecentData("week3");
+            //if all of them are empty, it's the users first visit and the start button should be displayed
+            if (!loadedJSONWeek1 && !loadedJSONWeek3 && !loadedJSONWeek3) {
+                showStartButton = true;
+            }
+
+            //check if one of them is max 6 days old
+            let activeWeek;
+            let lastWeekCutoffDate = new Date();
+            lastWeekCutoffDate.setDate(lastWeekCutoffDate.getDate() - 5);
+            if (loadedJSONWeek1 && parseDateString(JSON.parse(loadedJSONWeek1).date) > lastWeekCutoffDate) {
+                activeWeek = JSON.parse(loadedJSONWeek1);
+            } else if (loadedJSONWeek2 && parseDateString(JSON.parse(loadedJSONWeek2).date) > lastWeekCutoffDate) {
+                activeWeek = JSON.parse(loadedJSONWeek2);
+            } else if (loadedJSONWeek3 && parseDateString(JSON.parse(loadedJSONWeek3).date) > lastWeekCutoffDate) {
+                activeWeek = JSON.parse(loadedJSONWeek3);
+            }
+            if (activeWeek) {
+                // show how many days until the next weekly
+                let daysUntilNewWeekly = Math.ceil((activeWeek.getTime() - lastWeekCutoffDate.getTime())/(1000 * 3600 * 24));
+                if (daysUntilNewWeekly === 1) {
+                    document.querySelector("#weekly-button-lower").innerHTML = "Next Weekly available in " + daysUntilNewWeekly + " days";
+                } else {
+                    document.querySelector("#weekly-button-lower").innerHTML = "Next Weekly available in " + daysUntilNewWeekly + "day";
+                }
+
+
+                // check if any daily is newer than the active week
+                // if yes, display "view last weekly"
+                let mostRecent;
+                let days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+                for (const day of days) {
+                    let loadedJSON = getMostRecentData(day);
+                    if (loadedJSON && JSON.parse(loadedJSON).date) {
+                        if (!mostRecent) {
+                            mostRecent = new DayReflectionData();
+                            mostRecent.loadSavedData(loadedJSON);
+                        } else if (parseDateString(mostRecent.date) < parseDateString(JSON.parse(loadedJSON).date)) {
+                            mostRecent.loadSavedData(loadedJSON);
+                        }
+                    }
+                }
+                if (mostRecent.time > activeWeek.time) {
+                    document.querySelector("#weekly-button-upper").innerHTML = "View last Weekly";
+                } else {
+                    //if weekly is the latest dataset, show "edit last weekly"
+                    document.querySelector("#weekly-button-upper").innerHTML = "Edit last Weekly";
+                }
+
+            } else {
+                // show start Weekly Reflection on button, remove days until
+                document.querySelector("#weekly-button-upper").innerHTML = "Start Weekly Reflection";
+                document.querySelector("#weekly-button-lower").remove();
+            }
+
+        } else {
+            console.log("not logged in");
+            showStartButton = true;
+        }
+
+        if (showStartButton) {
+            document.querySelector("#start-daily").remove();
+            document.querySelector("#start-weekly").innerHTML = "Start!";
+        }
+
+        document.getElementsByClassName('loading-spinner')[0].remove();
+    }
+
+
+    //start
+    try {
+        var weekData = new WeekReflectionData()
+        waitFor(_ => document.getElementById('userdataiframe').contentDocument).then(
+            _ => waitFor(_ => document.getElementById('userdataiframe').contentDocument.getElementById('wf-user-account-email')).then(
+                _ => waitFor(_ => document.getElementById('userdataiframe').contentDocument.getElementById('wf-user-account-email').value).then(
+                    _ => fillPage())));
+
+    } catch (error) {
+        console.log(error);
+        document.getElementsByClassName('loading-spinner')[0].remove();
+    }
+
+    function getCookieBackup(name) {
+        let maxChunk = parseInt(getCookie(name + "MaxChunk"));
+        let totalCookieString = "";
+        for (let i = 0; i < maxChunk + 1; i++) {
+            totalCookieString = totalCookieString.concat(getCookie(name + i));
+        }
+        return totalCookieString;
+    }
+
+    function getMostRecentData(name) {
+        const userDataIframe = document.getElementById('userdataiframe').contentDocument;
+        console.log(userDataIframe.getElementById(name).value);
+        let loadedUserDataJSON = userDataIframe.getElementById(name).value;
+        let loadedCookieJSON = getCookieBackup(name);
+
+        //if all are empty return something, doesn't matter
+        if (!isJsonString(loadedUserDataJSON) && !isJsonString(loadedCookieJSON)) {
+            return loadedUserDataJSON;
+        }
+        //if one is empty, return the other
+        if (isJsonString(loadedUserDataJSON) && !isJsonString(loadedCookieJSON)) {
+            return loadedUserDataJSON;
+        }
+        if (!isJsonString(loadedUserDataJSON) && isJsonString(loadedCookieJSON)) {
+            return loadedCookieJSON;
+        }
+
+        let parsedUserData = JSON.parse(loadedUserDataJSON);
+        let parsedCookie = JSON.parse(loadedCookieJSON);
+
+        if (parsedUserData.milliseconds > parsedCookie.milliseconds) {
+            return loadedUserDataJSON;
+        } else {
+            return loadedCookieJSON;
+        }
+    }
+
+    function isJsonString(str) {
+        try {
+            JSON.parse(str);
+        } catch (e) {
+            return false;
+        }
+        return true;
+    }
+
+
+</script>
