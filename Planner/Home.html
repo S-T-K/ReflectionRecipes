@@ -229,6 +229,17 @@
                     // show start Weekly Reflection on button, remove days until
                     document.querySelector("#weekly-button-upper").innerHTML = "Start Weekly Reflection";
                     document.querySelector("#weekly-button-lower").remove();
+                    document.querySelector("#start-weekly").classList.add("active-button");
+                }
+
+                //check daily
+                let loadedJSONToday = getMostRecentData(new DayReflectionData().weekday);
+                console.log("Data loaded!");
+
+                if (loadedJSONToday && JSON.parse(loadedJSONToday).date === dayData.date) {
+                    document.querySelector("#start-daily").innerHTML = "Edit Daily Reflection";
+                } else {
+                    document.querySelector("#start-daily").classList.add("active-button");
                 }
 
             } else {
