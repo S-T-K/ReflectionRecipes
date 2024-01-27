@@ -194,7 +194,7 @@
             }
             if (activeWeek) {
                 // show how many days until the next weekly
-                let daysUntilNewWeekly = Math.ceil((activeWeek.getTime() - lastWeekCutoffDate.getTime())/(1000 * 3600 * 24));
+                let daysUntilNewWeekly = Math.ceil((activeWeek.date.getTime() - lastWeekCutoffDate.getTime())/(1000 * 3600 * 24));
                 if (daysUntilNewWeekly === 1) {
                     document.querySelector("#weekly-button-lower").innerHTML = "Next Weekly available in " + daysUntilNewWeekly + " days";
                 } else {
