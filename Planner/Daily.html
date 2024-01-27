@@ -171,13 +171,6 @@
     }
 
     function setQuestion(week, day, question, selector) {
-        // check for stored questions
-        var storedQuestion = getCookie(selector+week+day);
-        if (storedQuestion.length > 0) {
-            question = storedQuestion
-        } else {
-            setCookie(selector+week+day, question, 999);
-        }
         setQuestionData(question, selector);
     }
 
