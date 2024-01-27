@@ -236,7 +236,7 @@
                 let loadedJSONToday = getMostRecentData(new DayReflectionData().weekday);
                 console.log("Data loaded!");
 
-                if (loadedJSONToday && JSON.parse(loadedJSONToday).date === dayData.date) {
+                if (loadedJSONToday && JSON.parse(loadedJSONToday).date === getCurrentDate()) {
                     document.querySelector("#start-daily").innerHTML = "Edit Daily Reflection";
                 } else {
                     document.querySelector("#start-daily").classList.add("active-button");
