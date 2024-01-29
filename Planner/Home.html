@@ -248,8 +248,10 @@
         if (getCookie("wf_loggedin") !== "true") {
             console.log("not logged in");
             document.querySelector("#start-daily").remove();
-            document.querySelector("#start-weekly").innerHTML = "Start!";
-            document.querySelector("#start-weekly").classList.add("active-button");
+            document.querySelector("#daily-available-counter").remove();
+            document.querySelector("#weekly-available-counter").remove();
+            document.querySelector("#start-weekly").innerHTML = "Log In";
+            document.querySelector("#archive").remove();
             document.getElementsByClassName('loading-spinner')[0].remove();
         } else {
             console.log("logged in");
