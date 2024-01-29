@@ -168,8 +168,6 @@
     function fillPage() {
         try {
             // if logged in, and there's no daily or weekly data yet, or not logged in, just show a start button
-            let showStartButton = false;
-
             if (getCookie("wf_loggedin") === "true") {
                 console.log("logged in");
 
@@ -179,7 +177,11 @@
                 let loadedJSONWeek3 = getMostRecentData("week3");
                 //if all of them are empty, it's the users first visit and the start button should be displayed
                 if (!loadedJSONWeek1 && !loadedJSONWeek3 && !loadedJSONWeek3) {
-                    showStartButton = true;
+                    document.querySelector("#start-daily").remove();
+                    document.querySelector("#daily-available-counter").remove();
+                    document.querySelector("#weekly-available-counter").remove();
+                    document.querySelector("#weekly-button-upper").innerHTML = "Start Your First Reflection";
+                    document.querySelector("#weekly-button-lower").innerHTML = "takes 15-30 minutes";
                 }
 
                 //check if one of them is max 6 days old
@@ -197,59 +199,38 @@
                     // show how many days until the next weekly
                     let daysUntilNewWeekly = Math.ceil((parseDateString(activeWeek.date).getTime() - lastWeekCutoffDate.getTime()) / (1000 * 3600 * 24));
                     if (daysUntilNewWeekly === 1) {
-                        document.querySelector("#weekly-button-lower").innerHTML = "Next Weekly available in " + daysUntilNewWeekly + " days";
+                        document.querySelector("#weekly-button-lower").innerHTML = "Next weekly available in " + daysUntilNewWeekly + " day";
                     } else {
-                        document.querySelector("#weekly-button-lower").innerHTML = "Next Weekly available in " + daysUntilNewWeekly + "day";
+                        document.querySelector("#weekly-button-lower").innerHTML = "Next weekly available in " + daysUntilNewWeekly + " days";
                     }
 
+                    // remove weekly button
+                    document.querySelector("#start-weekly").remove();
 
-                    // check if any daily is newer than the active week
-                    // if yes, display "view last weekly"
-                    let mostRecent;
-                    let days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
-                    for (const day of days) {
-                        let loadedJSON = getMostRecentData(day);
-                        if (loadedJSON && JSON.parse(loadedJSON).date) {
-                            if (!mostRecent) {
-                                mostRecent = new DayReflectionData();
-                                mostRecent.loadSavedData(loadedJSON);
-                            } else if (parseDateString(mostRecent.date) < parseDateString(JSON.parse(loadedJSON).date)) {
-                                mostRecent.loadSavedData(loadedJSON);
-                            }
-                        }
-                    }
-                    if (mostRecent.time > activeWeek.time) {
-                        document.querySelector("#weekly-button-upper").innerHTML = "View last Weekly";
-                    } else {
-                        //if weekly is the latest dataset, show "edit last weekly"
-                        document.querySelector("#weekly-button-upper").innerHTML = "Edit last Weekly";
-                    }
 
                 } else {
-                    // show start Weekly Reflection on button, remove days until
-                    document.querySelector("#start-weekly").innerHTML = "Start Weekly Reflection";
-                    document.querySelector("#start-weekly").classList.add("active-button");
+                    // remove days until next weekly
+                    document.querySelector("#weekly-available-counter").remove();
                 }
 
                 //check daily
                 let loadedJSONToday = getMostRecentData(new DayReflectionData().weekday);
                 console.log("Data loaded!");
 
+                // if daily was started, remove button
                 if (loadedJSONToday && JSON.parse(loadedJSONToday).date === getCurrentDate()) {
-                    document.querySelector("#start-daily").innerHTML = "Edit Daily Reflection";
+                    document.querySelector("#start-daily").remove();
                 } else {
-                    document.querySelector("#start-daily").classList.add("active-button");
+                    // remove daily counter
+                    document.querySelector("#daily-available-counter").remove();
                 }
 
             } else {
                 console.log("not logged in");
-                showStartButton = true;
-            }
-
-            if (showStartButton) {
                 document.querySelector("#start-daily").remove();
-                document.querySelector("#start-weekly").innerHTML = "Start!";
-                document.querySelector("#start-weekly").classList.add("active-button");
+                document.querySelector("#daily-available-counter").remove();
+                document.querySelector("#weekly-available-counter").remove();
+                document.querySelector("#start-weekly").innerHTML = "Log In";
             }
 
             document.getElementsByClassName('loading-spinner')[0].remove();
