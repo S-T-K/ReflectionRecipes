@@ -118,13 +118,11 @@
 
     function getCookie(cname) {
         let name = cname + "=";
-        let decodedCookie = decodeURIComponent(document.cookie);
+        let decodedCookie = document.cookie; // Do not decode here
         let ca = decodedCookie.split(';');
+
         for (let i = 0; i < ca.length; i++) {
-            let c = ca[i];
-            while (c.charAt(0) == ' ') {
-                c = c.substring(1);
-            }
+            let c = ca[i].trim();
             if (c.indexOf(name) == 0) {
                 return c.substring(name.length, c.length);
             }
@@ -182,6 +180,7 @@
                     document.querySelector("#weekly-available-counter").remove();
                     document.querySelector("#weekly-button-upper").innerHTML = "Start Your First Reflection";
                     document.querySelector("#weekly-button-lower").innerHTML = "takes 15-30 minutes";
+                    document.querySelector("#archive").remove();
                 }
 
                 //check if one of them is max 6 days old
@@ -211,6 +210,7 @@
                 } else {
                     // remove days until next weekly
                     document.querySelector("#weekly-available-counter").remove();
+                    document.querySelector("#start-weekly-archive").remove();
                 }
 
                 //check daily
@@ -223,6 +223,7 @@
                 } else {
                     // remove daily counter
                     document.querySelector("#daily-available-counter").remove();
+                    document.querySelector("#start-daily-archive").remove();
                 }
 
             } else {
@@ -269,11 +270,14 @@
     function getCookieBackup(name) {
         let maxChunk = parseInt(getCookie(name + "MaxChunk"));
         let totalCookieString = "";
-        for (let i = 0; i < maxChunk + 1; i++) {
-            totalCookieString = totalCookieString.concat(getCookie(name + i));
+
+        for (let i = 0; i <= maxChunk; i++) {
+            totalCookieString += getCookie(name + i);
         }
-        return totalCookieString;
+
+        return decodeURIComponent(totalCookieString);
     }
+
 
     function getMostRecentData(name) {
         const userDataIframe = document.getElementById('userdataiframe').contentDocument;
