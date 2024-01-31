@@ -1527,7 +1527,7 @@
 
     function backupToCookie(name, value) {
         let encodedValue = encodeURIComponent(value);
-        let chunkSize = 1000; // adjust as needed based on maximum cookie size
+        let chunkSize = 3000; // adjust as needed based on maximum cookie size
         let chunks = encodedValue.match(new RegExp('.{1,' + chunkSize + '}', 'g'));
 
         chunks.forEach(function (chunk, index) {
