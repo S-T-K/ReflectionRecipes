@@ -1110,7 +1110,7 @@
                     }
                 }
             }
-            if (mostRecent && mostRecent.todoLists['todo-middle-area-today']) {
+            if (mostRecent && mostRecent.todoLists && Array.isArray(mostRecentWeek.todoLists['todo-middle-area-today'])) {
                 for (const task of mostRecent.todoLists['todo-middle-area-today']) {
                     task.class = [];
                     addTodoDeletable(todoListNextWeek, task.text);
@@ -1118,7 +1118,7 @@
                 }
             }
             //add the tasks from last week that weren't tagged as this week's tasks
-            if (mostRecentWeek && mostRecentWeek.todoLists) {
+            if (mostRecentWeek && mostRecentWeek.todoLists && Array.isArray(mostRecentWeek.todoLists['todo-middle-area-next-week'])) {
                 for (const task of mostRecentWeek.todoLists['todo-middle-area-next-week']) {
                     if (!task.class.includes("is-next-weeks-task")) {
                         addTodoDeletable(todoListNextWeek, task.text);
@@ -1135,7 +1135,7 @@
             let allFinishedTodos = [];
             for (const day of thisWeeksDays) {
                 //special good stuff
-                if (day.todoLists["todo-middle-area-good"]) {
+                if (day.todoLists["todo-middle-area-good"] && Array.isArray(day.todoLists["todo-middle-area-good"])) {
                     for (const specialGoodEntry of day.todoLists["todo-middle-area-good"]) {
                         let textValue = specialGoodEntry.text;
                         let classValue = specialGoodEntry.class;
@@ -1145,7 +1145,7 @@
                     }
                 }
                 //general good stuff
-                if (day.todoLists["todo-middle-area-more-good"]) {
+                if (day.todoLists["todo-middle-area-more-good"] && Array.isArray(day.todoLists["todo-middle-area-more-good"])) {
                     for (const generalGoodEntry of day.todoLists["todo-middle-area-more-good"]) {
                         let textValue = generalGoodEntry.text;
                         let classValue = generalGoodEntry.class;
@@ -1160,7 +1160,7 @@
                     document.querySelector("#highlights-header").innerHTML = "Write down all the good stuff that happened this week. Mark your personal highlights";
                 }
                 //special bad stuff
-                if (day.todoLists["todo-middle-area-bad"]) {
+                if (day.todoLists["todo-middle-area-bad"] && Array.isArray(day.todoLists["todo-middle-area-bad"])) {
                     for (const specialBadEntry of day.todoLists["todo-middle-area-bad"]) {
                         let textValue = specialBadEntry.text;
                         let classValue = specialBadEntry.class;
@@ -1170,7 +1170,7 @@
                     }
                 }
                 //general bad stuff
-                if (day.todoLists["todo-middle-area-more-bad"]) {
+                if (day.todoLists["todo-middle-area-more-bad"] && Array.isArray(day.todoLists["todo-middle-area-more-bad"])) {
                     for (const generalBadEntry of day.todoLists["todo-middle-area-more-bad"]) {
                         let textValue = generalBadEntry.text;
                         let classValue = generalBadEntry.class;
@@ -1185,7 +1185,7 @@
                     document.querySelector("#lowlights-header").innerHTML = "Write down all the bad stuff that happened this week. Mark your personal lowlights";
                 }
                 //finished todos, remove duplicates
-                if (day.todoLists["todo-middle-area-old"]) {
+                if (day.todoLists["todo-middle-area-old"] && Array.isArray(day.todoLists["todo-middle-area-old"])) {
                     for (const todo of day.todoLists["todo-middle-area-old"]) {
                         if (todo.class.includes("is-done")) {
                             if (!allFinishedTodos.map(a => a.text).includes(todo.text)) {
