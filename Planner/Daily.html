@@ -99,26 +99,6 @@
             this.class = classValue;
         }
     }
-    function setCookie(cname, cvalue, exdays) {
-        const d = new Date();
-        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-        let expires = "expires=" + d.toUTCString();
-        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/"; // Store the chunk as is
-    }
-
-    function getCookie(cname) {
-        let name = cname + "=";
-        let decodedCookie = document.cookie; // Do not decode here
-        let ca = decodedCookie.split(';');
-
-        for (let i = 0; i < ca.length; i++) {
-            let c = ca[i].trim();
-            if (c.indexOf(name) == 0) {
-                return c.substring(name.length, c.length);
-            }
-        }
-        return "";
-    }
 
     function cyrb128(str) {
         let h1 = 1779033703, h2 = 3144134277,
@@ -1206,7 +1186,7 @@ if (todoListsDeletable.includes(element)) {
         const buttonsForCookies = document.querySelectorAll(".w-button");
         buttonsForCookies.forEach(function (element) {
             element.addEventListener("click", (e) => {
-                backupToCookie(dayData.weekday, JSON.stringify(dayData));
+                backupToLocalStorage(dayData.weekday, JSON.stringify(dayData));
                 console.log('cookie data updated');
             });
         });
@@ -1234,33 +1214,22 @@ if (todoListsDeletable.includes(element)) {
         dayData.inputs[this.getAttribute("textarea")] = this.value;
     }
 
-    function backupToCookie(name, value) {
-        let encodedValue = encodeURIComponent(value);
-        let chunkSize = 3000; // adjust as needed based on maximum cookie size
-        let chunks = encodedValue.match(new RegExp('.{1,' + chunkSize + '}', 'g'));
-
-        chunks.forEach(function (chunk, index) {
-            setCookie(name + index, chunk, 999);
-        });
-        setCookie(name + "MaxChunk", chunks.length - 1, 999);
+    function backupToLocalStorage(name, value) {
+        // Directly storing the value without URI encoding
+        localStorage.setItem(name, value);
     }
 
-    function getCookieBackup(name) {
-        let maxChunk = parseInt(getCookie(name + "MaxChunk"));
-        let totalCookieString = "";
-
-        for (let i = 0; i <= maxChunk; i++) {
-            totalCookieString += getCookie(name + i);
-        }
-
-        return decodeURIComponent(totalCookieString);
+    function getLocalStorageBackup(name) {
+        // Directly retrieving the value without decoding
+        let storedValue = localStorage.getItem(name);
+        return storedValue ? storedValue : "";
     }
 
     function getMostRecentData(name) {
         const userDataIframe = document.getElementById('userdataiframe').contentDocument;
         console.log(userDataIframe.getElementById(name).value);
         let loadedUserDataJSON = userDataIframe.getElementById(name).value;
-        let loadedCookieJSON = getCookieBackup(name);
+        let loadedCookieJSON = getLocalStorageBackup(name);
 
         //if all are empty return something, doesn't matter
         if (!isJsonString(loadedUserDataJSON) && !isJsonString(loadedCookieJSON)) {

@@ -130,7 +130,6 @@
         return "";
     }
 
-
     function getCurrentDate() {
         var today = new Date();
         var dd = String(today.getDate()).padStart(2, '0');
@@ -224,6 +223,10 @@
                     // remove daily counter
                     document.querySelector("#daily-available-counter").remove();
                     document.querySelector("#start-daily-archive").remove();
+
+                    if (!activeWeek) {
+                        document.querySelector("#archive").remove();
+                    }
                 }
 
             } else {
@@ -267,15 +270,10 @@
         document.getElementsByClassName('loading-spinner')[0].remove();
     }
 
-    function getCookieBackup(name) {
-        let maxChunk = parseInt(getCookie(name + "MaxChunk"));
-        let totalCookieString = "";
-
-        for (let i = 0; i <= maxChunk; i++) {
-            totalCookieString += getCookie(name + i);
-        }
-
-        return decodeURIComponent(totalCookieString);
+    function getLocalStorageBackup(name) {
+        // Directly retrieving the value without decoding
+        let storedValue = localStorage.getItem(name);
+        return storedValue ? storedValue : "";
     }
 
 
@@ -283,7 +281,7 @@
         const userDataIframe = document.getElementById('userdataiframe').contentDocument;
         console.log(userDataIframe.getElementById(name).value);
         let loadedUserDataJSON = userDataIframe.getElementById(name).value;
-        let loadedCookieJSON = getCookieBackup(name);
+        let loadedCookieJSON = getLocalStorageBackup(name);
 
         //if all are empty return something, doesn't matter
         if (!isJsonString(loadedUserDataJSON) && !isJsonString(loadedCookieJSON)) {
