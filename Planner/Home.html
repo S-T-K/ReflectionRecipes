@@ -182,16 +182,24 @@
                     document.querySelector("#archive").remove();
                 }
 
-                //check if one of them is max 6 days old
+                let weeks = [
+                    loadedJSONWeek1 ? JSON.parse(loadedJSONWeek1) : null,
+                    loadedJSONWeek2 ? JSON.parse(loadedJSONWeek2) : null,
+                    loadedJSONWeek3 ? JSON.parse(loadedJSONWeek3) : null
+                ].filter(week => week !== null); // Filter out any nulls in case of failed data loading
+
+// Sort the weeks by the 'milliseconds' field in descending order
+                weeks.sort((a, b) => b.milliseconds - a.milliseconds);
+
+// Now, only consider the week with the largest 'milliseconds' value for comparison
                 let activeWeek;
+                let today = new Date();
                 let lastWeekCutoffDate = new Date();
                 lastWeekCutoffDate.setDate(lastWeekCutoffDate.getDate() - 5);
-                if (loadedJSONWeek1 && parseDateString(JSON.parse(loadedJSONWeek1).date) > lastWeekCutoffDate) {
-                    activeWeek = JSON.parse(loadedJSONWeek1);
-                } else if (loadedJSONWeek2 && parseDateString(JSON.parse(loadedJSONWeek2).date) > lastWeekCutoffDate) {
-                    activeWeek = JSON.parse(loadedJSONWeek2);
-                } else if (loadedJSONWeek3 && parseDateString(JSON.parse(loadedJSONWeek3).date) > lastWeekCutoffDate) {
-                    activeWeek = JSON.parse(loadedJSONWeek3);
+
+// We use the first element after sorting as it has the largest 'milliseconds' value
+                if (weeks.length > 0 && parseDateString(weeks[0].date) > lastWeekCutoffDate) {
+                    activeWeek = weeks[0];
                 }
                 if (activeWeek) {
                     // show how many days until the next weekly
