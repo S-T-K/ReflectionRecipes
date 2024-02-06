@@ -180,6 +180,7 @@
                     document.querySelector("#weekly-button-upper").innerHTML = "Start Your First Reflection";
                     document.querySelector("#weekly-button-lower").innerHTML = "takes 15-30 minutes";
                     document.querySelector("#archive").remove();
+                    document.querySelector("#home-done").remove();
                 }
 
                 let weeks = [
@@ -218,6 +219,7 @@
                     // remove days until next weekly
                     document.querySelector("#weekly-available-counter").remove();
                     document.querySelector("#start-weekly-archive").remove();
+                    document.querySelector("#home-done").remove();
                 }
 
                 //check daily
@@ -231,6 +233,7 @@
                     // remove daily counter
                     document.querySelector("#daily-available-counter").remove();
                     document.querySelector("#start-daily-archive").remove();
+                    document.querySelector("#home-done").remove();
 
                     if (!activeWeek) {
                         document.querySelector("#archive").remove();
@@ -244,6 +247,7 @@
                 document.querySelector("#weekly-available-counter").remove();
                 document.querySelector("#start-weekly").innerHTML = "Log In";
                 document.querySelector("#archive").remove();
+                document.querySelector("#home-done").remove();
             }
 
             document.getElementsByClassName('loading-spinner')[0].remove();

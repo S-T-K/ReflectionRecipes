@@ -777,13 +777,15 @@
             let element = document.querySelector("#" + key);
             console.log("tried to set todo Items for:")
             console.log(element);
-            value.forEach( function (item) {
-if (todoListsDeletable.includes(element)) {
-    addTodoDeletable(element, item.text, item.class[0]);
-} else if (todoListsNonDeletable.includes(element)) {
-    addTodoNonDeletable(element, item.text, item.class[0]);
-}
-            });
+            if (value) {
+                value.forEach(function (item) {
+                    if (todoListsDeletable.includes(element)) {
+                        addTodoDeletable(element, item.text, item.class[0]);
+                    } else if (todoListsNonDeletable.includes(element)) {
+                        addTodoNonDeletable(element, item.text, item.class[0]);
+                    }
+                });
+            }
         }
     }
 
