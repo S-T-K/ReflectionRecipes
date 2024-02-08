@@ -743,7 +743,11 @@
                         summary.querySelectorAll(".central-text").forEach(function (item) {
                             if (item.innerHTML.trim() === text) {
                                 item.remove();
-
+                                if (!document.querySelectorAll(".goodsummary")[0].innerHTML) {
+                                    document.querySelectorAll(".goodsummary").forEach(function (summary) {
+                                        summary.classList.add("hidden");
+                                    });
+                                }
                             }
                         });
                     });
@@ -757,6 +761,9 @@
               </div>
 `;
                         summary.innerHTML += htmlContent;
+                    });
+                    document.querySelectorAll(".goodsummary").forEach(function (summary) {
+                            summary.classList.remove("hidden");
                     });
                 }
                 todoItem.classList.toggle("is-highlight");
@@ -781,7 +788,11 @@
                         summary.querySelectorAll(".central-text").forEach(function (item) {
                             if (item.innerHTML.trim() === text) {
                                 item.remove();
-
+                                if (!document.querySelectorAll(".badsummary")[0].innerHTML) {
+                                    document.querySelectorAll(".badsummary").forEach(function (summary) {
+                                        summary.classList.add("hidden");
+                                    });
+                                }
                             }
                         });
                     });
@@ -795,6 +806,9 @@
               </div>
 `;
                         summary.innerHTML += htmlContent;
+                    });
+                    document.querySelectorAll(".badsummary").forEach(function (summary) {
+                        summary.classList.remove("hidden");
                     });
                 }
                 todoItem.classList.toggle("is-lowlight");
