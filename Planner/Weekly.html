@@ -743,7 +743,7 @@
                         summary.querySelectorAll(".central-text").forEach(function (item) {
                             if (item.innerHTML.trim() === text) {
                                 item.remove();
-                                if (!document.querySelectorAll(".goodsummary")[0].innerHTML) {
+                                if (!document.querySelectorAll(".goodsummary")[0].innerText.trim()) {
                                     document.querySelectorAll(".goodsummary").forEach(function (summary) {
                                         summary.classList.add("hidden");
                                     });
@@ -788,7 +788,7 @@
                         summary.querySelectorAll(".central-text").forEach(function (item) {
                             if (item.innerHTML.trim() === text) {
                                 item.remove();
-                                if (!document.querySelectorAll(".badsummary")[0].innerHTML) {
+                                if (!document.querySelectorAll(".badsummary")[0].innerText.trim()) {
                                     document.querySelectorAll(".badsummary").forEach(function (summary) {
                                         summary.classList.add("hidden");
                                     });
