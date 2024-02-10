@@ -1202,7 +1202,7 @@
             weekData.counter = mostRecentWeek.counter ? (mostRecentWeek.counter + 1) : 1;
 
             //handle first weeklies done tasks
-            if (!weeks[0]) {
+            if (todoListOld.querySelectorAll(".todo_item").length === 0) {
                 document.querySelector("#whats-done-prompt").innerHTML = "Do you already use a task management tool like Asana, Trello, Todoist, phone notes, a physical board, or even just paper for tracking your tasks? If so and it works for you, continue using it. When prompted to manage tasks during reflections, simply update your tasks in your preferred system and skip these steps here. There’s no need to switch systems or manage tasks in multiple places.\n" +
                     "\n" +
                     "However, if you don’t currently use a to-do list or are open to trying something new, this website offers a straightforward task management feature. It’s truly simple: no attachments, due dates, details, or filters. Just a straightforward list of tasks."
