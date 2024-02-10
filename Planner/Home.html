@@ -233,9 +233,9 @@
                     // remove daily counter
                     document.querySelector("#daily-available-counter").remove();
                     document.querySelector("#start-daily-archive").remove();
-                    document.querySelector("#home-done").remove();
+                    document.querySelector("#home-done")?.remove();
 
-                    if (activeWeek) {
+                    if (!activeWeek) {
                         document.querySelector("#archive").remove();
                     }
                 }
