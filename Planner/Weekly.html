@@ -1156,11 +1156,6 @@
                         allGoodStuff.push(new GoodOrBadStuff(textValue, classValue, promptValue, weekDayValue));
                     }
                 }
-                weekData.goodStuff = allGoodStuff;
-                //if no good stuff, adjust header
-                if (weekData.goodStuff.length < 1) {
-                    document.querySelector("#highlights-header").innerHTML = "Write down all the good stuff that happened this week. Mark your personal highlights";
-                }
                 //special bad stuff
                 if (day.todoLists["todo-middle-area-bad"] && Array.isArray(day.todoLists["todo-middle-area-bad"])) {
                     for (const specialBadEntry of day.todoLists["todo-middle-area-bad"]) {
@@ -1181,11 +1176,6 @@
                         allBadStuff.push(new GoodOrBadStuff(textValue, classValue, promptValue, weekDayValue));
                     }
                 }
-                weekData.badStuff = allBadStuff;
-                //if no bad stuff, adjust header
-                if (weekData.badStuff.length < 1) {
-                    document.querySelector("#lowlights-header").innerHTML = "Write down all the bad stuff that happened this week. Mark your personal lowlights";
-                }
                 //finished todos, remove duplicates
                 if (day.todoLists["todo-middle-area-old"] && Array.isArray(day.todoLists["todo-middle-area-old"])) {
                     for (const todo of day.todoLists["todo-middle-area-old"]) {
@@ -1197,7 +1187,17 @@
                         }
                     }
                 }
-                updateTodoListData(todoListOld);
+            }
+            updateTodoListData(todoListOld);
+            weekData.goodStuff = allGoodStuff;
+            //if no good stuff, adjust header
+            if (weekData.goodStuff.length < 1) {
+                document.querySelector("#highlights-header").innerHTML = "Write down all the good stuff that happened this week. Mark your personal highlights";
+            }
+            weekData.badStuff = allBadStuff;
+            //if no bad stuff, adjust header
+            if (weekData.badStuff.length < 1) {
+                document.querySelector("#lowlights-header").innerHTML = "Write down all the bad stuff that happened this week. Mark your personal lowlights";
             }
             weekData.counter = mostRecentWeek.counter ? (mostRecentWeek.counter + 1) : 1;
 
