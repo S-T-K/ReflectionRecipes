@@ -916,7 +916,7 @@
         });
         //if no good stuff, adjust header
         if (weekData.goodStuff.length < 1) {
-            document.querySelector("#highlights-header").innerHTML = "Write down all the good stuff that happened this week. Mark your personal highlights";
+            document.querySelector("#highlights-header").innerHTML = "Write down all the good stuff that happened this week. Mark your personal highlights:";
         }
 
         weekData.badStuff.forEach(badStuff => {
@@ -935,7 +935,7 @@
         });
         //if no bad stuff, adjust header
         if (weekData.badStuff.length < 1) {
-            document.querySelector("#lowlights-header").innerHTML = "Write down all the bad stuff that happened this week. Mark your personal lowlights";
+            document.querySelector("#lowlights-header").innerHTML = "Write down all the bad stuff that happened this week. Mark your personal lowlights:";
         }
 
 
@@ -1192,12 +1192,12 @@
             weekData.goodStuff = allGoodStuff;
             //if no good stuff, adjust header
             if (weekData.goodStuff.length < 1) {
-                document.querySelector("#highlights-header").innerHTML = "Write down all the good stuff that happened this week. Mark your personal highlights";
+                document.querySelector("#highlights-header").innerHTML = "Write down all the good stuff that happened this week. Mark your personal highlights:";
             }
             weekData.badStuff = allBadStuff;
             //if no bad stuff, adjust header
             if (weekData.badStuff.length < 1) {
-                document.querySelector("#lowlights-header").innerHTML = "Write down all the bad stuff that happened this week. Mark your personal lowlights";
+                document.querySelector("#lowlights-header").innerHTML = "Write down all the bad stuff that happened this week. Mark your personal lowlights:";
             }
             weekData.counter = mostRecentWeek.counter ? (mostRecentWeek.counter + 1) : 1;
 
