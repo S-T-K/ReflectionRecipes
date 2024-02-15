@@ -164,6 +164,13 @@
 
     function fillPage() {
         try {
+            //update last logged in email
+            const userDataIframe = document.getElementById('userdataiframe').contentDocument;
+            let email = userDataIframe.getElementById("email").value;
+            if (email) {
+                localStorage.setItem("lastLoggedInEmail", email);
+            }
+
             // if logged in, and there's no daily or weekly data yet, or not logged in, just show a start button
             if (getCookie("wf_loggedin") === "true") {
                 console.log("logged in");
@@ -284,9 +291,9 @@
     }
 
     function getLocalStorageBackup(name) {
-        // Directly retrieving the value without decoding
+        name+=localStorage.getItem("lastLoggedInEmail");
         let storedValue = localStorage.getItem(name);
-        return storedValue ? storedValue : "";
+        return storedValue ? decodeURIComponent(storedValue) : "";
     }
 
 

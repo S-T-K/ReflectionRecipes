@@ -1014,6 +1014,13 @@
     }
 
     function fillPage() {
+        //update last logged in email
+        const userDataIframe = document.getElementById('userdataiframe').contentDocument;
+        let email = userDataIframe.getElementById("email").value;
+        if (email) {
+            localStorage.setItem("lastLoggedInEmail", email);
+        }
+
         clearTodoItems();
         //load all weeks
         let loadedJSONWeek1 = getMostRecentData("week1");
@@ -1537,10 +1544,12 @@
 
     function backupToLocalStorage(name, value) {
         // Directly storing the value without URI encoding
+        name+=localStorage.getItem("lastLoggedInEmail");
         localStorage.setItem(name, value);
     }
 
     function getLocalStorageBackup(name) {
+        name+=localStorage.getItem("lastLoggedInEmail");
         let storedValue = localStorage.getItem(name);
         return storedValue ? decodeURIComponent(storedValue) : "";
     }
