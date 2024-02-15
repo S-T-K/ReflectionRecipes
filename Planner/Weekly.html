@@ -1016,7 +1016,7 @@
     function fillPage() {
         //update last logged in email
         const userDataIframe = document.getElementById('userdataiframe').contentDocument;
-        let email = userDataIframe.getElementById("email").value;
+        let email = userDataIframe.getElementById("wf-user-account-email").value;
         if (email) {
             localStorage.setItem("lastLoggedInEmail", email);
         }
