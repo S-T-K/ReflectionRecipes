@@ -64,7 +64,7 @@
             this.ratings = {};
             this.todoLists = {};
             this.questions = {};
-            this.counter = 1;
+            this.counter = 0;
         }
 
         loadSavedData(string) {
@@ -987,6 +987,9 @@
 
     function setCounter() {
         document.querySelector("#final-counter").innerHTML = weekData.counter;
+        if (weekData.counter === 1) {
+            document.querySelector(".counter-text").innerHTML = "week in a row!";
+        }
     }
 
     function clearTodoItems() {

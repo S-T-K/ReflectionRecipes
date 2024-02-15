@@ -820,6 +820,9 @@
 
     function setCounter() {
         document.querySelector("#final-counter").innerHTML = dayData.counter;
+        if (dayData.counter === 1) {
+            document.querySelector(".counter-text").innerHTML = "day in a row!";
+        }
     }
 
     function clearTodoItems() {
