@@ -926,7 +926,7 @@
                 dayData.customQuestion = weekData.customQuestion;
                 console.log("Week data loaded for vision and custom question");
                 //check if it is more recent than the last daily, if yes, take its backlog items
-                if (mostRecent && activeWeek.milliseconds > mostRecent.milliseconds) {
+                if ((mostRecent && activeWeek.milliseconds > mostRecent.milliseconds) || !mostRecent) {
                     dayData.todoLists['todo-middle-area-old'] = activeWeek.todoLists['todo-middle-area-improve-goals'];
                     dayData.todoLists['todo-middle-area-today'] = activeWeek.todoLists['todo-middle-area-improve-goals'];
                 }
