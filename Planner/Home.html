@@ -299,7 +299,6 @@
 
     function getMostRecentData(name) {
         const userDataIframe = document.getElementById('userdataiframe').contentDocument;
-        console.log(userDataIframe.getElementById(name).value);
         let loadedUserDataJSON = userDataIframe.getElementById(name).value;
         let loadedCookieJSON = getLocalStorageBackup(name);
 

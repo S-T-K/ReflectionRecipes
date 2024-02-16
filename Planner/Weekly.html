@@ -363,17 +363,13 @@
 
     function updateTodoListData(list) {
         let listSelector = list.id;
-        console.log(listSelector);
         let items = list.querySelectorAll(".todo-label");
         let values = [];
         items.forEach(function (item) {
             let classList = Array.from(item.parentElement.classList);
-            console.log("classList before shift: " + classList);
             classList.shift();
-            console.log("classList after shift: " + classList);
             values.push(new todoListItem(item.innerHTML, classList));
         });
-        console.log(values);
         weekData.todoLists[listSelector] = values;
         if (listSelector === "todo-middle-area-highlight") {
             weekData.goodStuff = values;
@@ -388,33 +384,25 @@
 
     function updateGoodStuffData(list) {
         let listSelector = list.id;
-        console.log(listSelector);
         let items = list.querySelectorAll(".todo_item");
         let values = [];
         items.forEach(function (item) {
             let classList = Array.from(item.classList);
-            console.log("classList before shift: " + classList);
             classList.shift();
-            console.log("classList after shift: " + classList);
             values.push(new GoodOrBadStuff(item.querySelector(".central-text").innerText, classList, item.querySelector(".top-text").innerText, item.querySelector(".bottom-text").innerText));
         });
-        console.log(values);
         weekData.goodStuff = values;
     }
 
     function updateBadStuffData(list) {
         let listSelector = list.id;
-        console.log(listSelector);
         let items = list.querySelectorAll(".todo_item");
         let values = [];
         items.forEach(function (item) {
             let classList = Array.from(item.classList);
-            console.log("classList before shift: " + classList);
             classList.shift();
-            console.log("classList after shift: " + classList);
             values.push(new GoodOrBadStuff(item.querySelector(".central-text").innerText, classList, item.querySelector(".top-text").innerText, item.querySelector(".bottom-text").innerText));
         });
-        console.log(values);
         weekData.badStuff = values;
     }
 
@@ -436,8 +424,6 @@
                 </div>
               </div>
 `;
-        console.log("test classlist");
-        console.log(htmlContent.classList);
         list.innerHTML += htmlContent;
     };
 
@@ -455,8 +441,6 @@
                 </div>
               </div>
 `;
-        console.log("test classlist");
-        console.log(htmlContent.classList);
         list.innerHTML += htmlContent;
     };
     const addTodoNonDeletable = (list, todo, classString) => {
@@ -612,9 +596,7 @@
 
     ratingForms.forEach(function (element, index) {
         element.addEventListener("click", (e) => {
-            console.log(e.target);
             if (e.target.tagName.toLowerCase() === "input") {
-                console.log(e.target.getAttribute('data-name') + " " + e.target.getAttribute('value'));
                 let ratingSelector = e.target.getAttribute('data-name');
                 weekData.ratings[ratingSelector] = e.target.getAttribute('value');
                 //show or hide the respective element on the summary pages, adjust the number
@@ -888,8 +870,6 @@
         // adds a new item to a todolist without writing it to data. also consider the state of the todo
         for (let [key, value] of Object.entries(weekData.todoLists)) {
             let element = document.querySelector("#" + key);
-            console.log("tried to set todo Items for:")
-            console.log(element);
             value.forEach(function (item) {
                 if (todoListsDeletable.includes(element)) {
                     addTodoDeletable(element, item.text, item.class[0]);
@@ -943,8 +923,6 @@
 
     function setGoodAndBadStuff(todoAreaID, stuffList) {
         let element = document.querySelector("#" + todoAreaID);
-        console.log("tried to set todo Items for:")
-        console.log(element);
         stuffList.forEach(function (item) {
             addTodoGoodBadStuff(element, item.text, item.class[0], item.prompt, item.weekDay);
         });
@@ -1537,7 +1515,6 @@
     }
 
     function saveToData() {
-        console.log("saving to data: " + this.value);
         if (this.getAttribute("textarea") === "vision") {
             weekData.vision = this.value;
         } else if (this.getAttribute("textarea") === "custom") {
@@ -1559,7 +1536,6 @@
 
     function getMostRecentData(name) {
         const userDataIframe = document.getElementById('userdataiframe').contentDocument;
-        console.log(userDataIframe.getElementById(name).value);
         let loadedUserDataJSON = userDataIframe.getElementById(name).value;
         let loadedCookieJSON = getLocalStorageBackup(name);
 

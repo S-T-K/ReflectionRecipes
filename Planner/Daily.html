@@ -574,17 +574,13 @@
 
     function updateTodoListData(list) {
         let listSelector = list.id;
-        console.log(listSelector);
         let items = list.querySelectorAll(".todo-label");
         let values = [];
         items.forEach(function (item) {
             let classList = Array.from(item.parentElement.classList);
-            console.log("classList before shift: " + classList);
             classList.shift();
-            console.log("classList after shift: " + classList);
             values.push(new todoListItem(item.innerText, classList));
         });
-        console.log(values);
         dayData.todoLists[listSelector] = values;
     }
 
@@ -606,8 +602,6 @@
                 </div>
               </div>
 `;
-        console.log("test classlist");
-        console.log(htmlContent.classList);
         list.innerHTML += htmlContent;
     };
     const addTodoNonDeletable = (list, todo, classString) => {
@@ -775,8 +769,6 @@
         // adds a new item to a todolist without writing it to data. also consider the state of the todo
         for (let [key, value] of Object.entries(dayData.todoLists)) {
             let element = document.querySelector("#" + key);
-            console.log("tried to set todo Items for:")
-            console.log(element);
             if (value) {
                 value.forEach(function (item) {
                     if (todoListsDeletable.includes(element)) {
@@ -1209,7 +1201,6 @@
     }
 
     function saveToData() {
-        console.log("saving to data: " +  this.value);
         dayData.inputs[this.getAttribute("textarea")] = this.value;
     }
 
@@ -1227,7 +1218,6 @@
 
     function getMostRecentData(name) {
         const userDataIframe = document.getElementById('userdataiframe').contentDocument;
-        console.log(userDataIframe.getElementById(name).value);
         let loadedUserDataJSON = userDataIframe.getElementById(name).value;
         let loadedCookieJSON = getLocalStorageBackup(name);
 
