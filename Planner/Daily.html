@@ -131,6 +131,19 @@
         }
     }
 
+    function getCookie(cname) {
+        let name = cname + "=";
+        let decodedCookie = document.cookie; // Do not decode here
+        let ca = decodedCookie.split(';');
+
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i].trim();
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
 
     function populateWeightedQuestions(questions, weights) {
         var weightedQuestions = new Array();
@@ -842,6 +855,11 @@
         let email = userDataIframe.getElementById("wf-user-account-email").value;
         if (email) {
             localStorage.setItem("lastLoggedInEmail", email);
+        }
+
+        // remove warning for not logged in users
+        if (getCookie("wf_loggedin") === "true") {
+            document.getElementById('not-logged-in-warning').remove();
         }
 
         clearTodoItems();
