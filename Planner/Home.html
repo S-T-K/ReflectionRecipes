@@ -169,10 +169,10 @@
             let email = userDataIframe.getElementById("wf-user-account-email").value;
             if (email) {
                 localStorage.setItem("lastLoggedInEmail", email);
+                // show the currently logged in user
+                document.getElementById('current-user-text').innerHTML = "Logged in as: " + email;
             }
 
-            // show the currently logged in user
-            document.getElementById('current-user-text').innerHTML = "Logged in as: " + email;
 
             // if logged in, and there's no daily or weekly data yet, or not logged in, just show a start button
             if (getCookie("wf_loggedin") === "true") {
