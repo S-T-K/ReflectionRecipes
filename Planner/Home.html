@@ -171,6 +171,9 @@
                 localStorage.setItem("lastLoggedInEmail", email);
             }
 
+            // show the currently logged in user
+            document.getElementById('current-user-text').innerHTML = "Logged in as: " + lastLoggedInEmail;
+
             // if logged in, and there's no daily or weekly data yet, or not logged in, just show a start button
             if (getCookie("wf_loggedin") === "true") {
                 console.log("logged in");
