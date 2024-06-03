@@ -177,6 +177,9 @@
             // if logged in, and there's no daily or weekly data yet, or not logged in, just show a start button
             if (getCookie("wf_loggedin") === "true") {
                 console.log("logged in");
+            } else {
+                console.log("logged out");
+            }
 
                 //load all weeks
                 let loadedJSONWeek1 = getMostRecentData("week1");
@@ -249,16 +252,6 @@
                         document.querySelector("#archive").remove();
                     }
                 }
-
-            } else {
-                console.log("not logged in");
-                document.querySelector("#start-daily").remove();
-                document.querySelector("#daily-available-counter").remove();
-                document.querySelector("#weekly-available-counter").remove();
-                document.querySelector("#start-weekly").innerHTML = "Log In /Sign Up";
-                document.querySelector("#archive").remove();
-                document.querySelector("#home-done").remove();
-            }
 
             document.getElementsByClassName('loading-spinner')[0].remove();
         } catch (error) {
