@@ -1236,7 +1236,7 @@
 
     function getMostRecentData(name) {
         const userDataIframe = document.getElementById('userdataiframe').contentDocument;
-        let loadedUserDataJSON = userDataIframe.getElementById(name).value;
+        let loadedUserDataJSON = userDataIframe.getElementById(name)?.value;
         let loadedCookieJSON = getLocalStorageBackup(name);
 
         //if all are empty return something, doesn't matter

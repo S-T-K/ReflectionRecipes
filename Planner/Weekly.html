@@ -1208,7 +1208,7 @@
             }
             weekData.counter = mostRecentWeek.counter ? (mostRecentWeek.counter + 1) : 1;
 
-            //handle first weeklies done tasks
+            //handle empty tasklist
             if (todoListOld.querySelectorAll(".todo_item").length === 0) {
                 document.querySelector("#whats-done-prompt").innerText = "Do you already use a task management tool like Asana, Trello, Todoist, phone notes, a physical board, or even just paper for tracking your tasks? If so and it works for you, continue using it. When prompted to manage tasks during reflections, simply update your tasks in your preferred system and skip these steps here. There’s no need to switch systems or manage tasks in multiple places.\n" +
                     "\n" +
@@ -1555,7 +1555,7 @@
 
     function getMostRecentData(name) {
         const userDataIframe = document.getElementById('userdataiframe').contentDocument;
-        let loadedUserDataJSON = userDataIframe.getElementById(name).value;
+        let loadedUserDataJSON = userDataIframe.getElementById(name)?.value;
         let loadedCookieJSON = getLocalStorageBackup(name);
 
         //if all are empty return something, doesn't matter
