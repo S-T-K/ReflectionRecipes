@@ -1186,7 +1186,7 @@
 
         waitFor(_ => document.getElementById('userdataiframe').contentDocument).then(
             _ => waitFor(_ => document.getElementById('userdataiframe').contentDocument.getElementById('wf-user-account-email')).then(
-                _ => waitFor(_ => document.getElementById('userdataiframe').contentDocument.getElementById('wf-user-account-email').value).then(
+                _ => waitFor(_ => document.getElementById('userdataiframe').contentDocument.getElementById('wf-user-account-email')?.value).then(
                     _ => fillPage(dayData, randomSeed))));
 
 
