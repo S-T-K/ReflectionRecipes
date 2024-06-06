@@ -166,15 +166,13 @@
         try {
             //update last logged in email
             const userDataIframe = document.getElementById('userdataiframe').contentDocument;
-            let email = userDataIframe.getElementById("wf-user-account-email").value;
+            let email = userDataIframe.getElementById("wf-user-account-email")?.value;
             if (email) {
                 localStorage.setItem("lastLoggedInEmail", email);
                 // show the currently logged in user
                 document.getElementById('current-user-text').innerHTML = "Logged in as: " + email;
             }
 
-
-            // if logged in, and there's no daily or weekly data yet, or not logged in, just show a start button
             if (getCookie("wf_loggedin") === "true") {
                 console.log("logged in");
             } else {
@@ -264,22 +262,10 @@
     //start
     try {
         var weekData = new WeekReflectionData();
-        if (getCookie("wf_loggedin") !== "true") {
-            console.log("not logged in");
-            document.querySelector("#start-daily").remove();
-            document.querySelector("#daily-available-counter").remove();
-            document.querySelector("#weekly-available-counter").remove();
-            document.querySelector("#start-weekly").innerHTML = "Log In / Sign Up";
-            document.querySelector("#archive").remove();
-            document.querySelector("#home-done").remove();
-            document.getElementsByClassName('loading-spinner')[0].remove();
-        } else {
-            console.log("logged in");
             waitFor(_ => document.getElementById('userdataiframe').contentDocument).then(
                 _ => waitFor(_ => document.getElementById('userdataiframe').contentDocument.getElementById('wf-user-account-email')).then(
-                    _ => waitFor(_ => document.getElementById('userdataiframe').contentDocument.getElementById('wf-user-account-email').value).then(
+                    _ => waitFor(_ => document.getElementById('userdataiframe').contentDocument.getElementById('wf-user-account-email')?.value).then(
                         _ => fillPage())));
-        }
 
     } catch (error) {
         console.log(error);
