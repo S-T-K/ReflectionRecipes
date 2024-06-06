@@ -980,8 +980,8 @@
     function setCounter() {
         document.querySelector("#final-counter").innerHTML = weekData.counter;
         if (weekData.counter === 1) {
-            document.querySelector("#final-counter").innerHTML = "See you Tomorrow!";
-            document.querySelector(".counter-text").innerHTML = "Did you set a reminder for tomorrow's daily reflection? Establishing this new habit is easier with external reminders to keep you on track.\n" +
+            document.querySelector("#final-counter").innerHTML = "Keep it up!";
+            document.querySelector(".counter-text").innerText = "Did you set a reminder for tomorrow's daily reflection? Establishing this new habit is easier with external reminders to keep you on track.\n" +
                 "\n" +
                 "Just starting your day? Consider doing your daily reflection now to set yourself up for success.";
         } else {
@@ -1226,12 +1226,15 @@
 
                 document.querySelector("#next-goals-prompt").innerText = "Since you're new and don't have any todos yet, start by adding all the tasks you want to accomplish. Once you've listed them, pick the ones you want to tackle next week. Be ambitious, but focus on what's truly important!";
                 document.querySelector("#refine-goals-prompt").innerText = "Review each task thoroughly:\n" +
-                    "* Is the outcome clear and not just wishful thinking?\n" +
-                    "* Will I know when it's completed?\n" +
-                    "* Is it within my capacity?\n" +
-                    "* Does it genuinely contribute to my goals?\n" +
+                    "- Is the outcome clear and not just wishful thinking?\n" +
+                    "- Will I know when it's completed?\n" +
+                    "- Is it within my capacity?\n" +
+                    "- Does it genuinely contribute to my goals?\n" +
                     "\n" +
-                    "If a task doesn't pass these checks, tweak it. Break it down, clarify, or replace it to ensure it's SMART (Specific, Measurable, Achievable, Relevant, Time-bound).\n";
+                    "If a task doesn't pass these checks, tweak it. Break it down, clarify, or replace it to ensure it's SMART (Specific, Measurable, Achievable, Relevant, Time-bound).\n" +
+                    "\n" +
+                    "Once a task is clear, completable, realistic and valuable, just click on it to mark it as ready to go!"
+                ;
             }
 
             console.log("New data created");
