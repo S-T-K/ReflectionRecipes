@@ -823,7 +823,7 @@
             if (conditionFunction()) resolve();
             else if (currentTry < maxTries) {
                 currentTry = currentTry + 1;
-                setTimeout(_ => poll(resolve), 500);
+                setTimeout(_ => poll(resolve), 200);
             } else {
                 console.log("user data not found, probably triggered webflows maximum request. Using cookie data instead")
                 resolve();
@@ -1215,26 +1215,8 @@
 
             //handle empty tasklist
             if (weekData.counter === 1) {
-                document.querySelector("#whats-done-prompt").innerText = "Do you already use a task management tool like Asana, Trello, Todoist, phone notes, a physical board, or even just paper for tracking your tasks? If so and it works for you, continue using it. When prompted to manage tasks during reflections, simply update your tasks in your preferred system and skip these steps here. There’s no need to switch systems or manage tasks in multiple places.\n" +
-                    "\n" +
-                    "However, if you don’t currently use a to-do list or are open to trying something new, this website offers a straightforward task management feature. It’s truly simple: no attachments, due dates, details, or filters. Just a straightforward list of tasks.\n" +
-                    "\n" +
-                    "\n" +
-                    "And I have the first task for you already: set a reminder to come back tomorrow morning for your daily reflection. When trying to establish a new habit, simple reminders on your phone or elsewhere can help a lot. So do that now and then mark it as completed:"
-
                 addTodoNonDeletable(todoListOld, "Set reminder for daily reflection tomorrow morning");
-
-                document.querySelector("#next-goals-prompt").innerText = "Since you're new and don't have any todos yet, start by adding all the tasks you want to accomplish. Once you've listed them, pick the ones you want to tackle next week. Be ambitious, but focus on what's truly important!";
-                document.querySelector("#refine-goals-prompt").innerText = "Review each task thoroughly:\n" +
-                    "- Is the outcome clear and not just wishful thinking?\n" +
-                    "- Will I know when it's completed?\n" +
-                    "- Is it within my capacity?\n" +
-                    "- Does it genuinely contribute to my goals?\n" +
-                    "\n" +
-                    "If a task doesn't pass these checks, tweak it. Break it down, clarify, or replace it to ensure it's SMART (Specific, Measurable, Achievable, Relevant, Time-bound).\n" +
-                    "\n" +
-                    "Once a task is clear, completable, realistic and valuable, just click on it to mark it as ready to go!"
-                ;
+                setPromptsFirstReflection();
             }
 
             console.log("New data created");
@@ -1259,9 +1241,36 @@
         setTextareas();
         setQuestionsInHTML();
         setCounter();
+        setPrompts();
         setButtonLogic();
         //hide loading spinner
         document.getElementsByClassName('loading-spinner')[0].remove();
+    }
+
+    function setPrompts() {
+        if (weekData.counter === 1) {
+            setPromptsFirstReflection();
+        }
+    }
+
+    function setPromptsFirstReflection() {
+        document.querySelector("#whats-done-prompt").innerText = "Do you already use a task management tool like Asana, Trello, Todoist, phone notes, a physical board, or even just paper for tracking your tasks? If so and it works for you, continue using it. When prompted to manage tasks during reflections, simply update your tasks in your preferred system and skip these steps here. There’s no need to switch systems or manage tasks in multiple places.\n" +
+            "\n" +
+            "However, if you don’t currently use a to-do list or are open to trying something new, this website offers a straightforward task management feature. It’s truly simple: no attachments, due dates, details, or filters. Just a straightforward list of tasks.\n" +
+            "\n" +
+            "\n" +
+            "And I have the first task for you already: set a reminder to come back tomorrow morning for your daily reflection. When trying to establish a new habit, simple reminders on your phone or elsewhere can help a lot. So do that now and then mark it as completed:"
+        document.querySelector("#next-goals-prompt").innerText = "Since you're new and don't have any todos yet, start by adding all the tasks you want to accomplish. Once you've listed them, pick the ones you want to tackle next week. Be ambitious, but focus on what's truly important!";
+        document.querySelector("#refine-goals-prompt").innerText = "Review each task thoroughly:\n" +
+            "- Is the outcome clear and not just wishful thinking?\n" +
+            "- Will I know when it's completed?\n" +
+            "- Is it within my capacity?\n" +
+            "- Does it genuinely contribute to my goals?\n" +
+            "\n" +
+            "If a task doesn't pass these checks, tweak it. Break it down, clarify, or replace it to ensure it's SMART (Specific, Measurable, Achievable, Relevant, Time-bound).\n" +
+            "\n" +
+            "Once a task is clear, completable, realistic and valuable, just click on it to mark it as ready to go!"
+        ;
     }
 
     function styleCalendarEntry() {
